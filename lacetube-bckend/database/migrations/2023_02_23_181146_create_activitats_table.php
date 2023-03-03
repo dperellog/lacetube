@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('curs_id');
             $table->foreign('curs_id')->references('id')->on('curs');
             $table->string('titol');
+            $table->string('slug')->unique();
             $table->text('contingut');
             $table->timestamps();
             $table->unsignedBigInteger('creatPer');

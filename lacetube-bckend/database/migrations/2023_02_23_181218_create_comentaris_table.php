@@ -16,10 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('creatPer');
             $table->foreign('creatPer')->references('id')->on('usuaris');
             $table->integer('valoracio');
-            $table->text('descripcio');
+            $table->text('descripcio')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('video_id');
             $table->foreign('video_id')->references('id')->on('videos');
+
         });
     }
 

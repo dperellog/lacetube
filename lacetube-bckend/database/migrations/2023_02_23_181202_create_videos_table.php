@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('descripcio');
             $table->timestamps();
             $table->string('media');
-            // $table->unsignedBigInteger('comentariProfe');
-            // $table->foreign('comentariProfe')->references('id')->on('comentaris');
         });
     }
 

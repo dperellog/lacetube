@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('profesor_id');
             $table->foreign('profesor_id')->references('id')->on('usuaris');
             $table->string('nom');
+            $table->string('slug')->unique();
             $table->text('descripcio');
             $table->string('any');
             $table->timestamps();
-            $table->unsignedBigInteger('cursPare');
+            $table->unsignedBigInteger('cursPare')->nullable();
             $table->foreign('cursPare')->references('id')->on('curs');
-            
         });
     }
 
