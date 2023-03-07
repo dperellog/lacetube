@@ -12,7 +12,7 @@ class curs extends Model
 
 
     public function professor() {
-        return $this->belongsTo('App\Models\usuari', 'profesor_id');
+        return $this->belongsTo('App\Models\User', 'profesor_id');
     }
 
     public function cursPare() {
@@ -24,7 +24,7 @@ class curs extends Model
     }
 
     public function alumnes() {
-        $alumnes= DB::table('curs_usuari')->where('curs_id', $this->id);
+        return DB::table('curs_usuari')->where('curs_id', $this->id)->get();
     }
     
 }

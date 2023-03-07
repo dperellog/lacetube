@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('contingut');
             $table->timestamps();
             $table->unsignedBigInteger('creatPer');
-            $table->foreign('creatPer')->references('id')->on('usuaris');
+            $table->foreign('creatPer')->references('id')->on('users');
         });
     }
 

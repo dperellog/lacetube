@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +19,20 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        \App\Models\User::factory(10)->create();
+        \App\Models\curs::factory(5)->create();
+        \App\Models\activitat::factory(20)->create();
+        \App\Models\video::factory(50)->create();
+        \App\Models\comentari::factory(100)->create();
+        $usuaris=\App\Models\User::all();
+        $cursos=\App\Models\curs::all();
+        for ($i=0; $i < 35 ; $i++) { 
+            DB::table('curs_usuari')->insert([
+                'curs_id' => $cursos->random()->id,
+                'alumne_id' => $usuaris->unique()->random()->id
+            ]);
+        }
+
+        
     }
 }

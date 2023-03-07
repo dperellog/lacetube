@@ -10,7 +10,7 @@ class comentari extends Model
     use HasFactory;
 
     public function creatPer() {
-        return $this->belongsTo('App\Models\usuari', 'creatPer');
+        return $this->belongsTo('App\Models\User', 'creatPer');
     }
 
     public function video() {

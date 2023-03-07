@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\curs;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $curs = curs::all();
+    foreach ( $curs as $c ){
+        print_r($c->alumnes());
+
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+    }
 });

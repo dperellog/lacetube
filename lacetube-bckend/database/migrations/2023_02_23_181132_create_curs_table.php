@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('curs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('profesor_id');
-            $table->foreign('profesor_id')->references('id')->on('usuaris');
+            $table->foreign('profesor_id')->references('id')->on('users');
             $table->string('nom');
             $table->string('slug')->unique();
             $table->text('descripcio');

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\curs;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,12 @@ class ActivitatFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'creatPer' => User::all()->random()->id,
+            'curs_id' => curs::all()->random()->id,
+            'dataFinal' => fake()->date(),
+            'titol' => fake()->name(),
+            'slug' => fake()->unique()->name(),
+            'contingut' => fake()->name(),
         ];
     }
 }

@@ -14,7 +14,7 @@ class activitat extends Model
     }
 
     public function creatPer() {
-        return $this->belongsTo('App\Models\usuari', 'creatPer');
+        return $this->belongsTo('App\Models\User', 'creatPer');
     }
 
     public function videos() {

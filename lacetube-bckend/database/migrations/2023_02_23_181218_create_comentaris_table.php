@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('comentaris', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creatPer');
-            $table->foreign('creatPer')->references('id')->on('usuaris');
+            $table->foreign('creatPer')->references('id')->on('users');
             $table->integer('valoracio');
             $table->text('descripcio')->nullable();
             $table->timestamps();

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\activitat;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class VideoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'creatPer' => User::all()->random()->id,
+            'activitat_id' => activitat::all()->random()->id,
+            'titol' => fake()->name(),
+            'descripcio' => fake()->name(),
+            'media' => fake()->name(),
         ];
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creatPer');
-            $table->foreign('creatPer')->references('id')->on('usuaris');
+            $table->foreign('creatPer')->references('id')->on('users');
             $table->unsignedBigInteger('activitat_id');
             $table->foreign('activitat_id')->references('id')->on('activitats');
             $table->string('titol');
