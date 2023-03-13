@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CursController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth:sanctum')->get('/home', function () {
-    return 'funciona';
+Route::middleware('auth:sanctum')->group(function() {
+    Route::prefix('curs')->group(function () {
+        Route::get('tots', [CursController::class, 'index'] );
+    });
+
+    Route::prefix('curs')->group(function () {
+        Route::get('tots', [CursController::class, 'index'] );
+    });
 });
