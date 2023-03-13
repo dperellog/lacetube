@@ -29,16 +29,21 @@ class CursController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'profesor_id' => 'required|unique:categories|max:255',
-            'nom' => 'required|unique:categories|max:255',
-            'descripcio' => 'required|unique:categories|max:255',
-            'nom' => 'required|unique:categories|max:255',
-            'nom' => 'required|unique:categories|max:255',
+            'profesor_id' => 'exists:users,id',
+            'nom' => 'required|unique:curs|max:255',
+            'descripcio' => 'required|max:255',
+            'any' => 'required|max:255',
+            'cursPare' => 'exists:curs,id',
 
         ]);
 
         $curs = new Curs;
-        $curs->curs_name = $request->curs_name;
+        $curs->profesor_id = $request->profesor_id;
+        $curs->nom = $request->nom;
+        $curs->slug = $this->createSlug($request->nom);
+        $curs->descripcio = $request->descripcio;
+        $curs->any = $request->any;
+        $curs->cursPare = $request->cursPare;
         $curs->save();
     }
 
@@ -50,7 +55,7 @@ class CursController extends Controller
      */
     public function show($id)
     {
-        $curs = DB::table('categories')->where('id', $id)->first();
+        $curs = Curs::where('id', $id)->first();
         return response()->json($curs);
     }
 
@@ -63,6 +68,13 @@ class CursController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validateData = $request->validate([
+            'profesor_id' => 'exists:users,id',
+            'nom' => 'required|unique:curs|max:255',
+            'descripcio' => 'required|max:255',
+            'any' => 'required|max:255',
+            'cursPare' => 'exists:curs,id',
+        ]);
         $data = array();
         $data['curs_name'] = $request->curs_name;
         $user = DB::table('categories')->where('id', $id)->update($data);
