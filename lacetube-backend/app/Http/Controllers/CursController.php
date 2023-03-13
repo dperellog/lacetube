@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Curs;
@@ -75,9 +75,15 @@ class CursController extends Controller
             'any' => 'required|max:255',
             'cursPare' => 'exists:curs,id',
         ]);
-        $data = array();
-        $data['curs_name'] = $request->curs_name;
-        $user = DB::table('categories')->where('id', $id)->update($data);
+
+        $curs = Curs::find($id);
+
+        $curs->profesor_id = $request->profesor_id;
+        $curs->nom = $request->nom;
+        $curs->descripcio = $request->descripcio;
+        $curs->any = $request->any;
+        $curs->cursPare = $request->cursPare;
+        $curs->save();
     }
 
     /**
