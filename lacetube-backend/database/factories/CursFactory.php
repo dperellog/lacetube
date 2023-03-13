@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\curs>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Curs>
  */
 class CursFactory extends Factory
 {
@@ -22,7 +22,7 @@ class CursFactory extends Factory
             'nom' => fake()->name(),
             'slug' => fake()->unique()->name(),
             'descripcio' => fake()->name(),
-            'any' => fake()->numberBetween(2010,2023),       
+            'any' => fake()->numberBetween(2010,2023),
         ];
     }
 }

@@ -7,7 +7,7 @@ use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\comentari>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comentari>
  */
 class ComentariFactory extends Factory
 {

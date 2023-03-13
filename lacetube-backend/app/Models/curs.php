@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class curs extends Model
+class Curs extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class curs extends Model
     }
 
     public function cursPare() {
-        return $this->belongsTo('App\Models\curs', 'cursPare');
+        return $this->belongsTo('App\Models\Curs', 'cursPare');
     }
 
     public function activitats() {
@@ -26,5 +26,5 @@ class curs extends Model
     public function alumnes() {
         return DB::table('curs_usuari')->where('curs_id', $this->id)->get();
     }
-    
+
 }

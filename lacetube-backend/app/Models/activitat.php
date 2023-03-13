@@ -9,8 +9,8 @@ class Activitat extends Model
 {
     use HasFactory;
 
-    public function curs() {
-        return $this->belongsTo('App\Models\curs', 'curs_id');
+    public function Curs() {
+        return $this->belongsTo('App\Models\Curs', 'curs_id');
     }
 
     public function creatPer() {

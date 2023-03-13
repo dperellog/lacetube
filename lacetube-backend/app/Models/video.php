@@ -17,7 +17,7 @@ class Video extends Model
         return $this->belongsTo('App\Models\activitat', 'activitat_id');
     }
 
-    public function comentaris() {
-        return $this->hasMany('\App\Models\comentari');
+    public function Comentaris() {
+        return $this->hasMany('\App\Models\Comentari');
     }
 }
