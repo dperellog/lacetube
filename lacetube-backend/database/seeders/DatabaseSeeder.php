@@ -22,17 +22,17 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
         \App\Models\curs::factory(5)->create();
         \App\Models\activitat::factory(20)->create();
-        \App\Models\video::factory(50)->create();
+        \App\Models\Video::factory(50)->create();
         \App\Models\comentari::factory(100)->create();
         $usuaris=\App\Models\User::all();
         $cursos=\App\Models\curs::all();
-        for ($i=0; $i < 35 ; $i++) { 
+        for ($i=0; $i < 35 ; $i++) {
             DB::table('curs_usuari')->insert([
                 'curs_id' => $cursos->random()->id,
                 'alumne_id' => $usuaris->unique()->random()->id
             ]);
         }
 
-        
+
     }
 }

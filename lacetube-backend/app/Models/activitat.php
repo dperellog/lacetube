@@ -17,7 +17,7 @@ class Activitat extends Model
         return $this->belongsTo('App\Models\User', 'creatPer');
     }
 
-    public function videos() {
-        return $this->hasMany('\App\Models\video');
+    public function Videos() {
+        return $this->hasMany('\App\Models\Video');
     }
 }

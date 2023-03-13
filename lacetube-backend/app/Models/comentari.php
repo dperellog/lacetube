@@ -13,8 +13,8 @@ class comentari extends Model
         return $this->belongsTo('App\Models\User', 'creatPer');
     }
 
-    public function video() {
-        return $this->belongsTo('App\Models\video', 'video_id');
+    public function Video() {
+        return $this->belongsTo('App\Models\Video', 'Video_id');
     }
-    
+
 }

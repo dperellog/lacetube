@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\video;
+use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +20,9 @@ class ComentariFactory extends Factory
     {
         return [
             'creatPer' => User::all()->random()->id,
-            'video_id' => video::all()->random()->id,
+            'Video_id' => Video::all()->random()->id,
             'valoracio' => fake()->numberBetween(0,5),
-            'descripcio' => fake()->name(),  
+            'descripcio' => fake()->name(),
         ];
     }
 }
