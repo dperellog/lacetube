@@ -9,6 +9,19 @@ class Video extends Model
 {
     use HasFactory;
 
+      /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'creatPer',
+        'activitat_id',
+        'titol',
+        'descripcio',
+        'media'
+    ];
+
     public function creatPer() {
         return $this->belongsTo('App\Models\User', 'creatPer');
     }

@@ -10,6 +10,19 @@ class Curs extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'profesor_id',
+        'nom',
+        'slug',
+        'descripcio',
+        'any',
+        'cursPare'
+    ];
 
     public function professor() {
         return $this->belongsTo('App\Models\User', 'profesor_id');

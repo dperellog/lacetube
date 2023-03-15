@@ -9,6 +9,20 @@ class Activitat extends Model
 {
     use HasFactory;
 
+          /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'creatPer',
+        'curs_id',
+        'titol',
+        'slug',
+        'contingut',
+        'dataFinal'
+    ];
+
     public function Curs() {
         return $this->belongsTo('App\Models\Curs', 'curs_id');
     }
