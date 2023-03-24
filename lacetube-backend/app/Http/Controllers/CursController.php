@@ -28,9 +28,24 @@ class CursController extends Controller
 
     public function update(Request $request, $id)
     {
-        $curs = Curs::findOrFail($id);
-        $curs->update($request->all());
-        return response()->json($curs);
+
+        $validateData = $request->validate([
+            'profesor_id' => 'exists:users,id',
+            'nom' => 'required|unique:curs|max:255',
+            'descripcio' => 'required|max:255',
+            'any' => 'required|max:255',
+            'cursPare' => 'exists:curs,id',
+        ]);
+
+        $curs = Curs::find($id);
+
+        $curs->profesor_id = $request->profesor_id;
+        $curs->nom = $request->nom;
+        $curs->descripcio = $request->descripcio;
+        $curs->any = $request->any;
+        $curs->cursPare = $request->cursPare;
+        $curs->save();
+
     }
 
     public function destroy($id)
