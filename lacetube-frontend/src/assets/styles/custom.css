@@ -1,0 +1,18 @@
+.header-img{
+  max-height: 8vh;
+}
+
+.header-logo{
+  max-height: 10vh;
+}
+
+@media screen and (max-width: 700px){
+
+  .header-img{
+    max-height: 12vh;
+  }
+  
+  .header-logo{
+    max-height: 10vh;
+  }
+}
