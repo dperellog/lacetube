@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Actions\Fortify\CreateNewUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -27,6 +28,9 @@ Route::get('/', function () {
 Route::middleware('auth:sanctum')->get('/home', function () {
     return 'funciona';
 });
+Route::middleware('admin')->get('/prova', function () {
+    return 'NO funciona';
+});
 
 Route::post('/register/json', function (Request $request) {
     $usersIncorrectes=[];
@@ -44,7 +48,12 @@ Route::post('/register/json', function (Request $request) {
                 ],
             'password' => 'required',
             ])->validate();
-            User::create($user);
+            User::create([
+                'nick' => $user['nick'],
+                'email' => $user['email'],
+                'password' => Hash::make($user['password']),
+                'rol' => $user['rol']
+            ]);
             array_push($usersIncorrectes2, $user);
         } catch (\Throwable $th) {
             
@@ -54,7 +63,7 @@ Route::post('/register/json', function (Request $request) {
         }
         
     }
-    return response()->json(['status'=>200,'data'=>$usersIncorrectes]);
+    return response()->json(['status'=>200,'data'=>$usersIncorrectes]); // retorna array de users 
     // {
     //     "usuaris" : [
     //         {
