@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,21 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->sentence(4),
+            'description' => fake()->paragraph(),
+            'thumbnailURL' => fake()->imageUrl(),
+            'year' => fake()->year(),
+            'teacher_id' => User::all()->random()->id,
+            'parent_id' => Course::all()->isEmpty() ? 0 : Course::all()->random()->id
         ];
+    }
+
+    public function orphan(): Factory
+    {
+        return $this->state(function (array $attributes){
+            return [
+                'parent_id' => null
+            ];
+        });
     }
 }

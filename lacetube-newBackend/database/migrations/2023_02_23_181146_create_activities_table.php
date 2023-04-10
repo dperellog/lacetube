@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             //Relationships
-            $table->foreignId('course')
+            $table->foreignId('course_id')
                     ->constrained('courses', 'id')
                     ->onUpdate('cascade')
                     ->onDelete('restrict');

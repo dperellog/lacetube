@@ -21,13 +21,13 @@ return new class extends Migration
             $table->timestamps();
 
             //Relationships:
-            $table->foreignId('activitie')
+            $table->foreignId('activity_id')
                     ->nullable()
                     ->constrained('activities', 'id')
                     ->onUpdate('cascade')
                     ->nullOnDelete();
 
-           $table->foreignId('user')
+           $table->foreignId('user_id')
                     ->constrained('users', 'id')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

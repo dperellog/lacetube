@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -16,14 +17,14 @@ class Course extends Model
 
     ];
 
-    public function teacher(): HasOne
+    public function teacher(): BelongsTo
     {
-        return $this->hasOne(User::class, 'teacher');
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    public function parent(): HasOne
+    public function parent(): BelongsTo
     {
-        return $this->hasOne(Course::class, 'parent');
+        return $this->belongsTo(Course::class, 'parent_id')->withDefault();
     }
 
     public function students()
@@ -33,6 +34,6 @@ class Course extends Model
 
     public function activities(): HasMany
     {
-        return $this->hasMany(Activity::class, 'course');
+        return $this->hasMany(Activity::class, 'course_id');
     }
 }

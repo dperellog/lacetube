@@ -21,12 +21,12 @@ return new class extends Migration
             $table->timestamps();
 
             //Relationships
-            $table->foreignId('teacher')
+            $table->foreignId('teacher_id')
                     ->constrained('users', 'id')
                     ->onUpdate('cascade')
                     ->onDelete('restrict');
 
-            $table->foreignId('parent')
+            $table->foreignId('parent_id')
                 ->nullable()
                 ->constrained('courses', 'id');
         });

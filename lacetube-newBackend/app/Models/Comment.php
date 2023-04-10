@@ -12,11 +12,16 @@ class Comment extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function video(): BelongsTo
     {
-        return $this->belongsTo(Video::class, 'video');
+        return $this->belongsTo(Video::class, 'video_id');
+    }
+
+    public function isTeacher()
+    {
+        //TODO: Return if teacher
     }
 }

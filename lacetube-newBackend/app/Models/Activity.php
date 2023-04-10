@@ -13,11 +13,22 @@ class Activity extends Model
 
     public function course(): BelongsTo
     {
-        return $this->belongsTo(Course::class, 'course');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     public function videos(): HasMany
     {
-        return $this->hasMany(Video::class, 'activitie');
+        return $this->hasMany(Video::class, 'activity_id');
     }
+
+    public function teacher()
+    {
+        return $this->course->teacher();
+    }
+
+    public function students()
+    {
+        return $this->course->students();
+    }
+
 }

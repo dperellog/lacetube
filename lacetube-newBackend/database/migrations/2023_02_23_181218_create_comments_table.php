@@ -19,12 +19,12 @@ return new class extends Migration
             $table->timestamps();
 
             //Relationships:
-            $table->foreignId('user')
+            $table->foreignId('user_id')
                     ->constrained('users', 'id')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-            $table->foreignId('video')
+            $table->foreignId('video_id')
                     ->constrained('videos', 'id')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

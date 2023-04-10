@@ -13,16 +13,26 @@ class Video extends Model
 
     public function activity(): BelongsTo
     {
-        return $this->belongsTo(Activity::class, 'activitie');
+        return $this->belongsTo(Activity::class, 'activity_id');
     }
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class, 'video');
+        return $this->hasMany(Comment::class, 'video_id');
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function teacher()
+    {
+        return $this->activity->teacher();
+    }
+
+    public function teacherComment()
+    {
+        //TODO: Obtenir comentari del teacher
     }
 }

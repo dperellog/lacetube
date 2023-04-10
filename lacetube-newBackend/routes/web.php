@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Activity;
+use App\Models\Course;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +18,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
+});
+
+Route::get('/test', function () {
+
+    // Test 1:
+    // $curso = Course::find(23);
+
+    // dd(
+    //     $curso,
+    //     $curso->parent,
+    //     $curso->teacher,
+    //     $curso->students
+    // );
+
+    //Test 2:
+    $actividad = Activity::find(23);
+
+    dd(
+        $actividad,
+        $actividad->videos->first()->teacher,
+        $actividad->teacher,
+        $actividad->students
+    );
+
 });
 
 require __DIR__.'/auth.php';
