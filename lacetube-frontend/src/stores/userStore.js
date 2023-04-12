@@ -3,25 +3,23 @@ import Auth from '@/services/Auth'
 
 export const useUserStore = defineStore('user', {
   state: () => ({ 
-    user: JSON.parse(localStorage.getItem('lacetubeUser')),
-    isLogged: false
+    user: JSON.parse(localStorage.getItem('lacetubeUser'))
   }),
   getters: {
     doubleCount: (state) => state.count * 2,
+    isLogged: (state) => state.user !== null
   },
   actions: {
     loginUser(user){
       this.user = user;
 
       localStorage.setItem('lacetubeUser', JSON.stringify(user));
-      this.isLogged = true;
-    },
 
+    },
     logout(){
       Auth.logout()
       .then(() => {
         this.user = null;
-        this.isLogged = false;
         localStorage.removeItem('lacetubeUser');
       })
       .catch((error) => {

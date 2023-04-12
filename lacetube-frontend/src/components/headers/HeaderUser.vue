@@ -8,6 +8,8 @@
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
 
+        <router-link to="/tauler" class="btn btn-warning mt-3 px-4 rounded-pill fw-bold">Tauler</router-link>
+
         <div class="dropdown text-end mt-2">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUsuari" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle header-img">

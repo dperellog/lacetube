@@ -1,8 +1,14 @@
 <template>
+    <HeaderBackoffice></HeaderBackoffice>
     <h1>Benvinguts al Backoffice!</h1>
 </template>
+<style>
+body {
+    background-color: #e4e4e4 !important;
+}
+</style>
 <script>
-import Header from '../../components/Header.vue';
+import HeaderBackoffice from '../../components/headers/HeaderBackoffice.vue';
 import { useCounterStore } from '@/stores/counter';
 
 export default {
@@ -10,7 +16,7 @@ export default {
         return {store : useCounterStore()};
     },
     components: {
-        Header
+        HeaderBackoffice
     }
 }
 </script>

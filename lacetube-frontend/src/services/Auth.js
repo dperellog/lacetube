@@ -8,6 +8,7 @@ export default {
     },
 
     async logout(){
-        return Service.post('logout')
+        return Service.get('sanctum/csrf-cookie')
+        .then(() => Service.post('logout'))
     }
 }
