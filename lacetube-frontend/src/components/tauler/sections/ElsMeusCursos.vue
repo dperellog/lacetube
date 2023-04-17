@@ -3,28 +3,14 @@
 
         <!-- Capçalera i botons de filtre -->
         <div class="row">
-            <p class="h2 mb-3 col-8">Tasques pendents:</p>
-            <div class="col-4 d-flex justify-content-end">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Proxims {{ ordre }} dies
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(7)">Proxims 7 dies</a></li>
-                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(14)">Proxims 14 dies</a></li>
-                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(21)">Proxims 21 dies</a></li>
-                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(31)">Proxims 31 dies</a></li>
-                    </ul>
-                </div>
-            </div>
+            <p class="h2 mb-3 col-8">Els meus cursos:</p>
         </div>
 
         <!-- Llistat de tasques -->
         <div v-if="tasques != null">
             <div class="row gy-3" v-if="tasquesFiltrades.length > 0">
-                <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat" :disseny="'carta'"></Tasca>
-
+                <!-- <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat" :disseny="'carta'"></Tasca> -->
+                <Curs class="col-4" v-for="curs in limitarArray(cursos)" :curs="curs"></Curs>
                 <!-- Botó mostrar més -->
                 <a href="#" class="showMore text-center" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
@@ -50,34 +36,27 @@
 <script>
 
 import UserService from '@/services/User';
-import moment from 'moment';
-import Tasca from '@/components/tauler/components/Tasca.vue'
+import Curs from '@/components/tauler/components/Curs.vue'
 
 
 export default {
     components: {
-        Tasca
+        Curs
     },
     data() {
         return {
-            tasques: null,
-            tasquesFiltrades: null,
+            cursos: null,
             error: null,
-            ordre: 7,
-            limit: 2
+            limit: 4
         }
     },
     async beforeMount() {
         //Obtenir tasques del backend
-        this.tasques = await this.getTasques();
-        this.tasquesFiltrades = this.tasques;
-
-        //Ordenar tasques
-        this.ordenarTasques();
+        this.cursos = await this.getCursos();
     },
     methods: {
-        async getTasques() {
-            return UserService.getActivities()
+        async getCursos() {
+            return UserService.getCourses()
                 .then(r => {
                     return r.data;
                 })
@@ -85,22 +64,7 @@ export default {
                     this.error = e;
                 });
         },
-        ordenarTasques(dies = 7) {
-            this.ordre = dies;
-            this.limit = 2;
-
-            const limitInferior = moment(); //Avui
-            const limitSuperior = moment().add(this.ordre, 'days');
-
-            //Filtrar tasques:
-            this.tasquesFiltrades = this.tasques.filter(tasca => {
-                return moment(tasca.end_date).isBetween(limitInferior, limitSuperior, null, '[]')
-            });
-
-            //Ordenar per dies.
-            this.tasquesFiltrades = this.tasquesFiltrades.sort((a, b) => moment(b.end_date).diff(moment(a.end_date))).reverse();
-
-        },
+        
         limitarArray(arr) {
             if (arr && arr.length) {
                 let limit = this.limit;
@@ -117,7 +81,7 @@ export default {
             return null;
         },
         mostrarMes() {
-            this.limit += 3;
+            this.limit += 4;
             if (this.limit >= this.tasquesFiltrades.length) {
                 this.limit = -1;
             }
