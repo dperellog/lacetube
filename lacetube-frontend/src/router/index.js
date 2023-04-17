@@ -11,6 +11,10 @@ const router = createRouter({
       component: IndexBO
     },
     {
+      path: '/tests',
+      component: import('../views/Test.vue')
+    },
+    {
       path: '/',
       name: 'home',
       component: Index
