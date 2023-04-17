@@ -24,10 +24,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
         Route::get('{id}', [CourseController::class, 'getCourse']);
         //Nomes fet fins aqui
-        Route::get('create', [UserController::class, 'getCourses']);
-        Route::get('modify/:id', [UserController::class, 'getCourses']);
-        Route::get('students/add/:id', [UserController::class, 'getCourses']);
-        Route::get('students/remove/:id', [UserController::class, 'getCourses']);
+        Route::get('create', [CourseController::class, 'store']);
+        Route::get('modify/:id', [CourseController::class, 'update']);
+        Route::put('students/add/{id}', [CourseController::class, 'addUserToCourse']);
+        Route::get('students/remove/:id', [CourseController::class, 'getCourses']);
     });
     Route::prefix('user')->group(function () {
         Route::get('activities', [UserController::class, 'getActivities']);
