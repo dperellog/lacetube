@@ -13,4 +13,9 @@ class UserController extends Controller
         $user = Auth::user();
         return response()->json($user->activities);
     }
+    public function getCourses() : JsonResponse
+    {
+        $user = Auth::user();
+        return response()->json($user->courses);
+    }
 }
