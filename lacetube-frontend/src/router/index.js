@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/userStore';
 import Index from '../views/FO/Index.vue'
 import IndexBO from '@/views/BO/Index.vue'
 
@@ -28,7 +29,9 @@ const router = createRouter({
 });
 
 // router.beforeEach((to, from, next) => {
-//   const authUser = store.getters["auth/authUser"];
+//   const userStore = useUserStore();
+//   const authUser = userStore.getCurrentUser();
+
 //   const reqAuth = to.matched.some((record) => record.meta.requiresAuth);
 //   const loginQuery = { path: "/login", query: { redirect: to.fullPath } };
 

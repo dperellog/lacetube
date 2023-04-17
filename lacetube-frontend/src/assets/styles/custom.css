@@ -1,9 +1,9 @@
 .header-img{
-  max-height: 8vh;
+  max-height: 3rem;
 }
 
 .header-logo{
-  max-height: 10vh;
+  max-height: 5rem;
 }
 
 @media screen and (max-width: 700px){
@@ -14,5 +14,11 @@
   
   .header-logo{
     max-height: 10vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container{
+      max-width: 100rem;
   }
 }

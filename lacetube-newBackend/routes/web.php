@@ -33,15 +33,20 @@ Route::get('/test', function () {
     // );
 
     //Test 2:
-    $actividad = Activity::find(23);
+    // $actividad = Activity::find(23);
 
-    dd(
-        $actividad,
-        $actividad->videos->first()->teacher,
-        $actividad->teacher,
-        $actividad->students
-    );
+    // dd(
+    //     $actividad,
+    //     $actividad->videos->first()->teacher,
+    //     $actividad->teacher,
+    //     $actividad->students
+    // );
 
+
+    //Test 3:
+
+    $user = User::find(15);
+    dd($user->activities());
 });
 
 require __DIR__.'/auth.php';

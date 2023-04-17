@@ -1,5 +1,4 @@
 <template>
-<header class="pt-2 pb-3 mb-3 border-bottom fo-header">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-around">
         <router-link to="/" class="navbar-brand"><img src="@/assets/logos/logo-fo.png" class="header-img header-logo"></router-link>
@@ -11,7 +10,6 @@
         <router-link to="/login" class="btn btn-warning mt-3">Iniciar Sessió</router-link>
       </div>
     </div>
-  </header>
 </template>
 
 <script>
