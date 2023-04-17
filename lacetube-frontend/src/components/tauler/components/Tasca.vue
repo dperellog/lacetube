@@ -5,7 +5,7 @@
                 <div class="card-body col-11">
                     <header class="">
                         <h3 class="h4 fw-bold">{{ activitat.name }}</h3>
-                        <h6 class="text-secondary"><i class="fa-solid fa-user-graduate"></i>&nbsp;&nbsp;<span>{{
+                        <h6 class="text-secondary"><i class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;<span>{{
                             activitat.course_name }}</span></h6>
                         <h6 class="text-secondary"><i class="fa-solid fa-calendar-check"></i>&nbsp;&nbsp;<span>Venciment: {{
                             dataFinal }}</span></h6>

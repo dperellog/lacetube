@@ -32,5 +32,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('activities', [UserController::class, 'getActivities']);
         Route::get('courses', [UserController::class, 'getCourses']);
+        Route::get('videos', [UserController::class, 'getVideos']);
     });
 });

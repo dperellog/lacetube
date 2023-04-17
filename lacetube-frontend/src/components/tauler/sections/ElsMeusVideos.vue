@@ -3,7 +3,7 @@
 
         <!-- Capçalera i botons de filtre -->
         <div class="row">
-            <p class="h2 mb-3 col-8">Els meus cursos:</p>
+            <p class="h2 mb-3 col-8">Els meus videos:</p>
         </div>
 
         <!-- Llistat de tasques -->

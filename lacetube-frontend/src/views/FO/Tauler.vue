@@ -4,10 +4,8 @@
     <h1 class="fw-bold">Tauler:</h1>
     <hr>
     <TasquesRecents></TasquesRecents>
-    <br>
-    <TasquesPassades></TasquesPassades>
-    <br>
-    <ElsMeusCursos></ElsMeusCursos>
+    <TasquesPassades class="my-5"></TasquesPassades>
+    <ElsMeusCursos class="my-5"></ElsMeusCursos>
 
   </div>
 </template>
