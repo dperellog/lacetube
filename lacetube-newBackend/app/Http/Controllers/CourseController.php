@@ -21,12 +21,6 @@ class CourseController extends Controller
         return response()->json($course, 201);
     }
 
-    public function show($id)
-    {
-        $course = Course::find($id);
-        return response()->json($course);
-    }
-
     public function update(Request $request, $id)
     {
         $validateData = $request->validate([
@@ -70,6 +64,28 @@ class CourseController extends Controller
         return $usersFailed;
 
     }
+    public function removeUserToCourse(Request $request, $id)
+    {
+        $usersFailed=[];
+        $course = Course::findOrFail($id);
+        $students= $course->students;
+        foreach ($request->users as $user) {
+            try {
+                $user = User::findOrFail($user);
+                if ($students->contains($user)){
+                    $user->courses()->delete($course);
+                }else{
+                    throw new Exception("", 1);
+                }
+                
+            } catch (\Throwable $th) {
+                array_push($usersFailed, $user);
+            }
+        }
+        return $usersFailed;
+
+    }
+
 
     public function destroy($id)
     {
