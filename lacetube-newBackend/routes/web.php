@@ -45,8 +45,8 @@ Route::get('/test', function () {
 
     //Test 3:
 
-    $user = User::find(15);
-    dd($user->activities());
+    $user = User::find(1);
+    dd($user->videos);
 });
 
 require __DIR__.'/auth.php';

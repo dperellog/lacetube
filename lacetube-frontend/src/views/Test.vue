@@ -12,14 +12,14 @@ export default {
         Header
     },
     beforeMount(){
-        // axios.get('/api/user/courses')
-        //     .then(r => console.log('r :>> ', r))
-        //     .catch(e => console.log('e :>> ', e))
+        axios.get('/api/user/videos')
+            .then(r => console.log('r :>> ', r))
+            .catch(e => console.log('e :>> ', e))
 
-        axios.get('sanctum/csrf-cookie')
-        .then(() => axios.put('/api/course/students/add/3', {users: [11,12,13,10,9]}))
-        .then(r => console.log('r :>> ', r))
-        .catch(e => console.log('e :>> ', e))
+        // axios.get('sanctum/csrf-cookie')
+        // .then(() => axios.put('/api/course/students/add/3', {users: [11,12,13,10,9]}))
+        // .then(r => console.log('r :>> ', r))
+        // .catch(e => console.log('e :>> ', e))
     }
 }
 </script>

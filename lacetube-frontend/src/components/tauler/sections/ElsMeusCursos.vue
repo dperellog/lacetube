@@ -1,11 +1,5 @@
 <template>
     <section>
-
-        <!-- Capçalera i botons de filtre -->
-        <div class="row">
-            <p class="h2 mb-3 col-8">Els meus cursos:</p>
-        </div>
-
         <!-- Llistat de tasques -->
         <div v-if="cursos != null">
             <div class="row gy-3" v-if="cursos.length > 0">
@@ -43,6 +37,9 @@ export default {
     components: {
         Curs
     },
+    props: {
+        mostrarTots : Boolean
+    },
     data() {
         return {
             cursos: null,
@@ -53,6 +50,10 @@ export default {
     async beforeMount() {
         //Obtenir tasques del backend
         this.cursos = await this.getCursos();
+
+        if (this.mostrarTots) {
+            this.limit = -1
+        }
     },
     methods: {
         async getCursos() {

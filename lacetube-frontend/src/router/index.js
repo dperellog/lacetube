@@ -6,6 +6,7 @@ import IndexBO from '@/views/BO/Index.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    //Rutes de BACK OFFICE:
     {
       path: '/gestio',
       component: IndexBO
@@ -14,6 +15,8 @@ const router = createRouter({
       path: '/tests',
       component: import('../views/Test.vue')
     },
+
+    //Rutes de FRONT OFFICE:
     {
       path: '/',
       name: 'home',
@@ -22,31 +25,53 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/FO/LoginView.vue')
+      component: () => import('../views/FO/LoginView.vue'),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore()
+
+        if (userStore.isLogged) {
+          next({ name: 'home' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/tauler',
       name: 'tauler',
-      component: () => import('../views/FO/Tauler.vue')
+      component: () => import('../views/FO/Tauler.vue'),
+      meta: { usuariAutenticat: true }
+    },
+    {
+      path: '/cursos',
+      name: 'cursos',
+      component: () => import('../views/FO/Cursos.vue'),
+      meta: { usuariAutenticat: true }
+    },
+    {
+      path: '/curs/:id',
+      name: 'curs-detall',
+      component: () => import('../views/FO/detailsPages/CursDetall.vue'),
+      meta: { usuariAutenticat: true },
+      props: true
     }
   ]
 });
 
-// router.beforeEach((to, from, next) => {
-//   const userStore = useUserStore();
-//   const authUser = userStore.getCurrentUser();
+//Guardia Logged In
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
 
-//   const reqAuth = to.matched.some((record) => record.meta.requiresAuth);
-//   const loginQuery = { path: "/login", query: { redirect: to.fullPath } };
+  if (to.matched.some(record => record.meta.usuariAutenticat)) {
+    if (userStore.isLogged) {
+      next();
+    } else {
+      next({ name: 'login' })
+    }
+  } else {
+    next();
+  }
+});
 
-//   if (reqAuth && !authUser) {
-//     store.dispatch("auth/getAuthUser").then(() => {
-//       if (!store.getters["auth/authUser"]) next(loginQuery);
-//       else next();
-//     });
-//   } else {
-//     next(); // make sure to always call next()!
-//   }
-// });
 
 export default router

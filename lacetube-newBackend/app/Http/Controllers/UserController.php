@@ -24,6 +24,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        return UserVideos::collection($user->videos);
+        return $user->videos;
+        //return UserVideos::collection($user->videos);
     }
 }

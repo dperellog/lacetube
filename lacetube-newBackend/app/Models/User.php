@@ -58,11 +58,22 @@ class User extends Authenticatable
             $activity->course_name = $activity->course->name;
             return $activity;
         });
-
-
-
         });
 
         return $activities;
+    }
+
+    public function getVideosAttribute()
+    {
+
+
+       $videos = $this->activities->flatMap(function ($activity) {
+        return $activity->videos->filter(function ($video) {
+
+            return $video->user_id == $this->id;
+        });
+    });
+        dd($videos);
+        return $videos;
     }
 }

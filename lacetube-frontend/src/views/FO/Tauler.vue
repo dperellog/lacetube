@@ -4,8 +4,15 @@
     <h1 class="fw-bold">Tauler:</h1>
     <hr>
     <TasquesRecents></TasquesRecents>
+
     <TasquesPassades class="my-5"></TasquesPassades>
-    <ElsMeusCursos class="my-5"></ElsMeusCursos>
+
+    
+    <!-- Capçalera i botons de filtre -->
+    <div class="row" v-if="!mostrarTots">
+        <p class="h2 mb-3 col-8">Els meus cursos:</p>
+    </div>
+    <ElsMeusCursos class="mb-5"></ElsMeusCursos>
 
   </div>
 </template>
