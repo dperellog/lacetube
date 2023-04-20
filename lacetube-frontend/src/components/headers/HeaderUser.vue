@@ -18,6 +18,10 @@
             <li><a class="dropdown-item" href="#">Els meus videos</a></li>
             <li><a class="dropdown-item" href="#">El meu perfil</a></li>
             <li><a class="dropdown-item" href="#">Configuració</a></li>
+            <div v-if="userStore.canAccessGestio">
+              <li><hr class="dropdown-divider"></li>
+              <li><router-link to="/gestio" class="dropdown-item">Panell de gestió</router-link></li>
+            </div>
             <li><hr class="dropdown-divider"></li>
             <li><button @click="$emit('logoutUser')" class="dropdown-item" href="#">Tancar sessió</button></li>
           </ul>

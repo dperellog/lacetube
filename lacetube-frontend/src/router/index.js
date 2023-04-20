@@ -9,7 +9,8 @@ const router = createRouter({
     //Rutes de BACK OFFICE:
     {
       path: '/gestio',
-      component: IndexBO
+      component: IndexBO,
+      meta: { accessGestio: true }
     },
     {
       path: '/tests',
@@ -58,19 +59,28 @@ const router = createRouter({
   ]
 });
 
-//Guardia Logged In
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
 
+  //Guarda Logged In
   if (to.matched.some(record => record.meta.usuariAutenticat)) {
     if (userStore.isLogged) {
       next();
     } else {
       next({ name: 'login' })
     }
-  } else {
-    next();
   }
+
+  //Guarda gestió BackOffice
+  if (to.matched.some(record => record.meta.accessGestio)) {
+    if (userStore.canAccessGestio) {
+      next();
+    } else {
+      next({ name: 'tauler' })
+    }
+  }
+
+  next();
 });
 
 
