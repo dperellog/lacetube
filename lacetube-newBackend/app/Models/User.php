@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
     ];
 
     /**
@@ -65,15 +66,11 @@ class User extends Authenticatable
 
     public function getVideosAttribute()
     {
-
-
        $videos = $this->activities->flatMap(function ($activity) {
         return $activity->videos->filter(function ($video) {
-
             return $video->user_id == $this->id;
         });
     });
-        dd($videos);
         return $videos;
     }
 }

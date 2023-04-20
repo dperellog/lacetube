@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'avatar' => url('/avatar/'.$this->avatar),
             'created_at' => $this->created_at,
             'updated' => $this->updated_at,
+            'role' => $this->getRoleNames(),
         ];
     }
 }

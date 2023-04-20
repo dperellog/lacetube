@@ -10,25 +10,24 @@ export default {
     Header,
   },
   beforeMount() {
-     axios.get('/api/user')
-          .then(r => console.log('r :>> ', r))
-         .catch(e => console.log('e :>> ', e))
+    //  axios
+    //    .get("/api/user/videos",)
+    //    .then((r) => console.log("r :>> ", r))
+    //    .catch((e) => console.log("e :>> ", e));
 
-    // axios
-    //   .get("sanctum/csrf-cookie")
-    //   .then(() =>
-    //     axios.post("/api/course/create", {
-    //         name: "prova323",
-    //         description: "curs de prova test",
-    //         thumbnailURL:
-    //           "https://via.placeholder.com/640x480.png/00aaff?text=animi",
-    //         year: 2015,
-    //         teacher_id: 1,
-    //         parent_id: 2
-    //     })
-    //   )
-    //   .then((r) => console.log("r :>> ", r))
-    //   .catch((e) => console.log("e :>> ", e));
+      axios
+        .get("sanctum/csrf-cookie")
+        .then(() =>
+         axios.get("/api/user/", {
+          name: "Prova2",
+          email: "prova3@prova.com",
+          password: "1qazZAQ!",
+          password_confirmation: "1qazZAQ!",
+          role: "teacher",
+        })
+        )
+        .then((r) => console.log("r :>> ", r))
+        .catch((e) => console.log("e :>> ", e));
   },
 };
 </script>
