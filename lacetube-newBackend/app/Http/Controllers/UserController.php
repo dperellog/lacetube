@@ -23,12 +23,8 @@ class UserController extends Controller
     public function getVideos()
     {
         $user = Auth::user();
-<<<<<<< HEAD
-        return UserVideos::collection($user->videos);
-=======
 
         return $user->videos;
         //return UserVideos::collection($user->videos);
->>>>>>> 754a1e5d201161566f6e689a87257f60271d16af
     }
 }

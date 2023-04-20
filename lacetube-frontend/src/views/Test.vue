@@ -6,7 +6,6 @@ import Header from "../components/Header.vue";
 import axios from "@/services/Axios";
 
 export default {
-<<<<<<< HEAD
   components: {
     Header,
   },
@@ -14,18 +13,6 @@ export default {
      axios.get('/api/user')
           .then(r => console.log('r :>> ', r))
          .catch(e => console.log('e :>> ', e))
-=======
-    
-    components: {
-        Header
-    },
-    beforeMount(){
-        axios.get('/api/user/videos')
-            .then(r => console.log('r :>> ', r))
-        axios.get('/api/activity/1')
-             .then(r => console.log('r :>> ', r))
-            .catch(e => console.log('e :>> ', e))
->>>>>>> 754a1e5d201161566f6e689a87257f60271d16af
 
     // axios
     //   .get("sanctum/csrf-cookie")
