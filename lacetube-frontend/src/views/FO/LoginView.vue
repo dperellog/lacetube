@@ -26,7 +26,7 @@ export default {
   components: {
     LoginForm,
     Header
-  },
+  }
 }
 </script>
 

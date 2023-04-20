@@ -9,17 +9,17 @@
 
         <router-link to="/tauler" class="btn col-sm-2 col-lg-1 btn-warning mt-3 rounded-pill fw-bold">Tauler</router-link>
 
-        <div class="dropdown col-1 text-end mt-3">
+        <div class="dropdown col-1 text-end mt-4">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUsuari" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle shadow-4 header-img">
+            <avatar :url="userStore.currentUser.avatar" :size="'sm'"></avatar>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUsuari">
-            <li><router-link to="/login" class="dropdown-item">Login</router-link></li>
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><router-link to="/cursos" class="dropdown-item">Cursos</router-link></li>
+            <li><a class="dropdown-item" href="#">Els meus videos</a></li>
+            <li><a class="dropdown-item" href="#">El meu perfil</a></li>
+            <li><a class="dropdown-item" href="#">Configuració</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><button @click="$emit('logoutUser')" class="dropdown-item" href="#">Sign out</button></li>
+            <li><button @click="$emit('logoutUser')" class="dropdown-item" href="#">Tancar sessió</button></li>
           </ul>
         </div>
       </div>
@@ -28,14 +28,30 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import Avatar from '../common/Avatar.vue';
 
 export default {
   components: {
-    RouterLink
+    RouterLink,
+    Avatar
+  },
+  setup() {
+    const userStore = useUserStore();
+
+    return {
+      userStore: userStore
+    }
   },
   methods : {
-
   }
 
 }
 </script>
+
+<style scoped>
+.dropdown-toggle::after{
+  vertical-align: 1.3em;
+  margin-left: 0.5em;
+}
+</style>
