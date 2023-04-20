@@ -16,9 +16,24 @@ class CourseController extends Controller
     }
     public function store(Request $request)
     {
-
-        $course = Course::create($request->all());
-        return response()->json($course, 201);
+        
+        $validateData = $request->validate([
+             'teacher_id' => 'exists:users,id',
+             'name' => 'required|unique:courses|max:255',
+             'thumbnailURL' => 'url',
+             'description' => 'required|max:255',
+             'year' => 'required|max:255',
+             'parent_id' => 'exists:courses,id',
+         ]);
+         $course = Course::create([
+             'teacher_id' => $request->teacher_id,
+             'name' => $request->name,
+             'description' => $request->description,
+             'thumbnailURL' => $request->thumbnailURL,
+             'year' => $request->year,
+             'parent_id' => $request->parent_id,
+         ]);
+         return response()->json($course, 201);
     }
 
     public function update(Request $request, $id)
@@ -73,7 +88,7 @@ class CourseController extends Controller
             try {
                 $user = User::findOrFail($user);
                 if ($students->contains($user)){
-                    $user->courses()->delete($course);
+                    $user->courses()->detach($course);
                 }else{
                     throw new Exception("", 1);
                 }

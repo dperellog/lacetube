@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,11 +25,20 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
         Route::get('{id}', [CourseController::class, 'getCourse']);
-        //Nomes fet fins aqui
-        Route::get('create', [CourseController::class, 'store']);
-        Route::get('modify/:id', [CourseController::class, 'update']);
+        Route::post('create', [CourseController::class, 'store']);
+        Route::put('modify/:id', [CourseController::class, 'update']);
         Route::put('students/add/{id}', [CourseController::class, 'addUserToCourse']);
-        Route::get('students/remove/:id', [CourseController::class, 'getCourses']);
+        Route::delete('students/remove/:id', [CourseController::class, 'getCourses']);
+    });
+    Route::prefix('activity')->group(function () {
+        Route::get('{id}', [ActivityController::class, 'getActivity']);
+        Route::post('create', [ActivityController::class, 'store']);
+        Route::put('modify/:id', [ActivityController::class, 'update']);
+    });
+    Route::prefix('video')->group(function () {
+        Route::get('{id}', [VideoController::class, 'getVideo']);
+        Route::post('create', [VideoController::class, 'store']);
+        Route::put('modify/:id', [VideoController::class, 'update']);
     });
     Route::prefix('user')->group(function () {
         Route::get('activities', [UserController::class, 'getActivities']);

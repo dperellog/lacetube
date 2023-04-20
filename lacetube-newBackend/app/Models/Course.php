@@ -17,6 +17,15 @@ class Course extends Model
 
     ];
 
+    protected $fillable = [
+        'teacher_id',
+        'name',
+        'description',
+        'thumbnailURL',
+        'year',
+        'parent_id'
+    ];
+
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(User::class, 'teacher_id');
