@@ -19,7 +19,7 @@ class ResourcesSeeder extends Seeder
     public function run(): void
     {
         //Create admin user:
-        User::factory()->admin()->create();
+        User::factory()->admin()->create()->assignRole('admin');
 
         //Create users:
         $users = User::factory()->count(30)->create();
