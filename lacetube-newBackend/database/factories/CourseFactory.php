@@ -23,7 +23,8 @@ class CourseFactory extends Factory
             'description' => fake()->paragraph(),
             'thumbnailURL' => fake()->imageUrl(),
             'year' => fake()->year(),
-            'teacher_id' => User::all()->random()->id,
+            //User where role teacher
+            'teacher_id' =>User::role('teacher')->get()->random()->id,
             'parent_id' => Course::all()->isEmpty() ? 0 : Course::all()->random()->id
         ];
     }

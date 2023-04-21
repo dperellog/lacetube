@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'course_user', 'user','course');
     }
 
+    public function videos()
+    {
+        return $this->hasMany(Video::class, 'user');
+    }
+
 
     public function getActivitiesAttribute()
     {

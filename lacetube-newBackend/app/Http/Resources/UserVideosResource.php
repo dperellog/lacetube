@@ -16,11 +16,13 @@ class UserVideosResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user' => $this->user,
             'name' => $this->name,
             'description' => $this->description,
             'mediaURL' => $this->mediaURL,
-            'activity_id' => $this->activity_id,
-            'teacher' => $this->activity->course->teacher,
+            'activity' => $this->activity,
+            'comments' => $this->comments,
+            'teacher' => $this->teacher,
             'created_at' => $this->created_at,
         ];
     }

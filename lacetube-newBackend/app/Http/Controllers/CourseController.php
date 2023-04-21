@@ -18,13 +18,15 @@ class CourseController extends Controller
 
     public function getAll(): JsonResponse
     {
-        $user = Auth::user();
+        $user = User::find(Auth::user()->id);
+        $rol=$user->getRoleNames()->toArray();
+        if (in_array("admin", $rol)){
+            return response()->json(Course::all());
+        }elseif(in_array("teacher", $rol)){
+            return response()->json(Course::where('teacher_id', '=', $user->id)->get());
+        }
 
-
-        // if ($user) {
-        //     $userRole =
-        // }
-        return response()->json(Course::all());
+        return response()->json('',401);
     }
     public function store(Request $request)
     {
@@ -50,6 +52,10 @@ class CourseController extends Controller
 
     public function update(Request $request, $id)
     {
+        $course = Course::findOrFail($id);
+        if ($request->teacher_id == $course->teacher || User::find(Auth::user()->id)->hasRole('admin')){
+            return response()->json('',401);
+        }
         $validateData = $request->validate([
             'teacher_id' => 'exists:users,id',
             'name' => 'required|unique:courses|max:255',
@@ -59,7 +65,7 @@ class CourseController extends Controller
             'parent_id' => 'exists:courses,id',
         ]);
 
-        $course = Course::findOrFail($id);
+        
 
         $course->teacher = $request->teacher;
         $course->name = $request->name;
