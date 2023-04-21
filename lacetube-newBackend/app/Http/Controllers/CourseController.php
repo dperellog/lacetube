@@ -51,15 +51,15 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $validateData = $request->validate([
-            'teacher' => 'exists:users,id',
-            'name' => 'required|unique:course|max:255',
+            'teacher_id' => 'exists:users,id',
+            'name' => 'required|unique:courses|max:255',
             'thumbnailURL' => 'url',
             'description' => 'required|max:255',
             'year' => 'required|max:255',
-            'parent' => 'exists:curs,id',
+            'parent_id' => 'exists:courses,id',
         ]);
 
-        $course = Course::find($id);
+        $course = Course::findOrFail($id);
 
         $course->teacher = $request->teacher;
         $course->name = $request->name;
@@ -68,6 +68,7 @@ class CourseController extends Controller
         $course->year = $request->year;
         $course->parent = $request->parent;
         $course->save();
+        return response()->json($course, 201);
     }
 
     public function addUserToCourse(Request $request, $id)

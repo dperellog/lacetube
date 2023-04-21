@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('modify/:id', [VideoController::class, 'update']);
     });
     Route::prefix('user')->group(function () {
+        Route::get('/', [UserController::class, 'getUser']);
         Route::get('activities', [UserController::class, 'getActivities']);
         Route::get('courses', [UserController::class, 'getCourses']);
         Route::get('videos', [UserController::class, 'getVideos']);
