@@ -51,7 +51,7 @@
 
 import UserService from '@/services/User';
 import moment from 'moment';
-import Tasca from '@/components/tauler/components/Tasca.vue'
+import Tasca from '../components/Tasca.vue'
 
 
 export default {

@@ -2,7 +2,7 @@
   <header class="pt-2 pb-3 mb-3 border-bottom bg-primary fo-header">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-around">
-        <router-link to="/" class="navbar-brand"><img src="@/assets/logos/logo-bo.png"
+        <router-link to="/gestio" class="navbar-brand"><img src="@/assets/logos/logo-bo.png"
             class="header-img header-logo"></router-link>
 
         <nav class="navbar navbar-expand-lg navbar-dark mt-3 col-7">
@@ -30,12 +30,12 @@
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="true" aria-expanded="false">Cursos</a>
                   <div class="dropdown-menu">
+                    <router-link to="/gestio/cursos" class="dropdown-item" href="#">Gestió de cursos</router-link>
+                    <a class="dropdown-item" href="#">Gestió d'activitats</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Crear Curs</a>
                     <a class="dropdown-item" href="#">Crear Activitat</a>
                     <a class="dropdown-item" href="#">Something else here</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Gestió de cursos</a>
-                    <a class="dropdown-item" href="#">Gestió d'activitats</a>
                   </div>
                 </li>
 
@@ -53,10 +53,10 @@
 
         <router-link to="/tauler" class="btn btn-secondary mt-3 px-4 rounded-pill fw-bold">Tauler</router-link>
 
-        <div class="dropdown text-end mt-2">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUsuari"
+        <div class="dropdown text-end mt-4">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle useroptions" id="dropdownUsuari"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle header-img">
+            <avatar :url="userStore.currentUser.avatar" :size="'sm'"></avatar>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUsuari">
             <li><router-link to="/login" class="dropdown-item">Login</router-link></li>
@@ -66,7 +66,7 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><button @click="$emit('logoutUser')" class="dropdown-item" href="#">Sign out</button></li>
+            <li><button @click="userStore.logout" class="dropdown-item" href="#">Sign out</button></li>
           </ul>
         </div>
       </div>
@@ -76,13 +76,20 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import Avatar from '@/components/common/Avatar.vue';
 
 export default {
   components: {
-    RouterLink
+    RouterLink,
+    Avatar
   },
-  methods: {
+  setup() {
+    const userStore = useUserStore();
 
+    return {
+      userStore: userStore
+    }
   }
 
 }
@@ -91,4 +98,10 @@ export default {
 <style scoped>
 .navbar {padding: 0 }
 
+</style>
+<style scoped>
+.useroptions.dropdown-toggle::after{
+  vertical-align: 1.3em;
+  margin-left: 0.5em;
+}
 </style>

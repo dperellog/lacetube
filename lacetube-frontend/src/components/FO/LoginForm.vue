@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import Auth from '../services/Auth';
+import Auth from '../../services/Auth';
 import { useUserStore } from '@/stores/userStore';
 
 export default {

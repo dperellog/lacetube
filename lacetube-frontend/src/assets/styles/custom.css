@@ -5,6 +5,17 @@
 .header-logo{
   max-height: 5rem;
 }
+a.showMore {
+  color: #6399BB;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a.showMore:hover {
+  color: #77b6dc;
+  text-decoration: none;
+}
+
 
 @media screen and (max-width: 700px){
 

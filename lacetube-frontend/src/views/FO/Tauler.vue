@@ -18,10 +18,10 @@
 </template>
   
 <script>
-import Header from '@/components/Header.vue';
-import TasquesRecents from '@/components/tauler/sections/TasquesRecents.vue'
-import TasquesPassades from '@/components/tauler/sections/TasquesPassades.vue';
-import ElsMeusCursos from '@/components/tauler/sections/ElsMeusCursos.vue';
+import Header from '@/components/FO/Header.vue';
+import TasquesRecents from '@/components/FO/tauler/sections/TasquesRecents.vue'
+import TasquesPassades from '@/components/FO/tauler/sections/TasquesPassades.vue';
+import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
 
 export default {
   components: {

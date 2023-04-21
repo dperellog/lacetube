@@ -1,16 +1,22 @@
 <template>
     <section>
+
+        <!-- Capçalera i botons de filtre -->
+        <div class="row">
+            <p class="h2 mb-3 col-8">Tasques passades:</p>
+        </div>
+
         <!-- Llistat de tasques -->
-        <div v-if="cursos != null">
-            <div class="row gy-3" v-if="cursos.length > 0">
+        <div v-if="tasques != null">
+            <div class="row gy-3" v-if="tasquesFiltrades.length > 0">
                 <!-- <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat" :disseny="'carta'"></Tasca> -->
-                <Curs class="col-sm-4 col-lg-3" v-for="curs in limitarArray(cursos)" :curs="curs"></Curs>
+                <h2>TODO: Buscar ultims videos de l'usuari</h2>
                 <!-- Botó mostrar més -->
                 <a href="#" class="showMore text-center" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
 
             <div v-else class="alert alert-info" role="alert">
-                No hi han cursos disponibles!
+                No hi han tasques disponibles!
             </div>
         </div>
 
@@ -20,7 +26,7 @@
                 ERROR: {{ error }}
             </div>
             <div v-else class="d-flex justify-content-center">
-                <strong>Carregant cursos...</strong>
+                <strong>Carregant tasques...</strong>
                 <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
             </div>
         </div>
@@ -30,42 +36,55 @@
 <script>
 
 import UserService from '@/services/User';
-import Curs from '@/components/tauler/components/Curs.vue'
+import moment from 'moment';
+import Tasca from '../components/Tasca.vue'
 
 
 export default {
     components: {
-        Curs
-    },
-    props: {
-        mostrarTots : Boolean
+        Tasca
     },
     data() {
         return {
-            cursos: null,
+            tasques: null,
+            tasquesFiltrades: null,
             error: null,
             limit: 4
         }
     },
     async beforeMount() {
         //Obtenir tasques del backend
-        this.cursos = await this.getCursos();
+        this.tasques = await this.getTasques();
+        this.tasquesFiltrades = this.tasques;
 
-        if (this.mostrarTots) {
-            this.limit = -1
-        }
+        //Ordenar tasques
+        this.ordenarTasques();
     },
     methods: {
-        async getCursos() {
-            return UserService.getCourses()
+        async getTasques() {
+            return UserService.getActivities()
                 .then(r => {
-                    return r.data.data;
+                    return r.data;
                 })
                 .catch(e => {
                     this.error = e;
                 });
         },
-        
+        ordenarTasques() {
+            this.limit = 2;
+
+            const limitSuperior = moment().subtract(1, 'days')
+            const limitInferior = moment().subtract(30, 'days');
+
+            //Filtrar tasques:
+            this.tasquesFiltrades = this.tasques.filter(tasca => {
+                return moment(tasca.end_date).isBetween(limitInferior, limitSuperior, null, '[]')
+            });
+
+            //Ordenar per dies.
+            this.tasquesFiltrades = this.tasquesFiltrades.sort((a, b) => moment(b.end_date).diff(moment(a.end_date)));
+
+        },
         limitarArray(arr) {
             if (arr && arr.length) {
                 let limit = this.limit;
@@ -83,7 +102,7 @@ export default {
         },
         mostrarMes() {
             this.limit += 4;
-            if (this.limit >= this.cursos.length) {
+            if (this.limit >= this.tasquesFiltrades.length) {
                 this.limit = -1;
             }
         }

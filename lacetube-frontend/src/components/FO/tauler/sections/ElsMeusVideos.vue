@@ -36,7 +36,7 @@
 <script>
 
 import UserService from '@/services/User';
-import Curs from '@/components/tauler/components/Curs.vue'
+import Curs from '../../../BO/components/CursosTaula.vue'
 
 
 export default {

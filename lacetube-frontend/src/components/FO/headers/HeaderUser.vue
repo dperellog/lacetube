@@ -33,7 +33,7 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
-import Avatar from '../common/Avatar.vue';
+import Avatar from '@/components/common/Avatar.vue';
 
 export default {
   components: {

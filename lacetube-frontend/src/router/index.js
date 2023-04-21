@@ -1,22 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/userStore';
-import Index from '../views/FO/Index.vue'
-import IndexBO from '@/views/BO/Index.vue'
+import Index from '@/views/FO/Index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    //Rutes de BACK OFFICE:
-    {
-      path: '/gestio',
-      component: IndexBO,
-      meta: { accessGestio: true }
-    },
-    {
-      path: '/tests',
-      component: import('../views/Test.vue')
-    },
-
     //Rutes de FRONT OFFICE:
     {
       path: '/',
@@ -55,15 +43,33 @@ const router = createRouter({
       component: () => import('../views/FO/detailsPages/CursDetall.vue'),
       meta: { usuariAutenticat: true },
       props: true
-    }
+    },
+
+    //Rutes de BACK OFFICE:
+    {
+      path: '/gestio',
+      component: () => import('../views/BO/IndexBackoffice.vue'),
+      meta: { accessGestio: true }
+    },
+    {
+      path: '/tests',
+      component: () => import('../views/Test.vue')
+    },
+    {
+      path: '/gestio/cursos',
+      component: () => import('../views/BO/cursos/GestioCursos.vue'),
+      meta: { accessGestio: true }
+    },
   ]
 });
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
+  let entra = false;
 
   //Guarda Logged In
   if (to.matched.some(record => record.meta.usuariAutenticat)) {
+    entra = true;
     if (userStore.isLogged) {
       next();
     } else {
@@ -73,6 +79,7 @@ router.beforeEach((to, from, next) => {
 
   //Guarda gestió BackOffice
   if (to.matched.some(record => record.meta.accessGestio)) {
+    entra = true;
     if (userStore.canAccessGestio) {
       next();
     } else {
@@ -80,7 +87,10 @@ router.beforeEach((to, from, next) => {
     }
   }
 
-  next();
+  if (!entra) {
+    next();
+  }
+  
 });
 
 

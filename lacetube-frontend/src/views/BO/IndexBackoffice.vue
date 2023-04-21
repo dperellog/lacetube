@@ -1,6 +1,10 @@
 <template>
     <HeaderBackoffice></HeaderBackoffice>
-    <h1>Benvinguts al Backoffice!</h1>
+    <div class="container mt-4 px-4">
+        <h1 class="fw-bold">Panell de gestió:</h1>
+        <hr>
+
+    </div>
 </template>
 <style>
 /* body {
@@ -8,15 +12,16 @@
 } */
 </style>
 <script>
-import HeaderBackoffice from '../../components/headers/HeaderBackoffice.vue';
+import HeaderBackoffice from '@/components/BO/headers/HeaderBackoffice.vue';
 import { useCounterStore } from '@/stores/counter';
 
 export default {
-    setup() {
-        return {store : useCounterStore()};
-    },
     components: {
         HeaderBackoffice
-    }
+    },
+    setup() {
+        return { store: useCounterStore() };
+    },
+    
 }
 </script>
