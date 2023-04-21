@@ -1,4 +1,6 @@
 import Service from "./Axios";
+import { baseURL } from "./Axios";
+
 
 export default {
 
@@ -10,6 +12,9 @@ export default {
         return Service.get('api/user/courses')
     },
 
+    getAvatarURLByAvatar(avatar){
+        return baseURL+'avatar/'+avatar
+    },
 
     async logout(){
         return Service.get('sanctum/csrf-cookie')

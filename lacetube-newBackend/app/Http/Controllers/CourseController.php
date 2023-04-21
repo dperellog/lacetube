@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCourseResource;
 use App\Models\Course;
 use App\Models\User;
 use Exception;
@@ -16,7 +17,7 @@ class CourseController extends Controller
         return response()->json(Course::findOrFail($id));
     }
 
-    public function getAll(): JsonResponse
+    public function getAll()
     {
         $user = Auth::user();
 
@@ -24,8 +25,32 @@ class CourseController extends Controller
         // if ($user) {
         //     $userRole =
         // }
-        return response()->json(Course::all());
+        return UserCourseResource::collection(Course::all());
     }
+
+    public function getAllTeachers()
+    {
+        $user = Auth::user();
+
+
+        // if ($user) {
+        //     $userRole =
+        // }
+        return UserCourseResource::collection(User::role('teacher')->get());
+    }
+
+    public function getAllStudents()
+    {
+        $user = Auth::user();
+
+
+        // if ($user) {
+        //     $userRole =
+        // }
+        return UserCourseResource::collection(User::role('student')->get());
+    }
+
+
     public function store(Request $request)
     {
 

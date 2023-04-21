@@ -12,4 +12,4 @@ const bckend = axios.create({
 
 bckend.defaults.withCredentials = true;
 
-export default bckend
+export {bckend as default, baseURL}

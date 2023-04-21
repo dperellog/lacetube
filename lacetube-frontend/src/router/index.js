@@ -60,6 +60,11 @@ const router = createRouter({
       component: () => import('../views/BO/cursos/GestioCursos.vue'),
       meta: { accessGestio: true }
     },
+    {
+      path: '/gestio/cursos/crear',
+      component: () => import('../views/BO/cursos/CrearCurs.vue'),
+      meta: { accessGestio: true }
+    },
   ]
 });
 

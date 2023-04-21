@@ -6,7 +6,7 @@
       <!-- Llistat de cursos -->
       <div v-if="cursos != null">
         <div v-if="cursos.length > 0">
-          <CursosTaula :cursos="cursos"></CursosTaula>
+          <CursosTaula :cursos="cursos" btnNovaTaula></CursosTaula>
         </div>
 
         <div v-else class="alert alert-info" role="alert">
@@ -59,7 +59,7 @@ export default {
     async getCursos() {
       return Resources.getAllCourses()
         .then(r => {
-          return r.data;
+          return r.data.data;
         })
         .catch(e => {
           this.error = e;

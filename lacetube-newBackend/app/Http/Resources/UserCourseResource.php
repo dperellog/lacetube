@@ -20,6 +20,7 @@ class UserCourseResource extends JsonResource
             'description' => $this->description,
             'thumbnailURL' => $this->thumbnailURL,
             'year' => $this->year,
+            'students' => $this->students,
             'teacher' => $this->teacher,
             'parent' => $this->parent,
         ];

@@ -1,5 +1,5 @@
 <template>
-  <div class="row mb-3">
+  <div class="row mb-3 justify-content-between">
     <div class="col-4 d-flex">
       <div class="dropdown">
         <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -13,6 +13,13 @@
         </ul>
       </div>
     </div>
+
+    <div class="col-4 d-flex justify-content-end" v-if="this.btnNovaTaula">
+      <router-link to="/gestio/cursos/crear" class="btn btn-success" type="button">
+        <i class="fa-solid fa-plus" style="color: #ffffff;"></i>&nbsp;&nbsp;
+          Crear Curs
+        </router-link>
+    </div>
   </div>
 
   <!-- TAULA CURSOS -->
@@ -23,7 +30,7 @@
           <th></th>
           <th>Nom del curs</th>
           <th>Professor</th>
-          <th>Estudiants</th>
+          <th class="text-center">Estudiants</th>
           <th>Any</th>
           <th>Accions</th>
         </tr>
@@ -42,23 +49,26 @@
           </td>
           <td style="width:25%">
             <div class="d-flex align-items-center">
-              <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px"
+              <img :src="userService.getAvatarURLByAvatar(curs.teacher.avatar)" alt="" style="width: 45px; height: 45px"
                 class="rounded-circle">
               <div class="ms-3">
-                <p class="fw-bold mb-1">John Doe</p>
-                <p class="text-muted mb-0">john.doe@gmail.com</p>
+                <p class="fw-bold mb-1">{{ curs.teacher.name }}</p>
+                <p class="text-muted mb-0">{{ curs.teacher.email }}</p>
               </div>
             </div>
           </td>
-          <td style="width:15%">
-            <span class="badge badge-success rounded-pill d-inline">Active</span>
+          <td class="text-center" style="width:15%">
+            {{ curs.students.length }}
           </td>
           <td style="width:10%">
-            Senior
+            {{ curs.year }}
           </td>
-          <td style="width:25%">
-            <button type="button" class="btn btn-link btn-sm btn-rounded">
-              Edit
+          <td class="text-center" style="width:25%">
+            <button type="button" class="btn btn-sm btn-info m-1">
+              Editar
+            </button>
+            <button type="button" class="btn btn-sm btn-danger m-1">
+              Eliminar
             </button>
           </td>
         </tr>
@@ -69,16 +79,26 @@
   </div>
 </template>
 <style>
-
+.table{
+  margin-bottom: 0em;
+}
 
 </style>
 <script>
-
+import userService from '@/services/User';
 export default {
   props: {
     cursos: {
       type: Object,
       required: true
+    },
+    btnNovaTaula: {
+      type: Boolean
+    }
+  },
+  setup() {
+    return {
+      userService: userService
     }
   },
   beforeMount() {
@@ -88,7 +108,8 @@ export default {
     return {
       cursosFiltrats: null,
       limit: 10,
-      filterRegex: ''
+      filterRegex: '',
+      columnCriteria: ''
     }
   },
   methods: {
@@ -108,7 +129,7 @@ export default {
       return null;
     },
     mostrarMes() {
-      this.limit += 4;
+      this.limit += 10;
       if (this.limit >= this.cursos.length) {
         this.limit = -1;
       }
