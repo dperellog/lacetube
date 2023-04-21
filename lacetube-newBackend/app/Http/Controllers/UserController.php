@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserVideos;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -15,6 +16,15 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return response()->json($user->activities);
+    }
+    public function getAvatar($id=0) : JsonResponse
+    {
+        if ($id=0){
+            $user = Auth::user();    
+        }else{
+            $user = User::findOrFail($id);
+        }
+        return response()->json(url('/avatar/'.$user->avatar));
     }
     public function getCourses()
     {
