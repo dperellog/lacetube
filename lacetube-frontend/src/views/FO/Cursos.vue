@@ -9,8 +9,8 @@
 </template>
   
 <script>
-import Header from '@/components/Header.vue';
-import ElsMeusCursos from '@/components/tauler/sections/ElsMeusCursos.vue';
+import Header from '@/components/FO/Header.vue';
+import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
 
 export default {
   components: {

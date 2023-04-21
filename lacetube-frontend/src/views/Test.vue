@@ -2,7 +2,7 @@
   <Header></Header>
 </template>
 <script>
-import Header from "../components/Header.vue";
+import Header from "@/components/FO/Header.vue";
 import axios from "@/services/Axios";
 
 export default {

@@ -6,6 +6,9 @@ export default {
         return Service.get('api/course/'+id)
     },
 
+    async getAllCourses() {
+        return Service.get('api/course/all')
+    },
 
     async logout(){
         return Service.get('sanctum/csrf-cookie')

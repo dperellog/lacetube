@@ -17,7 +17,7 @@ header {
 <script>
 import HeaderGuest from './headers/HeaderGuest.vue';
 import HeaderUser from './headers/HeaderUser.vue';
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '@/stores/userStore';
 
 export default {
   components: {

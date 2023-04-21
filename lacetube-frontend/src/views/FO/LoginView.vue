@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
-import LoginForm from '@/components/LoginForm.vue';
+import Header from '@/components/FO/Header.vue';
+import LoginForm from '@/components/FO/LoginForm.vue';
 
 export default {
   components: {

@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -14,9 +15,20 @@ class CourseController extends Controller
     {
         return response()->json(Course::findOrFail($id));
     }
+
+    public function getAll(): JsonResponse
+    {
+        $user = Auth::user();
+
+
+        // if ($user) {
+        //     $userRole =
+        // }
+        return response()->json(Course::all());
+    }
     public function store(Request $request)
     {
-        
+
         $validateData = $request->validate([
              'teacher_id' => 'exists:users,id',
              'name' => 'required|unique:courses|max:255',
@@ -72,7 +84,7 @@ class CourseController extends Controller
                 }else{
                     throw new Exception("", 1);
                 }
-                
+
             } catch (\Throwable $th) {
                 array_push($usersFailed, $user);
             }
@@ -93,7 +105,7 @@ class CourseController extends Controller
                 }else{
                     throw new Exception("", 1);
                 }
-                
+
             } catch (\Throwable $th) {
                 array_push($usersFailed, $user);
             }

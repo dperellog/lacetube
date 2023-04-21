@@ -4,7 +4,7 @@
     <!-- <font-awesome-icon icon="fa-solid fa-user-secret" /> -->
 </template>
 <script>
-import Header from '../../components/Header.vue';
+import Header from '@/components/FO/Header.vue';
 import { useCounterStore } from '@/stores/counter';
 
 export default {
