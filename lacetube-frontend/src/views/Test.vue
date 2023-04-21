@@ -18,7 +18,7 @@ export default {
       axios
         .get("sanctum/csrf-cookie")
         .then(() =>
-         axios.get("/api/user/avatar", {
+         axios.get("/api/user", {
           name: "Prova2",
           email: "prova3@prova.com",
           password: "1qazZAQ!",

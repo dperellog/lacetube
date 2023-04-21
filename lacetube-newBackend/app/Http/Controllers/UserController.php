@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserVideos;
+use App\Http\Resources\UserVideosResource;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -34,14 +36,13 @@ class UserController extends Controller
     }
     public function getVideos()
     {
-        // $user = Auth::user();
-        $all_roles_in_database = Role::all()->pluck('name');
-        
-        // return $user->videos;
-        //return UserVideos::collection($user->videos);
+        $user = Auth::user();
+
+        return UserVideosResource::collection(Video::where('user_id', '=', $user->id)->get());
     }
     public function getUser(){
-        $user = Auth::user();
-        return new UserResource($user);
+        // $user = Auth::user();
+        // return new UserResource($user);
+        return response()->json(User::role('teacher')->get());
     }
 }
