@@ -14,6 +14,8 @@
             <avatar :url="userStore.currentUser.avatar" :size="'sm'"></avatar>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUsuari">
+            <li class="text-secondary text-center">{{ userStore.currentUser.email }}</li>
+            <li><hr class="dropdown-divider"></li>
             <li><router-link to="/cursos" class="dropdown-item">Cursos</router-link></li>
             <li><a class="dropdown-item" href="#">Els meus videos</a></li>
             <li><a class="dropdown-item" href="#">El meu perfil</a></li>
@@ -42,6 +44,8 @@ export default {
   },
   setup() {
     const userStore = useUserStore();
+
+    console.log('userStore.canAccessGestio :>> ', userStore.canAccessGestio);
 
     return {
       userStore: userStore

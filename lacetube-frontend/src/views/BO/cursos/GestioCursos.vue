@@ -59,7 +59,7 @@ export default {
     async getCursos() {
       return Resources.getAllCourses()
         .then(r => {
-          return r.data.data;
+          return r.data;
         })
         .catch(e => {
           this.error = e;

@@ -22,9 +22,9 @@ class CourseController extends Controller
         $user = User::find(Auth::user()->id);
         $rol=$user->getRoleNames()->toArray();
         if (in_array("admin", $rol)){
-            return response()->json(Course::all());
+            return response()->json(UserCourseResource::collection(Course::all()));
         }elseif(in_array("teacher", $rol)){
-            return response()->json(Course::where('teacher_id', '=', $user->id)->get());
+            return response()->json(UserCourseResource::collection(Course::where('teacher_id', '=', $user->id)->get()));
         }
 
         return response()->json('',401);

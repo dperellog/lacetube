@@ -8,17 +8,20 @@ const KEY = "AMZchT433HOauyXLW0UJQrXEFvsBdTRu"
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: JSON.parse(localStorage.getItem('lacetubeUser')),
-    role: 'admin'
-    
   }),
   getters: {
     currentUser: (state) => state.user,
     isLogged: (state) => state.user !== null,
-    canAccessGestio: (state) => ['admin', 'teacher'].includes(state.role)
+    canAccessGestio: (state) => {
+      let roles = state.user.roles.filter(value => ['admin', 'teacher'].includes(value));
+      console.log('roles :>> ', state.user.roles, roles);
+      return roles.length > 0;
+    }
   },
   actions: {
     loginUser(user) {
       this.user = user;
+      this.roles = user.role;
       localStorage.setItem('lacetubeUser', JSON.stringify(user));
       router.push('/tauler')
     },
@@ -36,6 +39,9 @@ export const useUserStore = defineStore('user', {
           }
           console.log('error :>> ', error);
         })
+    },
+    hasRole(role){
+      return [role].includes(state.roles)
     }
   },
 })

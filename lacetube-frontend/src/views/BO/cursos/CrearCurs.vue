@@ -22,10 +22,21 @@
           <label for="exampleInputPassword1" class="form-label">Pare:</label>
           <div v-if="cursos.data != null && !cursos.error" class="card p-2 parentCourses">
             <div v-for="curs in cursos.data" class="d-inline">
-            <input class="form-check-input" type="radio" :id="'cursPare'+curs.id" name="cursPare" :value="curs.id">
-            <label class="form-check-label text-break ms-1" :for="'cursPare'+curs.id">
-              {{ curs.name }}
-            </label>
+              <input class="form-check-input" type="radio" :id="'cursPare' + curs.id" name="cursPare" :value="curs.id">
+              <label class="form-check-label text-break ms-1" :for="'cursPare' + curs.id">
+                {{ curs.name }}
+              </label>
+            </div>
+          </div>
+
+          <!-- Mostrar abans d'obtenir del backend: -->
+          <div v-else>
+            <div v-if="error" class="alert alert-danger" role="alert">
+              ERROR: {{ error }}
+            </div>
+            <div v-else class="d-flex justify-content-center">
+              <strong>Carregant cursos...</strong>
+              <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
             </div>
           </div>
         </div>
@@ -36,39 +47,31 @@
         <!-- Descripcio -->
         <div class="col-sm-8">
           <label for="exampleInputPassword1" class="form-label h4">Assignar estudiants:</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="9"></textarea>
+          <div v-if="estudiants.data != null && !estudiants.error" class="card p-2 parentCourses"></div>
+
         </div>
         <!-- Pare -->
         <div class="col-sm-4">
           <label for="exampleInputPassword1" class="form-label">Pare:</label>
-          <div v-if="cursos.data != null && !cursos.error" class="card p-2 parentCourses">
-            <div v-for="curs in cursos.data" class="d-inline">
-            <input class="form-check-input" type="radio" :id="'cursPare'+curs.id" name="cursPare" :value="curs.id">
-            <label class="form-check-label text-break ms-1" :for="'cursPare'+curs.id">
-              {{ curs.name }}
-            </label>
+          <div v-if="estudiants.data != null && !estudiants.error" class="card p-2 parentCourses">
+            <div v-for="estudiant in estudiants.data" class="d-inline">
+              <input class="form-check-input" type="radio" :id="'cursPare' + estudiant.id" name="cursPare" :value="estudiant.id">
+              <label class="form-check-label text-break ms-1" :for="'cursPare' + estudiant.id">
+                {{ estudiant.name }}
+              </label>
             </div>
           </div>
         </div>
       </div>
-      
-      
 
-
-
-
-
-
-
-
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Enviar</button>
 
     </form>
 
   </div>
 </template>
 <style scoped>
-.parentCourses{
+.parentCourses {
   overflow-y: scroll;
   overflow-wrap: break-word;
   max-height: 14rem;
@@ -96,11 +99,16 @@ export default {
         error: false,
         data: null
       },
+      estudiants: {
+        error: false,
+        data: null
+      },
     }
   },
   async beforeMount() {
     //Obtenir cursos del backend
     this.getCursos();
+    this.getEstudiants();
   },
 
   methods: {
@@ -111,10 +119,20 @@ export default {
       let that = this;
       return Resources.getAllCourses()
         .then(r => {
-          that.cursos.data = r.data.data;
+          that.cursos.data = r.data;
         })
         .catch(e => {
           this.cursos.error = e;
+        });
+    },
+    async getEstudiants() {
+      let that = this;
+      return Resources.getAllStudents()
+        .then(r => {
+          that.estudiants.data = r.data;
+        })
+        .catch(e => {
+          this.estudiants.error = e;
         });
     },
   }
