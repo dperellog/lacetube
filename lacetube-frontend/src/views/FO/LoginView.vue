@@ -16,15 +16,19 @@
       </div>
     </div>
   </section>
+
+  <Footer></Footer>
 </template>
 
 <script>
 import Header from '@/components/FO/Header.vue';
+import Footer from '@/components/FO/Footer.vue';
 import LoginForm from '@/components/FO/LoginForm.vue';
 
 export default {
   components: {
     LoginForm,
+    Footer,
     Header
   }
 }

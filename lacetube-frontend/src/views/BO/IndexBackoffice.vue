@@ -5,6 +5,7 @@
         <hr>
 
     </div>
+    <FooterBackoffice></FooterBackoffice>
 </template>
 <style>
 /* body {
@@ -13,11 +14,13 @@
 </style>
 <script>
 import HeaderBackoffice from '@/components/BO/headers/HeaderBackoffice.vue';
+import FooterBackoffice from '@/components/BO/FooterBackoffice.vue';
 import { useCounterStore } from '@/stores/counter';
 
 export default {
     components: {
-        HeaderBackoffice
+        HeaderBackoffice,
+        FooterBackoffice
     },
     setup() {
         return { store: useCounterStore() };
