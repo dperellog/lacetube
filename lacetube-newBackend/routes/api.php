@@ -25,8 +25,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
         Route::get('all', [CourseController::class, 'getAll']);
-        Route::get('{id}', [CourseController::class, 'getCourse']);
-
 
         Route::group(['middleware' => ['role:admin|teacher']], function () {
             Route::get('teachers', [CourseController::class, 'getAllTeachers']);
@@ -40,6 +38,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::group(['middleware' => ['role:admin']], function () {
             Route::delete('delete/{id}', [CourseController::class, 'destroy']);     
         });
+
+        Route::get('{id}', [CourseController::class, 'getCourse']);
     });
     Route::prefix('activity')->group(function () {
         Route::get('{id}', [ActivityController::class, 'getActivity']);
@@ -58,5 +58,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('activities', [UserController::class, 'getActivities']);
         Route::get('courses', [UserController::class, 'getCourses']);
         Route::get('videos', [UserController::class, 'getVideos']);
+        Route::get('teachers', [UserController::class, 'getAllTeachers']);
+        Route::get('students', [UserController::class, 'getAllStudents']);
+        Route::get('all', [UserController::class, 'getAllUsers']);
     });
 });

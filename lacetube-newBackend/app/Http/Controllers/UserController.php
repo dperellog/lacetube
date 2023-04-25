@@ -22,7 +22,7 @@ class UserController extends Controller
     public function getAvatar($id=0) : JsonResponse
     {
         if ($id=0){
-            $user = Auth::user();    
+            $user = Auth::user();
         }else{
             $user = User::findOrFail($id);
         }
@@ -44,5 +44,31 @@ class UserController extends Controller
         // $user = Auth::user();
         // return new UserResource($user);
         return response()->json(User::role('teacher')->get());
+    }
+
+    public function getAllUsers(){
+        return response()->json(UserResource::collection(User::all()));
+    }
+
+    public function getAllTeachers()
+    {
+        $user = Auth::user();
+
+
+        // if ($user) {
+        //     $userRole =
+        // }
+        return UserResource::collection(User::role('teacher')->get());
+    }
+
+    public function getAllStudents()
+    {
+        $user = Auth::user();
+
+
+        // if ($user) {
+        //     $userRole =
+        // }
+        return UserResource::collection(User::role('student')->get());
     }
 }
