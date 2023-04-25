@@ -22,10 +22,9 @@ return new class extends Migration
 
             //Relationships:
             $table->foreignId('activity_id')
-                    ->nullable()
                     ->constrained('activities', 'id')
                     ->onUpdate('cascade')
-                    ->nullOnDelete();
+                    ->onDelete('cascade');
 
            $table->foreignId('user_id')
                     ->constrained('users', 'id')

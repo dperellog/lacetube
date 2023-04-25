@@ -22,13 +22,15 @@ return new class extends Migration
 
             //Relationships
             $table->foreignId('teacher_id')
+                    ->nullable()
                     ->constrained('users', 'id')
                     ->onUpdate('cascade')
-                    ->onDelete('restrict');
+                    ->nullOnDelete();
 
             $table->foreignId('parent_id')
                 ->nullable()
-                ->constrained('courses', 'id');
+                ->constrained('courses', 'id')
+                ->nullOnDelete();
         });
     }
 

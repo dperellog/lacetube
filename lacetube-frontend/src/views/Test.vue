@@ -15,40 +15,21 @@ export default {
     //    .then((r) => console.log("r :>> ", r))
     //    .catch((e) => console.log("e :>> ", e));
 
-      axios
-        .get("sanctum/csrf-cookie")
-        .then(() =>
-         axios.post("api/course/delete/1", 
-         {
-         "users" : [
-             {
-                 "name": "prova1",
-                 "email": "prova1333@prova.com",
-                 "password": "1qazZAQ!",
-                 "password_confirmation": "1qazZAQ!",
-                 "role": "student"
-             },
-             {
-                 "name": "prova2",
-                 "email": "prova2333@prova.com",
-                 "password": "1qazZAQ!",
-                 "password_confirmation": "1qazZAQ!",
-                 "role": "teacher"
-             },
-             {
-                 "name": "prova3",
-                 "email": "prova3333@prova.com",
-                 "password": "1qazZAQ!",
-                 "password_confirmation": "1qazZAQ!",
-                 "role": "admin"
-             }
-
-         ]
-     }
-         )
-        )
-        .then((r) => console.log("r :>> ", r))
-        .catch((e) => console.log("e :>> ", e));
+    axios
+      .get("sanctum/csrf-cookie")
+      .then(() =>
+        axios.put("api/course/all", {
+          
+          
+          name: "CourseProva",
+          thumbnailURL: "https://via.placeholder.com/640x480.png/00eeaa?text=a",
+          description: "Curs de prova",
+          year: 2024,
+          
+        })
+      )
+      .then((r) => console.log("r :>> ", r))
+      .catch((e) => console.log("e :>> ", e));
   },
 };
 </script>
