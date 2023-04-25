@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class Admin
@@ -13,9 +14,8 @@ class Admin
         if (!auth()->check()) {
             return redirect('/login');
         }
-
         // Verificar si el usuario tiene el rol de administrador
-        if (!auth()->user->hasRole('admin')) {
+        if (!$request->hasRole('admin')) {
             return redirect('/tauler'); // canviar a respuesta con json
         }
 
