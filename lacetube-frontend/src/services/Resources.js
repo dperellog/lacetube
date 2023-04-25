@@ -14,6 +14,10 @@ export default {
         return Service.get('api/user/students')
     },
 
+    async getAllUsers(){
+        return Service.get('api/user/all')
+    },
+
     async logout(){
         return Service.get('sanctum/csrf-cookie')
         .then(() => Service.post('logout'))

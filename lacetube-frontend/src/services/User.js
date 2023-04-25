@@ -12,12 +12,22 @@ export default {
         return Service.get('api/user/courses')
     },
 
-    getAvatarURLByAvatar(avatar){
-        return baseURL+'avatar/'+avatar
+    getAvatarURLByAvatar(avatar) {
+        return baseURL + 'avatar/' + avatar
     },
 
-    async logout(){
+    async logout() {
         return Service.get('sanctum/csrf-cookie')
-        .then(() => Service.post('logout'))
+            .then(() => Service.post('logout'))
+    },
+
+    translateRole(role) {
+        let roles = {
+            admin: 'Administrador',
+            teacher: "Professor",
+            student: "Estudiant"
+        }
+
+        return roles[role];
     }
 }

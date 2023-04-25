@@ -56,14 +56,25 @@ const router = createRouter({
       component: () => import('../views/Test.vue')
     },
     {
+      path: '/gestio/usuaris',
+      component: () => import('../views/BO/usuaris/GestioUsuaris.vue'),
+      meta: { accessGestio: true }
+    },
+    {
       path: '/gestio/cursos',
       component: () => import('../views/BO/cursos/GestioCursos.vue'),
       meta: { accessGestio: true }
     },
     {
       path: '/gestio/cursos/crear',
-      component: () => import('../views/BO/cursos/CrearCurs.vue'),
+      component: () => import('../views/BO/cursos/CursForm.vue'),
       meta: { accessGestio: true }
+    },
+    {
+      path: '/gestio/cursos/modificar/:id',
+      component: () => import('../views/BO/cursos/CursForm.vue'),
+      props: true,
+      meta: { accessGestio: true },
     },
   ]
 });

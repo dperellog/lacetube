@@ -5,9 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class CourseResource extends JsonResource
 {
-    public static $wrap = null;
     /**
      * Transform the resource into an array.
      *
@@ -18,13 +17,12 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'avatar' => $this->avatar,
-            'created_at' => $this->created_at,
-            'updated' => $this->updated_at,
-            'roles' => $this->getRoleNames(),
-            'courses' => $this->courses,
-            'videos' => $this->videos
+            'description' => $this->description,
+            'thumbnailURL' => $this->thumbnailURL,
+            'year' => $this->year,
+            'students' => $this->students,
+            'teacher' => $this->teacher,
+            'parent' => $this->parent,
         ];
     }
 }
