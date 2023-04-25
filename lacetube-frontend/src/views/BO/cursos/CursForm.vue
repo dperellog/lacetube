@@ -57,6 +57,16 @@
             </div>
           </div>
 
+          <div v-else>
+            <div v-if="error" class="alert alert-danger" role="alert">
+              ERROR: {{ error }}
+            </div>
+            <div v-else class="d-flex justify-content-center">
+              <strong>Carregant estudiants...</strong>
+              <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+            </div>
+          </div>
+
         </div>
         <!-- Professor -->
         <div class="col-sm-4">
@@ -80,6 +90,8 @@
     </form>
 
   </div>
+
+  <FooterBackoffice></FooterBackoffice>
 </template>
 <style scoped>
 .parentCourses {
@@ -91,13 +103,16 @@
   
 <script>
 import HeaderBackoffice from '@/components/BO/headers/HeaderBackoffice.vue';
+import FooterBackoffice from '@/components/BO/FooterBackoffice.vue';
+
 import Resources from '@/services/Resources';
 import userService from '@/services/User'
 import { useUserStore } from '@/stores/userStore';
 
 export default {
   components: {
-    HeaderBackoffice
+    HeaderBackoffice,
+    FooterBackoffice
   },
   props : {
     id: String

@@ -39,7 +39,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::delete('delete/:id', [CourseController::class, 'destroy']);
         });
 
-        Route::get('{id}', [CourseController::class, 'getCourse']);
     });
     Route::prefix('activity')->group(function () {
         Route::get('{id}', [ActivityController::class, 'getActivity']);

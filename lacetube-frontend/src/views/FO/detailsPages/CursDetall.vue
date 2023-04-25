@@ -5,16 +5,19 @@
     <hr>
     <ElsMeusCursos class="my-5" mostrarTots></ElsMeusCursos>
   </div>
+  <Footer></Footer>
 </template>
   
 <script>
 import Header from '@/components/FO/Header.vue';
+import Footer from '@/components/components/FO/Footer.vue';
 
 import cursService from '@/services/Resources';
 
 export default {
   components: {
-    Header
+    Header,
+    Footer
   },
   props: {
     id: String

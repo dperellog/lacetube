@@ -15,10 +15,12 @@
     <ElsMeusCursos class="mb-5"></ElsMeusCursos>
 
   </div>
+  <Footer></Footer>
 </template>
   
 <script>
 import Header from '@/components/FO/Header.vue';
+import Footer from '@/components/FO/Footer.vue';
 import TasquesRecents from '@/components/FO/tauler/sections/TasquesRecents.vue'
 import TasquesPassades from '@/components/FO/tauler/sections/TasquesPassades.vue';
 import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
@@ -26,6 +28,7 @@ import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
 export default {
   components: {
     Header,
+    Footer,
     TasquesRecents,
     TasquesPassades,
     ElsMeusCursos

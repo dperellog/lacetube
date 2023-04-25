@@ -28,10 +28,10 @@
       <thead class="card-header capcalera-taula">
         <tr>
           <th></th>
-          <th>Nom del curs</th>
-          <th>Professor</th>
-          <th class="text-center">Estudiants</th>
-          <th>Any</th>
+          <th @click="ordenarPer('curs')">Nom del curs &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.curs ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
+          <th @click="ordenarPer('professor')">Professor &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.professor ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
+          <th @click="ordenarPer('estudiants')">Estudiants &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.estudiants ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
+          <th @click="ordenarPer('any')">Any &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.any ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
           <th class="text-center">Accions</th>
         </tr>
       </thead>
@@ -83,6 +83,18 @@
   margin-bottom: 0em;
 }
 
+.card{
+  overflow-x: scroll;
+}
+
+.sortingArrow{
+  color: #7F8C8D;
+}
+
+.sortingArrow:hover{
+  color: #212529;
+}
+
 </style>
 <script>
 import userService from '@/services/User';
@@ -109,7 +121,13 @@ export default {
       cursosFiltrats: null,
       limit: 10,
       filterRegex: '',
-      columnCriteria: ''
+      columnCriteria: '',
+      columnesOrdre: {
+        curs: true,
+        professor: true,
+        estudiants: true,
+        any: true,
+      },
     }
   },
   methods: {
@@ -133,6 +151,29 @@ export default {
       if (this.limit >= this.cursos.length) {
         this.limit = -1;
       }
+    },
+    
+    ordenarPer(atribut){
+      switch (atribut) {
+        case 'curs':
+          this.cursosFiltrats = this.cursos.sort((a, b) => (a.name > b.name) ? 1 : -1)
+          break;
+        case 'professor':
+          this.cursosFiltrats = this.cursos.sort((a, b) => (a.teacher.name > b.teacher.name) ? 1 : -1)
+          break;
+        case 'estudiants':
+          this.cursosFiltrats = this.cursos.sort((a, b) => (a.students.length > b.students.length) ? 1 : -1)
+          break;
+        case 'any':
+          this.cursosFiltrats = this.cursos.sort((a, b) => (a.year > b.year) ? 1 : -1)
+          break;
+      }
+
+      if (this.columnesOrdre[atribut]) {
+        this.cursosFiltrats.reverse()
+      }
+
+      this.columnesOrdre[atribut] = !this.columnesOrdre[atribut]
     }
   }
 

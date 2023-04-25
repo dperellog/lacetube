@@ -28,22 +28,22 @@
       <thead class="card-header capcalera-taula">
         <tr>
           <th></th>
-          <th>Usuari</th>
-          <th class="text-center">Cursos</th>
-          <th class="text-center">Videos</th>
-          <th class="text-center" @click="ordenarPer('role')">Rol</th>
+          <th @click="ordenarPer('id')">Usuari &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.id ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
+          <th class="text-center" @click="ordenarPer('cursos')">Cursos &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.cursos ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
+          <th class="text-center" @click="ordenarPer('videos')">Videos &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.videos ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
+          <th class="text-center" @click="ordenarPer('roles')">Rol &nbsp;&nbsp;<i :class="['fa-solid','sortingArrow', columnesOrdre.roles ? 'fa-arrow-up-short-wide' : 'fa-arrow-down-wide-short']"></i></th>
           <th class="text-center">Accions</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr v-for="usuari in limitarArray(usuarisFiltrats)">
+        <tr v-for="usuari in limitarArray(usuarisFiltrats)" :key="usuari.id">
           <td style="width:5%">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
             </div>
           </td>
-          <td style="width:35%">
+          <td style="width:30%">
             <div class="d-flex align-items-center">
               <img :src="userService.getAvatarURLByAvatar(usuari.avatar)" alt="" style="width: 45px; height: 45px"
                 class="rounded-circle">
@@ -53,7 +53,7 @@
               </div>
             </div>
           </td>
-          <td style="width:10%" class="text-center">
+          <td style="width:15%" class="text-center">
             {{ usuari.courses.length }}
           </td>
           <td class="text-center" style="width:15%">
@@ -82,6 +82,18 @@
   margin-bottom: 0em;
 }
 
+.card{
+  overflow-x: scroll;
+}
+
+.sortingArrow{
+  color: #7F8C8D;
+}
+
+.sortingArrow:hover{
+  color: #212529;
+}
+
 </style>
 <script>
 import userService from '@/services/User';
@@ -106,6 +118,12 @@ export default {
   data() {
     return {
       usuarisFiltrats: null,
+      columnesOrdre: {
+        id: true,
+        cursos: true,
+        videos: true,
+        roles: true,
+      },
       limit: 10,
       filterRegex: '',
       columnCriteria: ''
@@ -133,11 +151,27 @@ export default {
         this.limit = -1;
       }
     },
-    ordenarPer(atribut, reverse=false){
-      this.usuarisFiltrats = this.usuaris.sort((a, b) => (a[atribut] > b[atribut]) ? 1 : -1)
-      if (reverse) {
+    ordenarPer(atribut){
+      switch (atribut) {
+        case 'roles':
+          this.usuarisFiltrats = this.usuaris.sort((a, b) => (a.roles[0] > b.roles[0]) ? 1 : -1)
+          break;
+        case 'videos':
+          this.usuarisFiltrats = this.usuaris.sort((a, b) => (a.videos.length > b.videos.length) ? 1 : -1)
+          break;
+        case 'cursos':
+          this.usuarisFiltrats = this.usuaris.sort((a, b) => (a.courses.length > b.courses.length) ? 1 : -1)
+          break;
+        case 'id':
+          this.usuarisFiltrats = this.usuaris.sort((a, b) => (a.name > b.name) ? 1 : -1)
+          break;
+      }
+
+      if (this.columnesOrdre[atribut]) {
         this.usuarisFiltrats.reverse()
       }
+
+      this.columnesOrdre[atribut] = !this.columnesOrdre[atribut]
     }
   }
 

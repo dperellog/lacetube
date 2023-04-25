@@ -30,10 +30,13 @@
     
 
   </div>
+  <FooterBackoffice></FooterBackoffice>
 </template>
   
 <script>
 import HeaderBackoffice from '@/components/BO/headers/HeaderBackoffice.vue';
+import FooterBackoffice from '@/components/BO/FooterBackoffice.vue';
+
 import CursosTaula from '@/components/BO/components/CursosTaula.vue';
 import Resources from '@/services/Resources';
 
@@ -41,6 +44,7 @@ export default {
   name: 'TotsElsCursos',
   components: {
     HeaderBackoffice,
+    FooterBackoffice,
     CursosTaula
   },
   data() {
