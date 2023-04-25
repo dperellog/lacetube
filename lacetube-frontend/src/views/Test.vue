@@ -18,7 +18,7 @@ export default {
       axios
         .get("sanctum/csrf-cookie")
         .then(() =>
-         axios.post("/register/json", 
+         axios.post("api/course/delete/1", 
          {
          "users" : [
              {

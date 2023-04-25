@@ -26,10 +26,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
         Route::get('all', [CourseController::class, 'getAll']);
 
-        Route::post('create', [CourseController::class, 'store']);
-        Route::put('modify/:id', [CourseController::class, 'update']);
-        Route::put('students/add/{id}', [CourseController::class, 'addUserToCourse']);
-        Route::delete('students/remove/:id', [CourseController::class, 'getCourses']);
+        Route::middleware(['nonStudent'])->group(function () {
+            Route::get('teachers', [CourseController::class, 'getAllTeachers']);
+            Route::get('students', [CourseController::class, 'getAllStudents']);
+            Route::post('create', [CourseController::class, 'store']);
+            Route::put('modify/:id', [CourseController::class, 'update']);
+            Route::put('students/add/{id}', [CourseController::class, 'addUserToCourse']);
+            Route::delete('students/remove/:id', [CourseController::class, 'removeUserToCourse']);
+        });
+
+        Route::middleware(['admin'])->group(function () {
+            Route::delete('delete/:id', [CourseController::class, 'destroy']);
+        });
+
         Route::get('{id}', [CourseController::class, 'getCourse']);
     });
     Route::prefix('activity')->group(function () {
