@@ -1,0 +1,27 @@
+<template>
+    <HeaderBackoffice></HeaderBackoffice>
+    <div class="container mt-4 px-4">
+        <h1 class="fw-bold">Panell de gestió:</h1>
+        <hr>
+
+    </div>
+</template>
+<style>
+/* body {
+    background-color: #e4e4e4 !important;
+} */
+</style>
+<script>
+import HeaderBackoffice from '@/components/BO/headers/HeaderBackoffice.vue';
+import { useCounterStore } from '@/stores/counter';
+
+export default {
+    components: {
+        HeaderBackoffice
+    },
+    setup() {
+        return { store: useCounterStore() };
+    },
+    
+}
+</script>
