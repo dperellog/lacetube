@@ -11,6 +11,13 @@ class Activity extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'end_date',
+        'course_id'
+    ];
+
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class, 'course_id');

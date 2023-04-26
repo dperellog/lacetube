@@ -36,14 +36,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::group(['middleware' => ['role:admin']], function () {
-            Route::delete('delete/{id}', [CourseController::class, 'destroy']);     
+            Route::delete('delete/{id}', [CourseController::class, 'destroy']);
         });
-
     });
     Route::prefix('activity')->group(function () {
         Route::get('{id}', [ActivityController::class, 'getActivity']);
-        Route::post('create', [ActivityController::class, 'store']);
-        Route::put('modify/:id', [ActivityController::class, 'update']);
+        Route::group(['middleware' => ['role:admin|teacher']], function () {
+            Route::post('create', [ActivityController::class, 'store']);
+            Route::put('modify/{id}', [ActivityController::class, 'update']);
+        });
     });
     Route::prefix('video')->group(function () {
         Route::get('{id}', [VideoController::class, 'getVideo']);

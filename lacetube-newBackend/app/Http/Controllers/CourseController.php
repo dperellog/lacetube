@@ -40,7 +40,7 @@ class CourseController extends Controller
              'name' => 'required|max:255',
              'thumbnailURL' => 'url',
              'description' => 'required|max:255',
-             'year' => 'required|max:255',
+             'year' => 'required|digits:4',
              'parent_id' => 'exists:courses,id',
          ]);
          $course = Course::create([
