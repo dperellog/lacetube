@@ -96,16 +96,11 @@ export default {
       Auth.login(this.formData)
         .then(function (user) {
           //Login success:
-
-          console.log('user :>> ', user);
           component.userStore.loginUser(user.data);
 
         })
         .catch(function (error) {
           //Login Failed:
-
-          console.log('entra :>>');
-          console.log(error);
           component.formStatus.error = true;
           component.formStatus.errorMsg = error.response.data.message
         })

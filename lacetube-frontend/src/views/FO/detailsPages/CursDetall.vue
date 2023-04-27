@@ -10,7 +10,7 @@
   
 <script>
 import Header from '@/components/FO/Header.vue';
-import Footer from '@/components/components/FO/Footer.vue';
+import Footer from '@/components/FO/Footer.vue';
 
 import cursService from '@/services/Resources';
 

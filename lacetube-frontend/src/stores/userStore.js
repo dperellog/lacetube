@@ -14,7 +14,6 @@ export const useUserStore = defineStore('user', {
     isLogged: (state) => state.user !== null,
     canAccessGestio: (state) => {
       let roles = state.user.roles.filter(value => ['admin', 'teacher'].includes(value));
-      console.log('roles :>> ', state.user.roles, roles);
       return roles.length > 0;
     }
   },

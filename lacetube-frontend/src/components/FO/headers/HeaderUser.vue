@@ -45,9 +45,7 @@ export default {
   },
   setup() {
     const userStore = useUserStore();
-
-    console.log('userStore.canAccessGestio :>> ', userStore.canAccessGestio);
-
+    
     return {
       userService: userService,
       userStore: userStore

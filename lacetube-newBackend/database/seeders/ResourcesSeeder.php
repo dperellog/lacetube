@@ -22,36 +22,36 @@ class ResourcesSeeder extends Seeder
         User::factory()->admin()->create()->assignRole('admin');
 
         //Create users:
-        $users = User::factory()->count(30)->create();
+        // $users = User::factory()->count(30)->create();
 
-        $users->each(function ($user) {
-            $roles=['teacher','student'];
-            $user->assignRole($roles[rand(0, 1)]);
-        });
+        // $users->each(function ($user) {
+        //     $roles=['teacher','student'];
+        //     $user->assignRole($roles[rand(0, 1)]);
+        // });
 
-        //Create Courses:
-        Course::factory()->orphan()->create();
-        Course::factory()->count(7)->create();
-        Course::factory()->count(25)->create();
-        $courses = Course::all();
+        // //Create Courses:
+        // Course::factory()->orphan()->create();
+        // Course::factory()->count(7)->create();
+        // Course::factory()->count(25)->create();
+        // $courses = Course::all();
 
-        //Relate Students with courses:
+        // //Relate Students with courses:
 
-        //coger solo usuarios que sean estudiantes
-        $users->each(function ($user) use ($courses) {
-            if ($user->hasRole('student')){
-            $user->courses()->attach(
-                $courses->random(rand(1,$courses->count()))->pluck('id')->toArray()
-            );}
-        });
+        // //coger solo usuarios que sean estudiantes
+        // $users->each(function ($user) use ($courses) {
+        //     if ($user->hasRole('student')){
+        //     $user->courses()->attach(
+        //         $courses->random(rand(1,$courses->count()))->pluck('id')->toArray()
+        //     );}
+        // });
 
-        //Create Activities:
-        Activity::factory()->count(50)->create();
+        // //Create Activities:
+        // Activity::factory()->count(50)->create();
 
-        //Create Videos and comments:
-        Video::factory()->count(100)->create();
+        // //Create Videos and comments:
+        // Video::factory()->count(100)->create();
 
-        Comment::factory()->count(200)->create();
+        // Comment::factory()->count(200)->create();
 
     }
 }
