@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Video;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,8 +21,43 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        $video = Video::create($request->all());
-        return response()->json($video, 201);
+        $archivo = $request->file('archivo');
+        $titulo = $request->input('titulo');
+        $descripcion = $request->input('descripcion');
+
+        $video = new Video();
+        $video = $video->guardarVideo($archivo, $titulo, $descripcion);
+
+        return response()->json([
+            'message' => 'El video ha sido guardado exitosamente.',
+            'video' => $video,
+        ], 201);
+    }
+
+    public function guardarVideo($archivo, $titulo, $descripcion)
+    {
+        // Guardar el archivo en el sistema de archivos local utilizando Storage de Laravel
+        $nombre_archivo = $archivo->getClientOriginalName();
+        $ruta_archivo = Storage::disk('local')->putFileAs('videos', $archivo, $nombre_archivo);
+
+        // Guardar la información del video en la base de datos utilizando Eloquent
+        $video = new Video([
+            'titulo' => $titulo,
+            'descripcion' => $descripcion,
+            'nombre_archivo' => $nombre_archivo,
+            'ruta_archivo' => $ruta_archivo,
+        ]);
+        $video->save();
+
+        // Convertir el archivo de video utilizando FFmpeg
+        $video_convertido = $ruta_archivo . '.mp4';
+        shell_exec('ffmpeg -i ' . storage_path('app/' . $ruta_archivo) . ' ' . storage_path('app/' . $video_convertido));
+
+        // Actualizar la información del video en la base de datos con la ruta del archivo convertido
+        $video->ruta_archivo = $video_convertido;
+        $video->save();
+
+        return $video;
     }
 
     /**
