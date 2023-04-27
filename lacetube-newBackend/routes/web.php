@@ -62,7 +62,12 @@ Route::post('/register/json', function (Request $request) {
         }
 
     }
-    return response()->json(['status'=>200,'data'=>$usersIncorrectes]); // retorna array de users
+    if (count($usersIncorrectes)>0){
+        return response()->json(['status'=>409,'data'=>$usersIncorrectes]);
+    }else{
+        return response()->json(['status'=>200,'data'=>$usersIncorrectes]);
+    }
+     // retorna array de users
     // {
     //     "usuaris" : [
     //         {

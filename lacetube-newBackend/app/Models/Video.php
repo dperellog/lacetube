@@ -11,6 +11,15 @@ class Video extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'original_filename',
+        'duration',
+        'thumbnail_path',
+    ];
+    public $timestamps = true;
+
     public function activity(): BelongsTo
     {
         return $this->belongsTo(Activity::class, 'activity_id');

@@ -162,6 +162,8 @@ return [
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
+        //ProtoneMedia\LaravelFFMpeg\Support\ServiceProvider::class,
+        ProtoneMedia\LaravelFFMpeg\Support\ServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
@@ -214,6 +216,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Avatar'    => Laravolt\Avatar\Facade::class,
+        'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class
+        
+        //'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
