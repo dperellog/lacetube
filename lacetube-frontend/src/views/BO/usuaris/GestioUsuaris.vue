@@ -10,7 +10,7 @@
         </div>
 
         <div v-else class="alert alert-info" role="alert">
-          No hi han cursos disponibles!
+          No hi han usuaris disponibles!
         </div>
       </div>
 

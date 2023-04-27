@@ -9,8 +9,17 @@
           <CursosTaula :cursos="cursos" btnNovaTaula></CursosTaula>
         </div>
 
-        <div v-else class="alert alert-info" role="alert">
-          No hi han cursos disponibles!
+        <div v-else>
+          <div class="col-12 d-flex justify-content-end mb-3">
+            <router-link to="/gestio/cursos/crear" class="btn btn-success" type="button">
+              <i class="fa-solid fa-plus" style="color: #ffffff;"></i>&nbsp;&nbsp;
+              Crear Curs
+            </router-link>
+          </div>
+          <div class="alert alert-info" role="alert">
+            No hi han cursos disponibles!
+          </div>
+          
         </div>
       </div>
 
@@ -27,7 +36,7 @@
     </section>
 
 
-    
+
 
   </div>
   <FooterBackoffice></FooterBackoffice>
@@ -70,7 +79,7 @@ export default {
         });
     },
 
-    
+
   }
 }
 </script>

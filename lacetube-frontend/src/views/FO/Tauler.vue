@@ -9,9 +9,7 @@
 
     
     <!-- Capçalera i botons de filtre -->
-    <div class="row" v-if="!mostrarTots">
-        <p class="h2 mb-3 col-8">Els meus cursos:</p>
-    </div>
+    <p class="h2 mb-3 col-8">Els meus cursos:</p>
     <ElsMeusCursos class="mb-5"></ElsMeusCursos>
 
   </div>

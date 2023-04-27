@@ -29,9 +29,10 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => 'required|in:' . implode(',', $all_roles_in_database->toArray()),
         ]);
+
         $avatarName = uniqid().'.png';
-        //Avatar::create($request->name)->save('public/avatar/'.$avatarName);
-         Role::all()->pluck('name');
+        Avatar::create($request->name.' hola')->save('avatar/'.$avatarName);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

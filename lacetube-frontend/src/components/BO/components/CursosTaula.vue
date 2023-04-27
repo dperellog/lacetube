@@ -23,7 +23,7 @@
   </div>
 
   <!-- TAULA CURSOS -->
-  <div class="card">
+  <div class="card taula">
     <table class="card-table table">
       <thead class="card-header capcalera-taula">
         <tr>
@@ -44,8 +44,8 @@
             </div>
           </td>
           <td style="width:25%">
-            <p class="fw-bold mb-1">{{ curs.name < 50 ? curs.name : curs.name.substring(0,50) + "..." }}</p>
-            <p class="text-muted mb-0">{{ curs.description < 30 ? curs.description : curs.description.substring(0,30) + "..." }}</p>
+            <p class="fw-bold mb-1">{{ curs.name.length < 50 ? curs.name : curs.name.substring(0,50) + "..." }}</p>
+            <p class="text-muted mb-0">{{ curs.description.length < 30 ? curs.description : curs.description.substring(0,30) + "..." }}</p>
           </td>
           <td style="width:25%">
             <div class="d-flex align-items-center">
@@ -83,8 +83,8 @@
   margin-bottom: 0em;
 }
 
-.card{
-  overflow-x: scroll;
+.card.taula{
+  overflow-x: auto;
 }
 
 .sortingArrow{

@@ -4,6 +4,12 @@ import { baseURL } from "./Axios";
 
 export default {
 
+    async registerUsers(usersArray){
+        
+        return Service.get('sanctum/csrf-cookie')
+            .then(() => Service.post('/register/json', {users: usersArray}))
+    },
+
     async getActivities() {
         return Service.get('api/user/activities')
     },

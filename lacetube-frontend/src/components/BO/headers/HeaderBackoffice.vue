@@ -22,7 +22,7 @@
                   <div class="dropdown-menu">
                     <router-link to="/gestio/usuaris" class="dropdown-item" href="#">Gestió d'usuaris</router-link>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Crear Usuaris</a>
+                    <router-link to="/gestio/usuaris/crear" class="dropdown-item" href="#">Crear usuaris</router-link>
                     <a class="dropdown-item" href="#">Modificar Usuaris</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                     <a class="dropdown-item" href="#">Separated link</a>

@@ -46,7 +46,7 @@ Route::post('/register/json', function (Request $request) {
             'password' => 'required',
             ])->validate();
             $avatarName = uniqid().'.png';
-            //Avatar::create($user['name'])->save('public/avatar/'.$avatarName);
+            Avatar::create($user['name'])->save('public/avatar/'.$avatarName);
             User::create([
                 'name' => $user['name'],
                 'email' => $user['email'],

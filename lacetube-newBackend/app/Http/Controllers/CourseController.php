@@ -36,21 +36,34 @@ class CourseController extends Controller
     {
 
         $validateData = $request->validate([
-             'teacher_id' => 'exists:users,id',
+             'teacher_id' => 'required|exists:users,id',
              'name' => 'required|max:255',
              'thumbnailURL' => 'url',
              'description' => 'required|max:255',
              'year' => 'required|digits:4',
-             'parent_id' => 'exists:courses,id',
+             'parent_id' => 'nullable|exists:courses,id',
          ]);
+
+         $thumbnailURL = $request->thumbnailURL ?? 'ola.jpg';
+
+
+
          $course = Course::create([
              'teacher_id' => $request->teacher_id,
              'name' => $request->name,
              'description' => $request->description,
-             'thumbnailURL' => $request->thumbnailURL,
+             'thumbnailURL' => $thumbnailURL,
              'year' => $request->year,
              'parent_id' => $request->parent_id,
          ]);
+
+         //Add users to course:
+         foreach ($request->students as $student) {
+            $user = User::findOrFail($student);
+
+            $user->courses()->attach($course);
+         }
+
          return response()->json($course, 201);
     }
 
@@ -104,7 +117,7 @@ class CourseController extends Controller
         $usersFailed=[];
         $course = Course::findOrFail($id);
         $students= $course->students;
-        
+
         foreach ($request->users as $user) {
             try {
                 $user = User::findOrFail($user);
@@ -128,6 +141,6 @@ class CourseController extends Controller
          $course = Course::findOrFail($id);
          $course->delete();
          return response()->json(null, 204);
-        
+
     }
 }
