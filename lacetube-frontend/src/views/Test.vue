@@ -18,14 +18,10 @@ export default {
     axios
       .get("sanctum/csrf-cookie")
       .then(() =>
-        axios.put("api/course/all", {
-          
-          
-          name: "CourseProva",
-          thumbnailURL: "https://via.placeholder.com/640x480.png/00eeaa?text=a",
-          description: "Curs de prova",
-          year: 2024,
-          
+        axios.put("api/activity/modify/51", {
+          name: "ActivityProva",
+          description: "Activitat de prova",
+          end_date: '2025-1asdasd2-12',
         })
       )
       .then((r) => console.log("r :>> ", r))
