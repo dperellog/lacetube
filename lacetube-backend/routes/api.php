@@ -26,8 +26,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
         Route::get('all', [CourseController::class, 'getAll']);
-        Route::get('{id}', [CourseController::class, 'getCourse
-        ']);
         Route::group(['middleware' => ['role:admin|teacher']], function () {
             Route::get('teachers', [CourseController::class, 'getAllTeachers']);
             Route::get('students', [CourseController::class, 'getAllStudents']);
@@ -40,6 +38,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::group(['middleware' => ['role:admin']], function () {
             Route::delete('delete/{id}', [CourseController::class, 'destroy']);
         });
+
+        Route::get('{id}', [CourseController::class, 'getCourse'])->where('id', '[0-9]+');
     });
     Route::prefix('activity')->group(function () {
         Route::get('{id}', [ActivityController::class, 'getActivity']);
