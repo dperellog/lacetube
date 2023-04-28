@@ -11,14 +11,12 @@ class Video extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'original_filename',
-        'duration',
-        'thumbnail_path',
+ 
+    protected $dates = [
+        'converted_for_downloading_at',
+        'converted_for_streaming_at',
     ];
-    public $timestamps = true;
+    protected $guarded = [];
 
     public function activity(): BelongsTo
     {
