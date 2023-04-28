@@ -7,7 +7,7 @@ export default {
     async registerUsers(usersArray){
         
         return Service.get('sanctum/csrf-cookie')
-            .then(() => Service.post('/register/json', {users: usersArray}))
+            .then(() => Service.post('api/register/json', {users: usersArray}))
     },
 
     async getActivities() {
