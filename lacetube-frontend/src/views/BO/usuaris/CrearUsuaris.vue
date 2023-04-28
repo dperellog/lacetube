@@ -4,7 +4,7 @@
     <h1 class="fw-bold">Crear nous usuaris:</h1>
     <h2 class="text-secondary"></h2>
     <section class="mt-4">
-      
+
       <!-- Formulari -->
       <form class="">
         <div class="card taula">
@@ -19,9 +19,13 @@
             </thead>
 
             <tbody>
-              <tr v-for="(usuari, index) in usuaris" :key="index">
+              <tr v-for="(usuari, index) in usuaris" :key="index" class="error">
+                
                 <td>
-                  <input type="text" class="form-control" v-model="usuari.name">
+                  <input type="text" class="form-control is-invalid" v-model="usuari.name">
+                  <div class="invalid-feedback">
+                    Please choose a usernamecccccccccccccccccccccccccccccccccccccccccccccccccc.
+                  </div>
                 </td>
                 <td>
                   <input type="email" class="form-control" v-model="usuari.email">
@@ -46,7 +50,30 @@
         </div>
 
         <div class="text-start">
-          <button type="submit" class="btn btn-success mt-3" @click.prevent="crearUsuaris" :disabled="!formValidat">Crear usuaris</button>
+          <button type="submit" class="btn btn-success mt-3" @click.prevent="crearUsuaris" :disabled="!formValidat">Crear
+            usuaris</button>
+        </div>
+
+        <div class="mt-2" v-if="formStatus.loading">
+          <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+            <span class="visually-hidden">Registrant usuaris...</span>
+          </div>
+          <span class="text-secondary">Registrant usuaris... </span>
+        </div>
+
+        <div class="mt-2" v-if="formStatus.error === true">
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Hi ha hagut un error!</strong>
+            <p class="mb-0">{{ formStatus.errorMsg }}</p>
+          </div>
+        </div>
+        <div class="mt-2" v-if="formStatus.error === false">
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Registre completat: </strong>
+            <p class="mb-0">Tots els usuaris s'han registrat exitosament!</p>
+          </div>
         </div>
       </form>
     </section>
@@ -76,10 +103,17 @@ export default {
         role: 'student',
         password: ''
       },
+      formStatus: {
+        error: null,
+        errorMsg: '',
+        loading: false,
+        valid: false,
+        usuarisErronis: [],
+      }
     }
   },
-  computed : {
-    formValidat () {
+  computed: {
+    formValidat() {
       let valid = true
 
       this.usuaris.forEach(usuari => {
@@ -90,13 +124,13 @@ export default {
                 valid = false;
               }
               break;
-          
+
             default:
               break;
           }
-          
+
         }
-      
+
 
       })
 
@@ -115,13 +149,44 @@ export default {
       this.validarUsuaris()
     },
     async crearUsuaris() {
-      console.log('usersArray :>> ', this.usuaris);
+      //Reset defaults:
+      this.formStatus.loading = true;
+      this.formStatus.error = null;
+      this.formStatus.errorMsg = '';
+      let that = this;
+
       userService.registerUsers(this.usuaris)
-      .then(r => {
-        console.log('r :>> ', r);
-      })
-      .catch(e => {
-        console.log('e :>> ', e);
+        .then(r => {
+          console.log('r :>> ', r);
+          that.formStatus.error = false;
+        })
+        .catch(e => {
+          console.log('e :>> ', e);
+          that.formStatus.error = true;
+          if (e.response.status == 409) {
+            that.formStatus.errorMsg = "No s'han pogut crear tots els usuaris!";
+            that.formStatus.usuarisErronis = e.response.data.data;
+            that.mostrarErrorsUsuaris()
+          } else {
+            that.formStatus.errorMsg = e.message
+          }
+
+
+        })
+        .finally(() => {
+          //Update UI:
+          that.formStatus.loading = false;
+        })
+    },
+    mostrarErrorsUsuaris() {
+      let that = this;
+
+      this.formStatus.usuarisErronis.forEach(usuariErroni => {
+        that.usuaris.forEach(usuari => {
+          if (usuariErroni.email == usuari.email) {
+            usuari.error = usuariErroni.error
+          }
+        })
       })
     },
     validarUsuaris() {
@@ -132,7 +197,7 @@ export default {
             case 'name':
               that.formValidat = true
               break;
-          
+
             default:
               break;
           }

@@ -62,4 +62,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('students', [UserController::class, 'getAllStudents']);
         Route::get('all', [UserController::class, 'getAllUsers']);
     });
+
+    Route::post('/register/json', [App\Http\Controllers\Auth\RegisteredUserController::class, 'storeJSON']);
 });
