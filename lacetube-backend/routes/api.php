@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
         Route::get('all', [CourseController::class, 'getAll']);
-
+        Route::get('{id}', [CourseController::class, 'getCourse']);
         Route::group(['middleware' => ['role:admin|teacher']], function () {
             Route::get('teachers', [CourseController::class, 'getAllTeachers']);
             Route::get('students', [CourseController::class, 'getAllStudents']);
@@ -61,6 +62,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('teachers', [UserController::class, 'getAllTeachers']);
         Route::get('students', [UserController::class, 'getAllStudents']);
         Route::get('all', [UserController::class, 'getAllUsers']);
+
+         Route::group(['middleware' => ['role:admin']], function () {
+            Route::delete('delete/{id}', [UserController::class, 'destroy']);
+        });
     });
 
     Route::post('/register/json', [App\Http\Controllers\Auth\RegisteredUserController::class, 'storeJSON']);

@@ -71,4 +71,12 @@ class UserController extends Controller
         // }
         return UserResource::collection(User::role('student')->get());
     }
+
+    public function destroy($id)
+    {
+         $user = User::findOrFail($id);
+         $user->delete();
+         return response()->json(null, 204);
+
+    }
 }
