@@ -24,7 +24,7 @@
                 <td>
                   <input type="text" class="form-control is-invalid" v-model="usuari.name">
                   <div class="invalid-feedback">
-                    Please choose a usernamecccccccccccccccccccccccccccccccccccccccccccccccccc.
+                    Missatge d'error
                   </div>
                 </td>
                 <td>

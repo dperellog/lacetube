@@ -13,7 +13,8 @@
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUsuari" data-bs-toggle="dropdown" aria-expanded="false">
             <avatar :url="userService.getAvatarURLByAvatar(userStore.currentUser.avatar)" :size="'sm'"></avatar>
           </a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUsuari">
+          <ul class="dropdown-menu text-small px-2" aria-labelledby="dropdownUsuari">
+            <li class="text-secondary text-center">{{ userStore.currentUser.name }}</li>
             <li class="text-secondary text-center">{{ userStore.currentUser.email }}</li>
             <li><hr class="dropdown-divider"></li>
             <li><router-link to="/cursos" class="dropdown-item">Cursos</router-link></li>

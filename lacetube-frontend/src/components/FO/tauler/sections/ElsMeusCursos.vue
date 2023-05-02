@@ -59,7 +59,7 @@ export default {
         async getCursos() {
             return UserService.getCourses()
                 .then(r => {
-                    return r.data.data;
+                    return r;
                 })
                 .catch(e => {
                     this.error = e;
