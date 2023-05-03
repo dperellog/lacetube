@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
 
-            $table->increments('id');
+            $table->id();
             $table->string('title');
             $table->string('original_name');
             $table->string('disk');
+            $table->string('mediaURL')->nullable();
             $table->string('path');
             $table->datetime('converted_for_downloading_at')->nullable();
             $table->datetime('converted_for_streaming_at')->nullable();

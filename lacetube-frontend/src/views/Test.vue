@@ -20,7 +20,7 @@ import axios from "@/services/Axios";
 
 export default {
   components: {
-    Header,
+    Header
   },
   data() {
     return {
@@ -32,11 +32,12 @@ export default {
       this.video = this.$refs.fileInput.files[0];
     },
 
-    submitForm() {
+    async submitForm() {
       const formData = new FormData();
+      formData.append('title', 'videoProva');
       formData.append('video', this.video);
       
-      axios.post('/api/upload-video', formData)
+      axios.post('/api/video/upload-video', formData)
         .then(response => {
           console.log(response.data);
         })
@@ -45,22 +46,6 @@ export default {
         });
     }
 
-  },
-  beforeMount() {
-    //  axios
-    //    .get("/api/user/videos",)
-    //    .then((r) => console.log("r :>> ", r))
-    //    .catch((e) => console.log("e :>> ", e));
-      axios.get("sanctum/csrf-cookie")
-      .then(() =>
-        axios.put("api/activity/modify/51", {
-          name: "ActivityProva",
-          description: "Activitat de prova",
-          end_date: '2025-1asdasd2-12',
-        })
-      )
-      .then((r) => console.log("r :>> ", r))
-      .catch((e) => console.log("e :>> ", e));
-  },
+  }
 };
 </script>

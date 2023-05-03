@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::prefix('video')->group(function () {
         Route::get('{id}', [VideoController::class, 'getVideo']);
-        Route::post('create', [VideoController::class, 'store']);
+        Route::post('upload-video', [VideoController::class, 'store']);
         Route::put('modify/:id', [VideoController::class, 'update']);
     });
     Route::prefix('user')->group(function () {
