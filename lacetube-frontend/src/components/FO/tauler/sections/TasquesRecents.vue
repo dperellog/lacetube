@@ -79,7 +79,7 @@ export default {
         async getTasques() {
             return UserService.getActivities()
                 .then(r => {
-                    return r.data;
+                    return r;
                 })
                 .catch(e => {
                     this.error = e;

@@ -22,11 +22,17 @@
         <div class="col-sm-4">
           <label for="exampleInputPassword1" class="form-label">Pare:</label>
           <div v-if="cursos.data != null && !cursos.error" class="card p-2 parentCourses">
-            <div v-for="curs in cursos.data" class="d-inline">
-              <input class="form-check-input" type="radio" :id="'cursPare' + curs.id" name="cursPare" :value="curs.id" v-model="cursForm.parent_id">
-              <label class="form-check-label text-break ms-1" :for="'cursPare' + curs.id">
-                {{ curs.name }}
-              </label>
+            <div v-if="cursos.data.length == 0" class="alert alert-info" role="alert">
+              No hi han cursos disponibles!
+            </div>
+            <div v-else>
+              <div v-for="curs in cursos.data" class="form-check">
+                <input class="form-check-input" type="radio" :id="'cursPare' + curs.id" name="cursPare" :value="curs.id"
+                  v-model="cursForm.parent_id">
+                <label class="form-check-label text-break ms-1" :for="'cursPare' + curs.id">
+                  {{ curs.name }}
+                </label>
+              </div>
             </div>
           </div>
 
@@ -49,11 +55,17 @@
         <div class="col-sm-8">
           <label for="exampleInputPassword1" class="form-label h4">Assignar estudiants:</label>
           <div v-if="estudiants.data != null && !estudiants.error" class="card p-2 parentCourses">
-            <div v-for="estudiant in estudiants.data" class="d-inline">
-              <input class="form-check-input" type="checkbox" :id="'estudiant' + estudiant.id" name="estudiants" :value="estudiant.id" v-model="cursForm.students">
-              <label class="form-check-label text-break ms-1" :for="'cursPare' + estudiant.id">
-                {{ estudiant.name }}
-              </label>
+            <div v-if="estudiants.data.length == 0" class="alert alert-info" role="alert">
+              No hi han estudiants disponibles!
+            </div>
+            <div v-else>
+              <div v-for="estudiant in estudiants.data" class="form-check">
+                <input class="form-check-input" type="checkbox" :id="'estudiant' + estudiant.id" name="estudiants"
+                  :value="estudiant.id" v-model="cursForm.students">
+                <label class="form-check-label text-break ms-1" :for="'cursPare' + estudiant.id">
+                  {{ estudiant.name }}
+                </label>
+              </div>
             </div>
           </div>
 
@@ -70,14 +82,48 @@
         </div>
         <!-- Professor -->
         <div class="col-sm-4">
-          <label for="exampleInputPassword1" class="form-label">Professor:</label>
-          <div class="card p-2">
+          <div class="row justify-content-between">
+            <label for="exampleInputPassword1" class="form-label col-6">Professor:</label>
+            <a href="#" v-if="userStore.hasRole('admin')" class="text-secondary col-6 text-end"
+              @click.prevent="actualitzarProfessor">Cambiar professor</a>
+          </div>
+
+          <!-- Mostrar professor actual -->
+          <div v-if="!llistarProfessors" class="card p-2">
             <div class="d-flex align-items-center">
-              <img :src="userService.getAvatarURLByAvatar(cursForm.teacher.avatar)" alt="" style="width: 45px; height: 45px"
-                class="rounded-circle">
+              <img :src="userService.getAvatarURLByAvatar(cursForm.teacher.avatar)" alt="foto-professor"
+                style="width: 45px; height: 45px" class="rounded-circle">
               <div class="ms-3">
-                <p class="fw-bold mb-1">{{ cursForm.teacher.name}}</p>
+                <p class="fw-bold mb-1">{{ cursForm.teacher.name }}</p>
                 <p class="text-muted mb-0">{{ cursForm.teacher.email }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mostrar llista de professors -->
+          <div v-else>
+            <div v-if="professors.data != null && !professors.error" class="card p-2 parentCourses">
+              <div v-if="professors.data.length == 0" class="alert alert-info" role="alert">
+                No hi han professors disponibles!
+              </div>
+              <div v-else>
+                <div v-for="professor in professors.data" class="form-check">
+                  <input class="form-check-input" type="radio" :id="'prof' + professor.id" name="professors"
+                    :value="professor.id" v-model="cursForm.teacher_id" @change="llistarProfessors = false">
+                  <label class="form-check-label text-break ms-1" :for="'prof' + professor.id">
+                    {{ professor.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div v-else>
+              <div v-if="professors.error" class="alert alert-danger" role="alert">
+                ERROR: {{ professors.error }}
+              </div>
+              <div v-else class="d-flex justify-content-center">
+                <strong>Carregant professors...</strong>
+                <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
               </div>
             </div>
           </div>
@@ -85,9 +131,33 @@
       </div>
 
       <button v-if="!modificar" type="submit" class="btn btn-success" @click.prevent="crearCurs">Crear Curs</button>
-      <button v-else type="submit" class="btn btn-success">Modificar</button>
+      <button v-else type="submit" class="btn btn-success" @click.prevent="modificarCurs">Modificar</button>
 
     </form>
+
+    <div class="mt-2" v-if="formStatus.loading">
+      <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+        <span class="visually-hidden">Creant curs...</span>
+      </div>
+      <span class="text-secondary" v-if="!modificar">Creant curs... </span>
+      <span class="text-secondary" v-else>Modificant curs... </span>
+    </div>
+
+    <div class="mt-2" v-if="formStatus.error === true">
+      <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Hi ha hagut un error!</strong>
+        <p class="mb-0">{{ formStatus.errorMsg }}</p>
+      </div>
+    </div>
+    <div class="mt-2" v-if="formStatus.error === false">
+      <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Acció completada: </strong>
+        <p class="mb-0" v-if="!modificar">S'ha creat el curs exitosament!</p>
+        <p class="mb-0" v-else>S'ha modificat el curs exitosament!</p>
+      </div>
+    </div>
 
   </div>
 
@@ -116,7 +186,7 @@ export default {
     HeaderBackoffice,
     FooterBackoffice
   },
-  props : {
+  props: {
     id: String
   },
   setup() {
@@ -128,17 +198,25 @@ export default {
   },
   data() {
     return {
-      cursForm:{
+      cursForm: {
+        id: 0,
         name: '',
         description: '',
         parent_id: null,
         students: [],
         teacher: {},
         teacher_id: 0,
-        year: moment().year()
+        year: moment().year(),
+        thumbnailURL: 'https://educaciodigital.cat/inslacetania/moodle/pluginfile.php/216009/course/overviewfiles/backend.png'
+      },
+      formStatus: {
+        error: null,
+        errorMsg: '',
+        loading: false,
+        valid: false,
       },
       modificar: false,
-
+      llistarProfessors: false,
       currentUser: null,
       error: null,
       cursos: {
@@ -149,6 +227,10 @@ export default {
         error: false,
         data: null
       },
+      professors: {
+        error: false,
+        data: null
+      }
     }
   },
   async beforeMount() {
@@ -159,13 +241,15 @@ export default {
 
       console.log('curs :>> ', curs);
       this.cursForm = {
+        id: curs.id,
         name: curs.name,
         description: curs.description,
-        parent: curs.parent != null? curs.parent.id : null,
+        parent_id: curs.parent != null ? curs.parent.id : null,
         students: curs.students.map(v => v.id),
         teacher: curs.teacher,
         teacher_id: curs.teacher.id,
-        year: curs.year
+        year: curs.year,
+        thumbnailURL: curs.thumbnailURL
       }
 
 
@@ -190,16 +274,47 @@ export default {
 
   methods: {
     async crearCurs() {
-      let curs = { ...this.cursForm};
+      //Reset defaults:
+      this.formStatus.loading = true;
+      this.formStatus.error = null;
+      this.formStatus.errorMsg = '';
+      let that = this;
 
-      curs.teacher_id = curs.teacher.id;
       Resources.createCourse(this.cursForm)
-      .then(r => {
-        console.log('r :>> ', r);
-      })
-      .catch(e => {
-        console.log('e :>> ', e);
-      })
+        .then(r => {
+          console.log('r :>> ', r);
+          that.formStatus.error = false;
+        })
+        .catch(e => {
+          console.log('e :>> ', e);
+          that.formStatus.error = true;
+          that.formStatus.errorMsg = e.response.data.message;
+        })
+        .finally(() => {
+          //Update UI:
+          that.formStatus.loading = false;
+        })
+    },
+    async modificarCurs() {
+      //Reset defaults:
+      this.formStatus.loading = true;
+      this.formStatus.error = null;
+      this.formStatus.errorMsg = '';
+      let that = this;
+
+      Resources.modifyCourse(this.cursForm)
+        .then(r => {
+          console.log('r :>> ', r);
+          that.formStatus.error = false;
+        })
+        .catch(e => {
+          console.log('e :>> ', e);
+          that.formStatus.error = true;
+          that.formStatus.errorMsg = e.response.data.message;
+        })
+        .finally(() => {
+          that.formStatus.loading = false;
+        })
     },
     async getCurs(id) {
       let that = this;
@@ -232,6 +347,34 @@ export default {
           this.estudiants.error = e;
         });
     },
-  }
+    async getProfessors() {
+      let that = this;
+      return Resources.getAllTeachers()
+        .then(r => {
+          that.professors.data = r.data.data;
+        })
+        .catch(e => {
+          this.professors.error = e;
+        });
+    },
+    actualitzarProfessor() {
+      this.llistarProfessors = !this.llistarProfessors
+      this.getProfessors()
+    },
+    
+  },
+  watch: {
+    'cursForm.teacher_id': {
+      handler(newID, oldID) {
+
+        if (this.professors.data !== null && this.professors.data.length > 0) {
+          this.cursForm.teacher = this.professors.data.filter(prof => prof.id == newID).shift()
+        }
+      
+      },
+      deep: true
+    }
+    
+  },
 }
 </script>

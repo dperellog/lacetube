@@ -71,7 +71,7 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><button @click="userStore.logout" class="dropdown-item" href="#">Sign out</button></li>
+            <li><button @click="userStore.logout" class="dropdown-item" href="#">Tancar Sessió</button></li>
           </ul>
         </div>
       </div>

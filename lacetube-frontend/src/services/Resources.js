@@ -15,8 +15,17 @@ export default {
             .then(() => Service.post('/api/course/create', course))
     },
 
+    async modifyCourse(course) {
+        return Service.get('sanctum/csrf-cookie')
+            .then(() => Service.put('/api/course/modify/'+course.id, course))
+    },
+
     async getAllStudents(){
         return Service.get('api/user/students')
+    },
+
+    async getAllTeachers(){
+        return Service.get('api/user/teachers')
     },
 
     async getAllUsers(){

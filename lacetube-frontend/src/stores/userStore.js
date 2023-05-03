@@ -8,6 +8,9 @@ const KEY = "AMZchT433HOauyXLW0UJQrXEFvsBdTRu"
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: JSON.parse(localStorage.getItem('lacetubeUser')),
+    roles: null,
+    userCourses: null,
+    userActivities: null
   }),
   getters: {
     currentUser: (state) => state.user,
@@ -27,8 +30,13 @@ export const useUserStore = defineStore('user', {
     logout() {
       Auth.logout()
         .then(() => {
+
+          this.userCourses = null;
+          this.userActivities = null;
+          
           this.user = null;
           localStorage.removeItem('lacetubeUser');
+
         })
         .then(() => router.push('/'))
         .catch((error) => {
@@ -40,7 +48,20 @@ export const useUserStore = defineStore('user', {
         })
     },
     hasRole(role){
-      return [role].includes(state.roles)
+      let roles = this.user.roles.filter(value => [role].includes(value));
+      return roles.length > 0;
+    },
+    setUserCourses(courses){
+      this.userCourses = courses;
+    },
+    getUserCourses(){
+      return this.userCourses;
+    },
+    setUserActivities(activities){
+      this.userActivities = activities;
+    },
+    getUserActivities(){
+      return this.userActivities;
     }
   },
 })

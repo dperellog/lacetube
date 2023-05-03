@@ -73,6 +73,7 @@ class CourseController extends Controller
         if ($request->teacher_id != $course->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
             return response()->json('',401);
         }
+
         $validateData = $request->validate([
             'teacher_id' => 'required|exists:users,id',
             'name' => 'required|max:255',
@@ -88,6 +89,26 @@ class CourseController extends Controller
         $course->year = $request->year;
         $course->parent_id = $request->parent_id;
         $course->save();
+
+
+        $students= $course->students;
+
+        //Add users to course:
+        foreach ($request->students as $student) {
+            $user = User::findOrFail($student);
+
+            if (!$students->contains($user)){
+                    $user->courses()->attach($course);
+                }
+         }
+
+         //Detach users to course:
+         foreach ($students as $student) {
+            if (!in_array($student->id, $request->students)) {
+               $student->courses()->detach($course);
+            }
+         }
+
         return response()->json($course, 201);
     }
 
