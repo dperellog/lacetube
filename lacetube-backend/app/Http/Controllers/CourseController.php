@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CourseActivitiesResource;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\UserCourseResource;
 use App\Models\Course;
@@ -29,6 +30,13 @@ class CourseController extends Controller
         }
 
         return response()->json('',401);
+    }
+
+    public function getActivitiesFromCourse(Request $request, $id)
+    {
+        $course = Course::findOrFail($id);
+
+        return response()->json(CourseActivitiesResource::collection($course->activities));
     }
 
 

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/userStore';
-import Index from '@/views/FO/Index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Index
+      component: () => import('../views/FO/IndexPage.vue'),
     },
     {
       path: '/login',

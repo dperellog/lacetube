@@ -40,9 +40,8 @@ export default {
         return new Promise((resolve, reject) => {
 
             let storeCourses = userStore.getUserCourses();
-            console.log('storeCourses :>> ', storeCourses);
 
-            if (!storeCourses) {
+            if (!storeCourses || true) {
                 Service.get('api/user/courses')
                 .then(r => {
                     userStore.setUserCourses(r.data.data);

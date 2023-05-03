@@ -4,7 +4,7 @@
   <header-user v-else
   @logoutUser="logout"
   ></header-user>
-</header>
+  </header>
 
 </template>
 

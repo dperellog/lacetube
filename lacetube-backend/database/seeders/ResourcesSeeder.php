@@ -31,7 +31,6 @@ class ResourcesSeeder extends Seeder
 
         //Create Courses:
         Course::factory()->orphan()->create();
-        Course::factory()->count(7)->create();
         Course::factory()->count(25)->create();
         $courses = Course::all();
 
@@ -46,7 +45,7 @@ class ResourcesSeeder extends Seeder
         });
 
         //Create Activities:
-        Activity::factory()->count(50)->create();
+        Activity::factory()->count(100)->create();
 
         //Create Videos and comments:
         // Video::factory()->count(100)->create();

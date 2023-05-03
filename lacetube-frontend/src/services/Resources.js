@@ -6,6 +6,10 @@ export default {
         return Service.get('api/course/'+id)
     },
 
+    async getCourseActivities(id) {
+        return Service.get('api/course/'+id+'/activities')
+    },
+
     async getAllCourses() {
         return Service.get('api/course/all')
     },

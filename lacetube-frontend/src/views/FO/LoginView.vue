@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <HeaderFrontoffice></HeaderFrontoffice>
 
 
   <section class="mt-4">
@@ -17,19 +17,19 @@
     </div>
   </section>
 
-  <Footer></Footer>
+  <FooterFrontoffice></FooterFrontoffice>
 </template>
 
 <script>
-import Header from '@/components/FO/Header.vue';
-import Footer from '@/components/FO/Footer.vue';
+import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
+import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
 import LoginForm from '@/components/FO/LoginForm.vue';
 
 export default {
   components: {
-    LoginForm,
-    Footer,
-    Header
+    HeaderFrontoffice,
+    FooterFrontoffice,
+    LoginForm
   }
 }
 </script>

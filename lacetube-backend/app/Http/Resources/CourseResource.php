@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +23,7 @@ class CourseResource extends JsonResource
             'year' => $this->year,
             'students' => $this->students,
             'teacher' => $this->teacher,
-            'parent' => $this->parent,
+            'parent' => new $this(Course::find($this->parent)),
         ];
     }
 }

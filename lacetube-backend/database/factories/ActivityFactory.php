@@ -21,7 +21,7 @@ class ActivityFactory extends Factory
             'name' => fake()->sentence(6),
             'description' => fake()->paragraph(),
             'course_id' => Course::all()->random()->id,
-            'end_date' => fake()->dateTimeBetween('-3 week', '+2 week')
+            'end_date' => fake()->dateTimeBetween('-1 week', '+3 week')
         ];
     }
 }

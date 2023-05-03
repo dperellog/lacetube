@@ -34,14 +34,12 @@
 </template>
 
 <script>
-import { RouterLink, RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import userService from '@/services/User';
 import Avatar from '@/components/common/Avatar.vue';
 
 export default {
   components: {
-    RouterLink,
     Avatar
   },
   setup() {
