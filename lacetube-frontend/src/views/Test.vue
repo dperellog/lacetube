@@ -20,7 +20,7 @@ import axios from "@/services/Axios";
 
 export default {
   components: {
-    Header,
+    Header
   },
   data() {
     return {
@@ -32,11 +32,12 @@ export default {
       this.video = this.$refs.fileInput.files[0];
     },
 
-    submitForm() {
+    async submitForm() {
       const formData = new FormData();
+      formData.append('title', 'videoProva');
       formData.append('video', this.video);
       
-      axios.post('/api/upload-video', formData)
+      axios.post('/api/video/upload-video', formData)
         .then(response => {
           console.log(response.data);
         })
@@ -45,6 +46,9 @@ export default {
         });
     }
 
+<<<<<<< HEAD
+  }
+=======
   },
   beforeMount() {
     //  axios
@@ -62,5 +66,6 @@ export default {
       // .then((r) => console.log("r :>> ", r))
       // .catch((e) => console.log("e :>> ", e));
   },
+>>>>>>> 4345370184dfcfab01218d6e7c57f17a98c4a4fc
 };
 </script>
