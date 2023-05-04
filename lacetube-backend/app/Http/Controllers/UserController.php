@@ -6,6 +6,7 @@ use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserVideos;
 use App\Http\Resources\UserVideosResource;
+use App\Models\Course;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
@@ -30,9 +31,16 @@ class UserController extends Controller
     }
     public function getCourses()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::user()->id);
+        $rol=$user->getRoleNames()->toArray();
+        $courses = $user->courses;
 
-        return UserCourseResource::collection($user->courses);
+        if (in_array("teacher", $rol)){
+            $courses = Course::where('teacher_id', Auth::user()->id)->get();
+        }
+
+        return UserCourseResource::collection($courses);
+
     }
     public function getVideos()
     {

@@ -7,7 +7,7 @@ export default {
     },
 
     async getCourseActivities(id) {
-        return Service.get('api/course/'+id+'/activities')
+        return Service.get('api/course/activities/'+id)
     },
 
     async getAllCourses() {
@@ -22,6 +22,11 @@ export default {
     async modifyCourse(course) {
         return Service.get('sanctum/csrf-cookie')
             .then(() => Service.put('/api/course/modify/'+course.id, course))
+    },
+
+    async deleteCourse(courseID) {
+        return Service.get('sanctum/csrf-cookie')
+        .then(() => Service.delete('/api/course/delete/'+courseID))
     },
 
     async getAllStudents(){

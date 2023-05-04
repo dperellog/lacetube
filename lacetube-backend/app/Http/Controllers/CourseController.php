@@ -16,6 +16,7 @@ class CourseController extends Controller
 {
     public function getCourse($id): JsonResponse
     {
+
         return response()->json(new CourseResource(Course::findOrFail($id)));
     }
 

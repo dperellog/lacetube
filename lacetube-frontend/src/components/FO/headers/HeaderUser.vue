@@ -14,8 +14,8 @@
             <avatar :url="userService.getAvatarURLByAvatar(userStore.currentUser.avatar)" :size="'sm'"></avatar>
           </a>
           <ul class="dropdown-menu text-small px-2" aria-labelledby="dropdownUsuari">
-            <li class="text-secondary text-center">{{ userStore.currentUser.name }}</li>
-            <li class="text-secondary text-center">{{ userStore.currentUser.email }}</li>
+            <li class="text-secondary text-left">{{ userStore.currentUser.name }}</li>
+            <li class="text-secondary text-left">{{ userStore.currentUser.email }}</li>
             <li><hr class="dropdown-divider"></li>
             <li><router-link to="/cursos" class="dropdown-item">Cursos</router-link></li>
             <li><a class="dropdown-item" href="#">Els meus videos</a></li>
