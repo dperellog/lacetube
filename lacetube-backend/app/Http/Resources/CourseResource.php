@@ -23,7 +23,7 @@ class CourseResource extends JsonResource
             'year' => $this->year,
             'students' => $this->students,
             'teacher' => $this->teacher,
-            'parent' => new $this(Course::find($this->parent)),
+            'parent' => $this->parent,
         ];
     }
 }

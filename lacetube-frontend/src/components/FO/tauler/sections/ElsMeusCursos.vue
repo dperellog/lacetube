@@ -60,6 +60,7 @@ export default {
             return UserService.getCourses()
                 .then(r => {
                     return r;
+                    
                 })
                 .catch(e => {
                     this.error = e;

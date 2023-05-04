@@ -63,7 +63,7 @@
                 <input class="form-check-input" type="checkbox" :id="'estudiant' + estudiant.id" name="estudiants"
                   :value="estudiant.id" v-model="cursForm.students">
                 <label class="form-check-label text-break ms-1" :for="'cursPare' + estudiant.id">
-                  {{ estudiant.name }}
+                  {{ estudiant.name }} <span class="text-dark fst-italic">({{ estudiant.email }})</span>
                 </label>
               </div>
             </div>
@@ -111,7 +111,7 @@
                   <input class="form-check-input" type="radio" :id="'prof' + professor.id" name="professors"
                     :value="professor.id" v-model="cursForm.teacher_id" @change="llistarProfessors = false">
                   <label class="form-check-label text-break ms-1" :for="'prof' + professor.id">
-                    {{ professor.name }}
+                    {{ professor.name }} <span class="text-dark fst-italic">({{ professor.email }})</span>
                   </label>
                 </div>
               </div>
@@ -132,6 +132,7 @@
 
       <button v-if="!modificar" type="submit" class="btn btn-success" @click.prevent="crearCurs">Crear Curs</button>
       <button v-else type="submit" class="btn btn-success" @click.prevent="modificarCurs">Modificar</button>
+      <router-link v-if="modificar" :to="{ path: '/curs/' + cursForm.id }" class="btn btn-info ms-2">Veure el curs</router-link>
 
     </form>
 
@@ -341,7 +342,8 @@ export default {
       let that = this;
       return Resources.getAllStudents()
         .then(r => {
-          that.estudiants.data = r.data.data;
+          //Ordenar per email:
+          that.estudiants.data = r.data.data.sort((a, b) => (a.email > b.email) ? 1 : -1)
         })
         .catch(e => {
           this.estudiants.error = e;
@@ -351,7 +353,8 @@ export default {
       let that = this;
       return Resources.getAllTeachers()
         .then(r => {
-          that.professors.data = r.data.data;
+          //Ordenar per email:
+          that.professors.data = r.data.data.sort((a, b) => (a.email > b.email) ? 1 : -1)
         })
         .catch(e => {
           this.professors.error = e;

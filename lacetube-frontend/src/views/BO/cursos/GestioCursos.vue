@@ -6,7 +6,7 @@
       <!-- Llistat de cursos -->
       <div v-if="cursos != null">
         <div v-if="cursos.length > 0">
-          <CursosTaula :cursos="cursos" btnNovaTaula></CursosTaula>
+          <CursosTaula :cursos="cursos" btnNovaTaula @refrescarTaula="refrescarTaula" :key="clau"></CursosTaula>
         </div>
 
         <div v-else>
@@ -60,6 +60,7 @@ export default {
     return {
       cursos: null,
       error: null,
+      clau: 0
     }
   },
   async beforeMount() {
@@ -70,14 +71,20 @@ export default {
 
   methods: {
     async getCursos() {
+      console.log('obtenint cursos...');
       return Resources.getAllCourses()
         .then(r => {
           return r.data;
         })
         .catch(e => {
           this.error = e;
-        });
+        })
     },
+
+    async refrescarTaula() {
+      this.cursos = await this.getCursos();
+      this.clau += 1;
+    }
 
 
   }

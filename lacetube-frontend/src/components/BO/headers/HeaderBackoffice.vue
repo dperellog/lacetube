@@ -16,7 +16,7 @@
 
                 <!-- MENU USUARIS -->
 
-                <li class="nav-item dropdown me-2">
+                <li class="nav-item dropdown me-2" v-if="userStore.hasRole('admin')">
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="true" aria-expanded="false">Gestio Usuaris</a>
                   <div class="dropdown-menu">

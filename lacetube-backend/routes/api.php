@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::delete('delete/{id}', [CourseController::class, 'destroy']);
         });
 
-        Route::get('{id}/activities', [CourseController::class, 'getActivitiesFromCourse'])->where('id', '[0-9]+');
+        Route::get('activities/{id}', [CourseController::class, 'getActivitiesFromCourse'])->where('id', '[0-9]+');
         Route::get('{id}', [CourseController::class, 'getCourse'])->where('id', '[0-9]+');
     });
     Route::prefix('activity')->group(function () {
