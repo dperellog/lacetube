@@ -161,8 +161,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Illuminate\Auth\AuthServiceProvider::class,
-        //ProtoneMedia\LaravelFFMpeg\Support\ServiceProvider::class,
+        Illuminate\Auth\AuthServiceProvider::class,        
         ProtoneMedia\LaravelFFMpeg\Support\ServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -191,6 +190,7 @@ return [
          */
         Spatie\Permission\PermissionServiceProvider::class,
         Laravolt\Avatar\ServiceProvider::class,
+        ProtoneMedia\LaravelFFMpeg\Support\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -216,9 +216,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Avatar'    => Laravolt\Avatar\Facade::class,
-        'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class
-        
-        //'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class,
+        'FacadeFFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

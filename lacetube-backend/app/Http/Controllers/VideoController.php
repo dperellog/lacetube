@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Requests\StoreVideoRequest;
 use App\Jobs\ConvertVideoForDownloading;
 use App\Jobs\ConvertVideoForStreaming;
@@ -30,9 +29,10 @@ class VideoController extends Controller
             'title'         => $request->title,
         ]);
 
-        $this->dispatch(new ConvertVideoForDownloading($video));
-        $this->dispatch(new ConvertVideoForStreaming($video));
-
+        //$this->dispatch(new ConvertVideoForDownloading($video));
+        ConvertVideoForDownloading::dispatch($video);
+        //$this->dispatch(new ConvertVideoForStreaming($video));
+        ConvertVideoForStreaming::dispatch($video);
         return response()->json([
             'id' => $video->id,
         ], 201);

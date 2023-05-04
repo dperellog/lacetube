@@ -4,10 +4,9 @@ namespace App\Jobs;
 
 use App\Models\Video;
 use Carbon\Carbon;
-use FFMpeg\FFMpeg;
+use FFMpeg;
 use FFMpeg\Format\Video\X264;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -38,7 +37,7 @@ class ConvertVideoForStreaming implements ShouldQueue
 
         // call the 'exportForHLS' method and specify the disk to which we want to export...
             ->exportForHLS()
-            ->toDisk('streamable_videos')
+            ->toDisk('streaming/')
 
         // we'll add different formats so the stream will play smoothly
         // with all kinds of internet connections...
