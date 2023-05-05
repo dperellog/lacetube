@@ -90,6 +90,7 @@ export default {
          that.activitats.data = r.data
       })
       .catch(e => {
+        console.log('e :>> ', e);
         that.activitats.error = e
       })
     },
