@@ -2,23 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Activity;
+use App\Models\Comment;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ActivityController extends Controller
+class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function getActivity($id): JsonResponse
-    {
-        return response()->json(Activity::findOrFail($id));
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -29,13 +21,14 @@ class ActivityController extends Controller
             return response()->json('',401);
         }
         $validateData = $request->validate([
-            'name' => 'required|max:255',
             'description' => 'required|max:255',
+            'starts' => 'required|integer',
             'end_date' => 'required|date',
-            'course_id' => 'exists:courses,id', 
+            'course_id' => 'exists:courses,id',
+            'user_id' => 'exists:users,id', 
         ]);
-        $activity = Activity::create($request->all());
-        return response()->json($activity, 201);
+        $Comment = Comment::create($request->all());
+        return response()->json($Comment, 201);
     }
 
     /**
@@ -43,8 +36,8 @@ class ActivityController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $activity = Activity::find($id);
-        if (Auth::user()->id != $activity->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
+        $Comment = Comment::find($id);
+        if (Auth::user()->id != $Comment->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
             return response()->json('',401);
         }
         $validateData = $request->validate([
@@ -53,11 +46,11 @@ class ActivityController extends Controller
             'end_date' => 'required|date', 
         ]);
 
-        $activity->name = $request->name;
-        $activity->description = $request->description;
-        $activity->end_date = $request->end_date;
-        $activity->save();
-        return response()->json($activity, 201);
+        $Comment->name = $request->name;
+        $Comment->description = $request->description;
+        $Comment->end_date = $request->end_date;
+        $Comment->save();
+        return response()->json($Comment, 201);
     }
 
     /**
@@ -65,8 +58,8 @@ class ActivityController extends Controller
      */
     public function destroy($id)
     {
-         $activity = Activity::findOrFail($id);
-         $activity->delete();
+         $Comment = Comment::findOrFail($id);
+         $Comment->delete();
          return response()->json(null, 204);
 
     }

@@ -1,7 +1,7 @@
 <template>
   <HeaderFrontoffice></HeaderFrontoffice>
 
-  <div class="container">
+  <!-- <div class="container">
     <div>
       <form @submit.prevent="submitForm">
         <div>
@@ -11,7 +11,7 @@
         <button type="submit">Subir video</button>
       </form>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -22,22 +22,11 @@ export default {
   components: {
     HeaderFrontoffice
   },
-  data() {
-    return {
-      video: null
-    }
-  },
-  methods: {
-    handleFileUpload() {
-      this.video = this.$refs.fileInput.files[0];
-    },
-
-    async submitForm() {
-      const formData = new FormData();
-      formData.append('title', 'videoProva');
-      formData.append('video', this.video);
-      
-      axios.post('/api/video/upload-video', formData)
+  beforeMount() {
+      axios.post('/api/search/json', {
+         content: "activity",
+         search: "enim"
+     })
         .then(response => {
           console.log(response.data);
         })
@@ -45,7 +34,5 @@ export default {
           console.log(error);
         });
     }
-
   }
-};
 </script>
