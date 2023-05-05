@@ -33,15 +33,15 @@ return new class extends Migration
         //     $table->timestamps();
 
         //     //Relationships:
-        //     $table->foreignId('activity_id')
-        //             ->constrained('activities', 'id')
-        //             ->onUpdate('cascade')
-        //             ->onDelete('cascade');
+             $table->foreignId('activity_id')
+                     ->constrained('activities', 'id')
+                     ->onUpdate('cascade')
+                     ->onDelete('cascade');
 
-        //    $table->foreignId('user_id')
-        //             ->constrained('users', 'id')
-        //             ->onUpdate('cascade')
-        //             ->onDelete('cascade');
+            $table->foreignId('user_id')
+                     ->constrained('users', 'id')
+                     ->onUpdate('cascade')
+                     ->onDelete('cascade');
         // });
     });
     }
