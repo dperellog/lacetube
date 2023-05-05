@@ -29,6 +29,17 @@ export default {
         .then(() => Service.delete('/api/course/delete/'+courseID))
     },
 
+    async createTask(task) {
+        return Service.get('sanctum/csrf-cookie')
+            .then(() => Service.post('/api/activity/create', task))
+    },
+
+    async modifyTask(task) {
+        console.log('task :>> ', task);
+        return Service.get('sanctum/csrf-cookie')
+            .then(() => Service.put('/api/activity/modify/'+task.id, task))
+    },
+
     async getAllStudents(){
         return Service.get('api/user/students')
     },

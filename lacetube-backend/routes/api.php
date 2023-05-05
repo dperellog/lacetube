@@ -43,11 +43,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('{id}', [CourseController::class, 'getCourse'])->where('id', '[0-9]+');
     });
     Route::prefix('activity')->group(function () {
-        Route::get('{id}', [ActivityController::class, 'getActivity']);
         Route::group(['middleware' => ['role:admin|teacher']], function () {
             Route::post('create', [ActivityController::class, 'store']);
             Route::put('modify/{id}', [ActivityController::class, 'update']);
         });
+
+        Route::get('{id}', [ActivityController::class, 'getActivity']);
     });
     Route::prefix('video')->group(function () {
         Route::get('{id}', [VideoController::class, 'getVideo']);

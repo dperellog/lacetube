@@ -80,6 +80,11 @@ const router = createRouter({
       props: true,
       meta: { accessGestio: true },
     },
+    {
+      path: '/gestio/activitats',
+      component: () => import('../views/BO/activitats/GestioActivitats.vue'),
+      meta: { accessGestio: true }
+    },
   ]
 });
 

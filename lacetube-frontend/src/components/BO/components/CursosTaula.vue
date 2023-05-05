@@ -232,8 +232,6 @@ export default {
     return {
       cursosFiltrats: null,
       limit: 10,
-      filterRegex: '',
-      columnCriteria: '',
       columnesOrdre: {
         curs: true,
         professor: true,

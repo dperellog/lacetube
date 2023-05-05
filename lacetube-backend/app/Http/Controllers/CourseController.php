@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ActivityResource;
 use App\Http\Resources\CourseActivitiesResource;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\UserCourseResource;
@@ -37,7 +38,7 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
 
-        return response()->json(CourseActivitiesResource::collection($course->activities));
+        return response()->json(ActivityResource::collection($course->activities));
     }
 
 

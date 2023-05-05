@@ -3,10 +3,16 @@
         <!-- Llistat de tasques -->
         <div v-if="cursos != null">
             <div class="row gy-3" v-if="cursos.length > 0">
-                <!-- <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat" :disseny="'carta'"></Tasca> -->
-                <Curs class="col-sm-4 col-lg-3" v-for="curs in limitarArray(cursos)" :curs="curs"></Curs>
+                <router-link v-if="!emitCourse" v-for="curs in limitarArray(cursos)" class="text-decoration-none col-sm-4 col-lg-3" :to="{ path: '/curs/'+curs.id}">
+                    <Curs class="cursPreview " :curs="curs"></Curs>
+                </router-link>
+
+                <a href="#" v-else v-for="curs in limitarArray(cursos)" class="text-decoration-none col-sm-4 col-lg-3" @click.prevent="$emit('cursSeleccionat', curs)">
+                    <Curs class="cursPreview " :curs="curs"></Curs>
+                </a>
+
                 <!-- Botó mostrar més -->
-                <a href="#" class="showMore text-center" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
+                <a href="#" class="showMore text-center" v-if="limit != -1 && cursos.length > limit" @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
 
             <div v-else class="alert alert-info" role="alert">
@@ -38,7 +44,8 @@ export default {
         Curs
     },
     props: {
-        mostrarTots : Boolean
+        mostrarTots : Boolean,
+        emitCourse: Boolean
     },
     data() {
         return {

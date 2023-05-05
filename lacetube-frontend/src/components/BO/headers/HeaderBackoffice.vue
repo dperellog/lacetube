@@ -20,9 +20,9 @@
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="true" aria-expanded="false">Gestio Usuaris</a>
                   <div class="dropdown-menu">
-                    <router-link to="/gestio/usuaris" class="dropdown-item" href="#">Gestió d'usuaris</router-link>
+                    <router-link to="/gestio/usuaris" class="dropdown-item">Gestió d'usuaris</router-link>
                     <div class="dropdown-divider"></div>
-                    <router-link to="/gestio/usuaris/crear" class="dropdown-item" href="#">Crear usuaris</router-link>
+                    <router-link to="/gestio/usuaris/crear" class="dropdown-item">Crear usuaris</router-link>
                     <a class="dropdown-item" href="#">Modificar Usuaris</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                     <a class="dropdown-item" href="#">Separated link</a>
@@ -35,15 +35,14 @@
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="true" aria-expanded="false">Cursos</a>
                   <div class="dropdown-menu">
-                    <router-link to="/gestio/cursos" class="dropdown-item" href="#">Gestió de cursos</router-link>
-                    <a class="dropdown-item" href="#">Gestió d'activitats</a>
+                    <router-link to="/gestio/cursos" class="dropdown-item"><i class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;Gestió de cursos</router-link>
+                    <router-link to="/gestio/activitats" class="dropdown-item"><i class="fa-solid fa-paintbrush"></i>&nbsp;&nbsp;Gestió d'activitats</router-link>
                     <div class="dropdown-divider"></div>
-                    <router-link class="dropdown-item" to="/gestio/cursos/crear">Crear Curs</router-link>
-                    <a class="dropdown-item" href="#">Crear Activitat</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <router-link class="dropdown-item" to="/gestio/cursos/crear"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Crear Curs</router-link>
+                    <a class="dropdown-item" href="#"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Crear Activitat</a>
                   </div>
                 </li>
-
+                
                 <li class="nav-item">
                   <a class="nav-link" href="#">Features</a>
                 </li>

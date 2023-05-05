@@ -28,10 +28,10 @@
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
               <a class="nav-link active" data-bs-toggle="tab" href="#professor" aria-selected="true"
-                role="tab">Professor</a>
+                role="tab"><i class="fa-solid fa-user-graduate"></i>&nbsp;&nbsp;Professor</a>
             </li>
             <li class="nav-item" role="presentation">
-              <a class="nav-link" data-bs-toggle="tab" href="#estudiants" aria-selected="false" role="tab">Estudiants<span
+              <a class="nav-link" data-bs-toggle="tab" href="#estudiants" aria-selected="false" role="tab"><i class="fa-solid fa-users"></i>&nbsp;&nbsp;Estudiants<span
                   class="ms-2 badge bg-success rounded-pill">{{ curs.students.length }}</span></a>
             </li>
           </ul>

@@ -26,7 +26,7 @@
                 <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat" :disseny="'carta'"></Tasca>
 
                 <!-- Botó mostrar més -->
-                <a href="#" class="showMore text-center" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
+                <a href="#" class="showMore text-center" v-if="limit != -1 && tasquesFiltrades.length > limit" @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
 
             <div v-else class="alert alert-info" role="alert">
@@ -89,7 +89,7 @@ export default {
             this.ordre = dies;
             this.limit = 2;
 
-            const limitInferior = moment(); //Avui
+            const limitInferior = moment().subtract(1, 'days'); 
             const limitSuperior = moment().add(this.ordre, 'days');
 
             //Filtrar tasques:
