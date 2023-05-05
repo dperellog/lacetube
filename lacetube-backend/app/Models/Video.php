@@ -16,6 +16,7 @@ class Video extends Model
         'converted_for_downloading_at',
         'converted_for_streaming_at',
     ];
+
     protected $guarded = [];
 
     public function activity(): BelongsTo

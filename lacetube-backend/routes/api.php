@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use App\Models\User;
@@ -46,6 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::group(['middleware' => ['role:admin|teacher']], function () {
             Route::post('create', [ActivityController::class, 'store']);
             Route::put('modify/{id}', [ActivityController::class, 'update']);
+            Route::delete('delete/{id}', [ActivityController::class, 'destroy']);
         });
 
         Route::get('{id}', [ActivityController::class, 'getActivity']);
@@ -72,4 +74,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::post('/register/json', [App\Http\Controllers\Auth\RegisteredUserController::class, 'storeJSON']);
+    Route::post('/search/json', [SearchController::class, 'search']);
+    // {
+    //     content: "video"
+    //     search: "loquebuscas"
+    // }
+    // return json de modelo video que en el titulo contenta "loquebuscas"
 });
+
+

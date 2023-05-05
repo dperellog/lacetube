@@ -1,7 +1,7 @@
 <template>
   <HeaderFrontoffice></HeaderFrontoffice>
 
-  <div class="container">
+  <!-- <div class="container">
     <div>
       <form @submit.prevent="submitForm">
         <div>
@@ -11,33 +11,22 @@
         <button type="submit">Subir video</button>
       </form>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
-import Header from "@/components/FO/Header.vue";
+import HeaderFrontoffice from "@/components/FO/HeaderFrontoffice.vue";
 import axios from "@/services/Axios";
 
 export default {
   components: {
-    Header
+    HeaderFrontoffice
   },
-  data() {
-    return {
-      video: null
-    }
-  },
-  methods: {
-    handleFileUpload() {
-      this.video = this.$refs.fileInput.files[0];
-    },
-
-    async submitForm() {
-      const formData = new FormData();
-      formData.append('title', 'videoProva');
-      formData.append('video', this.video);
-      
-      axios.post('/api/video/upload-video', formData)
+  beforeMount() {
+      axios.post('/api/search/json', {
+         content: "activity",
+         search: "enim"
+     })
         .then(response => {
           console.log(response.data);
         })
@@ -45,27 +34,5 @@ export default {
           console.log(error);
         });
     }
-
-<<<<<<< HEAD
   }
-=======
-  },
-  beforeMount() {
-    //  axios
-    //    .get("/api/user/videos",)
-    //    .then((r) => console.log("r :>> ", r))
-    //    .catch((e) => console.log("e :>> ", e));
-      // axios.get("sanctum/csrf-cookie")
-      // .then(() =>
-      //   axios.put("api/activity/modify/51", {
-      //     name: "ActivityProva",
-      //     description: "Activitat de prova",
-      //     end_date: '2025-1asdasd2-12',
-      //   })
-      // )
-      // .then((r) => console.log("r :>> ", r))
-      // .catch((e) => console.log("e :>> ", e));
-  },
->>>>>>> 4345370184dfcfab01218d6e7c57f17a98c4a4fc
-};
 </script>

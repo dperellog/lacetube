@@ -4,22 +4,21 @@ namespace App\Jobs;
 
 use App\Models\Video;
 use Carbon\Carbon;
-
 use FFMpeg\Coordinate\Dimension;
-use Pbmedia\LaravelFFMpeg\FFMpeg;
 use FFMpeg\Format\Video\X264;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg as SupportFFMpeg;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class ConvertVideoForDownloading implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $video;
+
     public function __construct(Video $video)
     {
         $this->video = $video;
@@ -31,7 +30,8 @@ class ConvertVideoForDownloading implements ShouldQueue
         $lowBitrateFormat = (new X264)->setKiloBitrate(500);
 
         // open the uploaded video from the right disk...
-        SupportFFMpeg::fromDisk($this->video->disk)
+
+        FFMpeg::fromDisk($this->video->disk)
             ->open($this->video->path)
 
         // add the 'resize' filter...
@@ -43,7 +43,7 @@ class ConvertVideoForDownloading implements ShouldQueue
             ->export()
 
         // tell the MediaExporter to which disk and in which format we want to export...
-            ->toDisk('downloadable_videos')
+            ->toDisk('download')
             ->inFormat($lowBitrateFormat)
 
         // call the 'save' method with a filename...
