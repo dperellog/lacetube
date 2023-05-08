@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Activity extends Model
 {
     use HasFactory;
+    protected $attributes = [
+
+    ];
 
     protected $fillable = [
         'name',

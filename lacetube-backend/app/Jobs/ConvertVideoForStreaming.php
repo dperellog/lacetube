@@ -46,8 +46,7 @@ class ConvertVideoForStreaming implements ShouldQueue
             ->addFormat($highBitrateFormat)
 
         // call the 'save' method with a filename...
-            ->save($this->video->id . '.m3u8');
-
+            ->save('/'.$this->video->id.'/'.$this->video->id . '.m3u8');
         // update the database so we know the convertion is done!
         $this->video->update([
             'converted_for_streaming_at' => Carbon::now(),
