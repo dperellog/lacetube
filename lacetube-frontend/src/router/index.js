@@ -44,6 +44,14 @@ const router = createRouter({
       props: true
     },
 
+    {
+      path: '/activitat/penjar/:id',
+      name: 'pujar-video',
+      component: () => import('../views/FO/detailsPages/PujarVideo.vue'),
+      meta: { usuariAutenticat: true },
+      props: true
+    },
+
     //Rutes de BACK OFFICE:
     {
       path: '/gestio',

@@ -6,6 +6,10 @@ export default {
         return Service.get('api/course/'+id)
     },
 
+    async getActivity(id) {
+        return Service.get('api/activity/'+id)
+    },
+
     async getCourseActivities(id) {
         return Service.get('api/course/activities/'+id)
     },
@@ -35,7 +39,6 @@ export default {
     },
 
     async modifyTask(task) {
-        console.log('task :>> ', task);
         return Service.get('sanctum/csrf-cookie')
             .then(() => Service.put('/api/activity/modify/'+task.id, task))
     },

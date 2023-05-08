@@ -45,7 +45,11 @@ export default {
     },
     props: {
         mostrarTots : Boolean,
-        emitCourse: Boolean
+        emitCourse: Boolean,
+        force: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {
@@ -64,7 +68,7 @@ export default {
     },
     methods: {
         async getCursos() {
-            return UserService.getCourses()
+            return UserService.getCourses(this.force)
                 .then(r => {
                     return r;
                     

@@ -34,14 +34,14 @@ export default {
 
     },
 
-    async getCourses() {
+    async getCourses(force = false) {
         let userStore = useUserStore();
 
         return new Promise((resolve, reject) => {
 
             let storeCourses = userStore.getUserCourses();
 
-            if (!storeCourses) {
+            if (!storeCourses || force) {
                 if (userStore.hasRole('admin')) {
                     Service.get('api/course/all')
                     .then(r => {

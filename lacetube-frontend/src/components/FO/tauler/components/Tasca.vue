@@ -14,7 +14,7 @@
                     <p>{{ activitat.description }}</p>
                 </div>
                 <div class="col-1 mt-4 d-grid gap-2 mb-auto">
-                    <button class="btn btn-warning d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-sharp fa-solid fa-upload"></i></button>
+                    <router-link :to="{ path: '/activitat/penjar/' + activitat.id }" class="btn btn-warning d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-sharp fa-solid fa-upload"></i></router-link>
                 </div>
             </div>
         </div>
