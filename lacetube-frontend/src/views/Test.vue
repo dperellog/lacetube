@@ -23,7 +23,7 @@ export default {
     HeaderFrontoffice
   },
   beforeMount() {
-      axios.post('/api/search/json', {
+      axios.post('/api/upload-video', {
          content: "activity",
          search: "enim"
      })
