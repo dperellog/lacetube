@@ -3,6 +3,7 @@
   <div class="container mt-4 px-4">
     <h1 class="fw-bold" v-if="!modificar">Crear un nou curs:</h1>
     <h1 class="fw-bold" v-else>Modificant curs:</h1>
+    <router-link to="/gestio/cursos" class="h6 text-decoration-none returnback" @click.prevent="curs = null"><i class="fa-solid fa-reply"></i>&nbsp;&nbsp;Tornar a cursos</router-link>
     <hr>
     <form @submit.prevent="nouCurs">
       <!-- Nom del curs -->
@@ -169,6 +170,14 @@
   overflow-y: scroll;
   overflow-wrap: break-word;
   max-height: 14rem;
+}
+
+.sortingArrow {
+  color: #7F8C8D;
+}
+
+.sortingArrow:hover {
+  color: #212529;
 }
 </style>
   

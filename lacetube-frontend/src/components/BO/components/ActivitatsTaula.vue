@@ -233,11 +233,6 @@ export default {
     formatarData(data){
       return moment(data).format('DD-MM-YYYY')
     },
-    formulariCrearTasca(){
-      this.tascaForm = { ...this.tascaModel }
-      this.tascaFormStatus.editing = false;
-      this.creantTasca = true;
-    },
     limitarArray(arr) {
       if (arr && arr.length) {
         let limit = this.limit;
@@ -278,11 +273,16 @@ export default {
 
       this.columnesOrdre[atribut] = !this.columnesOrdre[atribut]
     },
+    formulariCrearTasca(){
+      this.tascaForm = { ...this.tascaModel }
+      this.tascaFormStatus.editing = false;
+      this.creantTasca = true;
+    },
     actualitzarTaula(){
       this.$emit('refrescarTaula');
     },
     formulariEditarTasca(tasca) {
-      this.tascaForm = tasca;
+      this.tascaForm = {...tasca};
 
       this.tascaFormStatus.editing = true;
       this.creantTasca = true;

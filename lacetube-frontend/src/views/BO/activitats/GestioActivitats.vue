@@ -6,7 +6,7 @@
     <h1 class="fw-bold">Seleccionar curs:</h1>
     <section class="mt-4">
       <!-- Llistat de cursos -->
-      <ElsMeusCursos mostrarTots emitCourse @cursSeleccionat="cursSeleccionat"></ElsMeusCursos>
+      <ElsMeusCursos mostrarTots emitCourse @cursSeleccionat="cursSeleccionat" force></ElsMeusCursos>
     </section>
   </div>
 
@@ -69,7 +69,6 @@ export default {
         error: false,
         data: null
       },
-      clau: 0
     }
   },
   methods: {
@@ -97,7 +96,7 @@ export default {
     async refrescarTaula() {
       await this.obtenirActivitats();
 
-      this.clau += 1;
+      
     }
   }
 }
