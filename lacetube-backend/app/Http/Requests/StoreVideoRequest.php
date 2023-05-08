@@ -23,7 +23,8 @@ class StoreVideoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'title' => 'required|max:255',
+            'description' => 'required',
             'video' => 'required|file|mimetypes:video/mp4,video/mpeg,video/x-matroska',
             'user_id' => 'required|exists:users,id',
             'activity_id' => 'required|exists:activities,id',

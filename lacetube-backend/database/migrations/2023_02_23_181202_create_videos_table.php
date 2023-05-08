@@ -16,6 +16,7 @@ return new class extends Migration
             
                 $table->id();
                 $table->string('title');
+                $table->string('description');
                 $table->string('original_name');
                 $table->string('disk');
                 $table->string('path');

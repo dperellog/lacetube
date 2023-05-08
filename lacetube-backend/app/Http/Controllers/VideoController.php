@@ -27,10 +27,12 @@ class VideoController extends Controller
             'original_name' => $request->video->getClientOriginalName(),
             'path'          => $request->video->store('videos', 'local'),
             'title'         => $request->title,
+            'description' => $request->description,
             'activity_id' => $request->activity_id,
             'user_id' => $request->user_id,
         ]);
 
+        
         //$this->dispatch(new ConvertVideoForDownloading($video));
         ConvertVideoForDownloading::dispatch($video);
         //$this->dispatch(new ConvertVideoForStreaming($video));
