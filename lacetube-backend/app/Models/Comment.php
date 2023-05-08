@@ -10,6 +10,13 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'video_id',
+        'stars',
+        'description',
+        'user_id'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -23,5 +30,6 @@ class Comment extends Model
     public function isTeacher()
     {
         //TODO: Return if teacher
+        return $this->user->id == $this->video->teacher->id;
     }
 }

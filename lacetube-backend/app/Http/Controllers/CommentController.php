@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Course;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,16 +17,12 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $course = Course::findOrFail($request->course_id);
-        if (Auth::user()->id != $course->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
-            return response()->json('',401);
-        }
+        $video = Video::findOrFail($request->video_id);
         $validateData = $request->validate([
-            'description' => 'required|max:255',
+            'description' => 'max:255',
             'starts' => 'required|integer',
-            'end_date' => 'required|date',
-            'course_id' => 'exists:courses,id',
-            'user_id' => 'exists:users,id', 
+            'video_id' => 'exists:videos,id',
+            'user_id' => 'exists:users,id',
         ]);
         $Comment = Comment::create($request->all());
         return response()->json($Comment, 201);
@@ -36,19 +33,17 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $Comment = Comment::find($id);
-        if (Auth::user()->id != $Comment->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
-            return response()->json('',401);
+        $Comment = Comment::findOrFail($id);
+        if (Auth::user()->id != $Comment->user_id) {
+            return response()->json('', 401);
         }
         $validateData = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required|max:255',
-            'end_date' => 'required|date', 
+            'description' => 'max:255',
+            'starts' => 'required|integer',
         ]);
 
-        $Comment->name = $request->name;
+        $Comment->starts = $request->starts;
         $Comment->description = $request->description;
-        $Comment->end_date = $request->end_date;
         $Comment->save();
         return response()->json($Comment, 201);
     }
@@ -58,10 +53,11 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-         $Comment = Comment::findOrFail($id);
-         $Comment->delete();
-         return response()->json(null, 204);
-
+        $Comment = Comment::findOrFail($id);
+        if (Auth::user()->id != $Comment->user_id && !User::find(Auth::user()->id)->hasRole('admin') && Auth::user()->id != $Comment->video->teacher->id) {
+            return response()->json('', 401);
+        }
+        $Comment->delete();
+        return response()->json(null, 204);
     }
-
 }

@@ -47,7 +47,7 @@ class ConvertVideoForDownloading implements ShouldQueue
             ->inFormat($lowBitrateFormat)
 
         // call the 'save' method with a filename...
-            ->save($this->video->id . '.mp4');
+            ->save('/'.$this->video->id.'/'.$this->video->id . '.mp4');
 
         // update the database so we know the convertion is done!
         $this->video->update([
