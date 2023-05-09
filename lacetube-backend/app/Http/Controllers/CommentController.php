@@ -20,12 +20,12 @@ class CommentController extends Controller
         $video = Video::findOrFail($request->video_id);
         $validateData = $request->validate([
             'description' => 'max:255',
-            'starts' => 'required|integer',
+            'stars' => 'required|integer',
             'video_id' => 'exists:videos,id',
             'user_id' => 'exists:users,id',
         ]);
-        $Comment = Comment::create($request->all());
-        return response()->json($Comment, 201);
+        $comment = Comment::create($request->all());
+        return response()->json($comment, 201);
     }
 
     /**
@@ -39,10 +39,10 @@ class CommentController extends Controller
         }
         $validateData = $request->validate([
             'description' => 'max:255',
-            'starts' => 'required|integer',
+            'stars' => 'required|integer',
         ]);
 
-        $Comment->starts = $request->starts;
+        $Comment->stars = $request->stars;
         $Comment->description = $request->description;
         $Comment->save();
         return response()->json($Comment, 201);

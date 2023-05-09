@@ -23,9 +23,11 @@ export default {
     HeaderFrontoffice
   },
   beforeMount() {
-      axios.post('/api/upload-video', {
-         content: "activity",
-         search: "enim"
+      axios.get('/api/activity/1', {
+        description: 'Comentari de provaF',
+        stars : 4,
+        video_id: 1,
+        user_id: 2
      })
         .then(response => {
           console.log(response.data);
