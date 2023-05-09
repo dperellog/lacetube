@@ -165,19 +165,25 @@ export default {
         this.videoForm.user_id = this.userStore.currentUser.id;
     },
     methods: {
-        filesChange(fieldName, fileList) {
-            const formData = new FormData();
-            formData.append("video", this.$refs.videoInput.files[0]);
-            
-            this.videoForm.video = formData;
+        filesChange() {
+            console.log('object :>> ', this.$refs.videoInput);
+            this.videoForm.video = this.$refs.videoInput.files[0];
         },
         pujarvideo() {
             this.videoFormStatus.loading = true;
             this.videoFormStatus.error = null;
             this.videoFormStatus.errorMsg = '';
             let that = this;
+            let formVideo = this.videoForm
 
-            activityServce.uploadVideo(this.videoForm)
+            const formData = new FormData();
+            Object.keys(this.videoForm).forEach(key => {
+                console.log('key :>> ', that.videoForm);
+                formData.append(key, that.videoForm[key]);
+            })
+            console.log('formData :>> ', formData);
+
+            activityServce.uploadVideo(formData)
                 .then(r => {
                     console.log('r :>> ', r);
                     that.videoFormStatus.error = false;
