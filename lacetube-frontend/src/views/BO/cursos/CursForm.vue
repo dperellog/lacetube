@@ -21,7 +21,7 @@
         </div>
         <!-- Pare -->
         <div class="col-sm-4">
-          <label for="exampleInputPassword1" class="form-label">Pare:</label>
+          <label for="exampleInputPassword1" class="form-label">Curs Pare:</label>
           <div v-if="cursos.data != null && !cursos.error" class="card p-2 parentCourses">
             <div v-if="cursos.data.length == 0" class="alert alert-info" role="alert">
               No hi han cursos disponibles!

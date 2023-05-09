@@ -55,6 +55,13 @@ export default {
         return Service.get('api/user/all')
     },
 
+    async uploadVideo(video){
+        return Service.get('sanctum/csrf-cookie')
+            .then(() => Service.post('api/video/upload-video', video, {headers: {
+                'content-type': 'multipart/form-data',
+              }}))
+    },
+
     async logout(){
         return Service.get('sanctum/csrf-cookie')
         .then(() => Service.post('logout'))

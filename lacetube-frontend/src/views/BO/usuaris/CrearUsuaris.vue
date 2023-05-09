@@ -46,7 +46,7 @@
             </tbody>
           </table>
           <!-- Botó afegir més usuris -->
-          <a href="#" class="showMore text-center card-footer" @click.prevent="afegirUsuariLlista">Afegir més usuaris</a>
+          <a href="#" class="showMore text-center card-footer" @click.prevent="afegirUsuariLlista"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Afegir més usuaris</a>
         </div>
 
         <div class="text-start">

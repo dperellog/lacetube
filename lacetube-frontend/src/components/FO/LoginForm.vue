@@ -14,17 +14,6 @@
       <input v-model="formData.password" type="password" id="login-passwd" class="form-control form-control" />
     </div>
 
-    <div class="d-flex justify-content-between align-items-center">
-      <!-- Checkbox -->
-      <div class="form-check mb-0">
-        <input class="form-check-input me-2" type="checkbox" value="" id="rememberMeBtn" />
-        <label class="form-check-label text-primary" for="rememberMeBtn">
-          Recorda'm
-        </label>
-      </div>
-      <a href="#!" class="text-body">Contrasenya olvidada?</a>
-    </div>
-
     <div class="text-left text-lg-start mt-4 pt-2">
       <input type="submit" value="Iniciar Sessió" class="btn btn-warning btn px-4"
         :disabled="formStatus.loading || !formIsValid">
