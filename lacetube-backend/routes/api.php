@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
@@ -52,6 +53,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('{id}', [ActivityController::class, 'getActivity']);
     });
+    Route::prefix('comment')->group(function () {
+        Route::post('create', [CommentController::class, 'store']);
+        Route::put('modify/{id}', [CommentController::class, 'update']);
+        Route::delete('delete/{id}', [CommentController::class, 'destroy']);
+    });
     Route::prefix('video')->group(function () {
         Route::get('{id}', [VideoController::class, 'getVideo']);
         Route::post('upload-video', [VideoController::class, 'store']);
@@ -68,7 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('students', [UserController::class, 'getAllStudents']);
         Route::get('all', [UserController::class, 'getAllUsers']);
 
-         Route::group(['middleware' => ['role:admin']], function () {
+        Route::group(['middleware' => ['role:admin']], function () {
             Route::delete('delete/{id}', [UserController::class, 'destroy']);
         });
     });
@@ -81,5 +87,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // }
     // return json de modelo video que en el titulo contenta "loquebuscas"
 });
-
-

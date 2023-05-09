@@ -17,13 +17,12 @@ class UserVideosResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => $this->user,
-            'name' => $this->name,
-            'description' => $this->description,
-            'mediaURL' => $this->mediaURL,
             'activity' => $this->activity,
             'comments' => $this->comments,
-            'teacher' => $this->teacher,
-            'created_at' => $this->created_at,
+            'title' => $this->title,
+            'description' => $this->description,
+            'path' => $this->path,
+            
         ];
     }
 }

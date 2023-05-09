@@ -28,6 +28,7 @@ class VideoController extends Controller
             'path'          => $request->video->store('videos', 'local'),
             'title'         => $request->title,
             'description' => $request->description,
+            
             'activity_id' => $request->activity_id,
             'user_id' => $request->user_id,
         ]);
