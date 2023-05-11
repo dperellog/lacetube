@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreVideoRequest;
+use App\Http\Resources\UserVideosResource;
 use App\Jobs\ConvertVideoForDownloading;
 use App\Jobs\ConvertVideoForStreaming;
 use App\Models\Video;
@@ -22,25 +23,29 @@ class VideoController extends Controller
      */
     public function store(StoreVideoRequest $request)
     {
+
+        //Guardar video temporalment:
+        $tempPath = $request->video->store('', 'tmp');
+        $videoName = explode('.',$tempPath)[0];
+
+        //Processar video:
+        ConvertVideoForDownloading::dispatch($tempPath, $videoName);
+        ConvertVideoForStreaming::dispatch($tempPath, $videoName);
+
+
         $video = Video::create([
-            'disk'          => 'local',
-            'original_name' => $request->video->getClientOriginalName(),
-            'path'          => $request->video->store('videos', 'local'),
             'title'         => $request->title,
             'description' => $request->description,
-            
             'activity_id' => $request->activity_id,
             'user_id' => $request->user_id,
+            'video_name' => $videoName,
+            'streamingPath' => $videoName.'.m3u8',
+            'downloadPath' => $videoName.'.mp4',
+            'thumbnailPath' => $videoName.'_thumbnail.jpg'
         ]);
 
-        
-        //$this->dispatch(new ConvertVideoForDownloading($video));
-        ConvertVideoForDownloading::dispatch($video);
-        //$this->dispatch(new ConvertVideoForStreaming($video));
-        ConvertVideoForStreaming::dispatch($video);
-        return response()->json([
-            'id' => $video->id,
-        ], 201);
+
+        return response()->json(new UserVideosResource($video), 201);
     }
 
     /**
@@ -54,7 +59,7 @@ class VideoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    
+
 
     /**
      * Remove the specified resource from storage.

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class UserCourseResource extends JsonResource
 {
@@ -18,7 +19,7 @@ class UserCourseResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'thumbnailURL' => $this->thumbnailURL,
+            'thumbnailURL' => Storage::disk('thumbnails')->url($this->thumbnailURL),
             'year' => $this->year,
             'students' => $this->students,
             'teacher' => $this->teacher,

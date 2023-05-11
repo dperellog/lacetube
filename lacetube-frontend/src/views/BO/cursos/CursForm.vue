@@ -3,7 +3,8 @@
   <div class="container mt-4 px-4">
     <h1 class="fw-bold" v-if="!modificar">Crear un nou curs:</h1>
     <h1 class="fw-bold" v-else>Modificant curs:</h1>
-    <router-link to="/gestio/cursos" class="h6 text-decoration-none returnback" @click.prevent="curs = null"><i class="fa-solid fa-reply"></i>&nbsp;&nbsp;Tornar a cursos</router-link>
+    <router-link to="/gestio/cursos" class="h6 text-decoration-none returnback" @click.prevent="curs = null"><i
+        class="fa-solid fa-reply"></i>&nbsp;&nbsp;Tornar a cursos</router-link>
     <hr>
     <form @submit.prevent="nouCurs">
       <!-- Nom del curs -->
@@ -14,10 +15,27 @@
 
       <!-- Descrcipcio i pare -->
       <div class="row mb-3">
-        <!-- Descripcio -->
+        <!-- Descripcio  -->
         <div class="col-sm-8">
           <label for="exampleInputPassword1" class="form-label">Descripció del curs:</label>
-          <textarea class="form-control" rows="9" v-model="cursForm.description"></textarea>
+          <textarea class="form-control" rows="6" v-model="cursForm.description"></textarea>
+
+          <!-- Miniatura: -->
+          <div v-if="cursForm.thumbnailURL" class="mt-3 row">
+            <div class="col-sm-9">
+              <label for="formFileMultiple" class="form-label">Miniatura del curs</label>
+              <input class="form-control" type="file" ref="miniatura" accept="image/*">
+            </div>
+            <div class="col-sm-3">
+              <div class="thumbnail border rounded-4" 
+        :style="{ backgroundImage: 'url(' + cursForm.thumbnailURL + ')' }"></div>
+            </div>
+          </div>
+
+          <div v-else class="mt-3">
+            <label for="formFileMultiple" class="form-label">Miniatura del curs</label>
+              <input class="form-control" type="file" ref="miniatura" accept="image/*">
+          </div>
         </div>
         <!-- Pare -->
         <div class="col-sm-4">
@@ -133,7 +151,8 @@
 
       <button v-if="!modificar" type="submit" class="btn btn-success" @click.prevent="crearCurs">Crear Curs</button>
       <button v-else type="submit" class="btn btn-success" @click.prevent="modificarCurs">Modificar</button>
-      <router-link v-if="modificar" :to="{ path: '/curs/' + cursForm.id }" class="btn btn-info ms-2">Veure el curs</router-link>
+      <router-link v-if="modificar" :to="{ path: '/curs/' + cursForm.id }" class="btn btn-info ms-2">Veure el
+        curs</router-link>
 
     </form>
 
@@ -179,6 +198,13 @@
 .sortingArrow:hover {
   color: #212529;
 }
+
+.thumbnail{
+    height: 5rem;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+}
 </style>
   
 <script>
@@ -212,12 +238,11 @@ export default {
         id: 0,
         name: '',
         description: '',
-        parent_id: null,
+        parent_id: '',
         students: [],
         teacher: {},
         teacher_id: 0,
-        year: moment().year(),
-        thumbnailURL: 'https://educaciodigital.cat/inslacetania/moodle/pluginfile.php/216009/course/overviewfiles/backend.png'
+        year: moment().year()
       },
       formStatus: {
         error: null,
@@ -254,7 +279,7 @@ export default {
         id: curs.id,
         name: curs.name,
         description: curs.description,
-        parent_id: curs.parent != null ? curs.parent.id : null,
+        parent_id: curs.parent != '' ? curs.parent.id : '',
         students: curs.students.map(v => v.id),
         teacher: curs.teacher,
         teacher_id: curs.teacher.id,
@@ -290,7 +315,21 @@ export default {
       this.formStatus.errorMsg = '';
       let that = this;
 
-      Resources.createCourse(this.cursForm)
+      const formData = new FormData();
+      Object.keys(this.cursForm).forEach(key => {
+        console.log('key :>> ', that.cursForm[key]);
+        if (key == 'students') {
+          formData.append('students', JSON.stringify(that.cursForm.students));
+        } else {
+          formData.append(key, that.cursForm[key]);
+        }
+      })
+
+      if (this.$refs.miniatura.files.length > 0) {
+        formData.append('thumbnail', this.$refs.miniatura.files[0]);
+      }
+
+      Resources.createCourse(formData)
         .then(r => {
           console.log('r :>> ', r);
           that.formStatus.error = false;
@@ -312,7 +351,21 @@ export default {
       this.formStatus.errorMsg = '';
       let that = this;
 
-      Resources.modifyCourse(this.cursForm)
+      const formData = new FormData();
+      Object.keys(this.cursForm).forEach(key => {
+        console.log('key :>> ', that.cursForm[key]);
+        if (key == 'students') {
+          formData.append('students', JSON.stringify(that.cursForm.students));
+        } else {
+          formData.append(key, that.cursForm[key]);
+        }
+      })
+
+      if (this.$refs.miniatura.files.length > 0) {
+        formData.append('thumbnail', this.$refs.miniatura.files[0]);
+      }
+
+      Resources.modifyCourse(formData, this.cursForm.id)
         .then(r => {
           console.log('r :>> ', r);
           that.formStatus.error = false;
@@ -373,7 +426,7 @@ export default {
       this.llistarProfessors = !this.llistarProfessors
       this.getProfessors()
     },
-    
+
   },
   watch: {
     'cursForm.teacher_id': {
@@ -382,11 +435,11 @@ export default {
         if (this.professors.data !== null && this.professors.data.length > 0) {
           this.cursForm.teacher = this.professors.data.filter(prof => prof.id == newID).shift()
         }
-      
+
       },
       deep: true
     }
-    
+
   },
 }
 </script>

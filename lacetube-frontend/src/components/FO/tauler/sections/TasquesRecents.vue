@@ -83,6 +83,7 @@ export default {
                 })
                 .catch(e => {
                     this.error = e;
+                    console.log('e :>> ', e);
                 });
         },
         ordenarTasques(dies = 7) {

@@ -4,6 +4,24 @@
   <header-user v-else
   @logoutUser="logout"
   ></header-user>
+  <!-- Modal tancant sessió -->
+  <div class="modal fade" id="tancantSessio" tabindex="-1" aria-labelledby="tancantSessio" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          Tancant sessió...
+        </div>
+        <div class="modal-body">
+          <span class="text-secondary">S'està tancant la sessió... </span>
+          <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+            <span class="visually-hidden">Tancant Sessió...</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
   </header>
 
 </template>
@@ -31,15 +49,21 @@ export default {
       userStore: userStore
     }
   },
+  mounted(){
+    this.logoutAlert = bootstrap.Modal.getOrCreateInstance('#tancantSessio');
+  },
   data() {
     return {
-      
+      logoutAlert: null
     }
   },
   methods : {
     logout(){
-      this.userStore.logout();
-    }
+      this.logoutAlert.show()
+      this.userStore.logout();    }
+  },
+  beforeUnmount() {
+    this.logoutAlert.hide()
   }
 
 }

@@ -1,10 +1,10 @@
 <template>
     <div class="cursPreview">
-        <div class="thumbnail border rounded-4" 
-        :style="{ backgroundImage: 'url(' + curs.thumbnailURL + ')' }"></div>
-        <h5 class="fw-bold mt-1">{{ curs.name }}</h5>
-        <h6 class="teacher-name text-secondary "><i class="fa-solid fa-user-graduate"></i>&nbsp;&nbsp;<span><em>{{
-                            curs.teacher.name }}</em></span></h6>
+        <div class="thumbnail border rounded-4" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
+        <h5 class="fw-bold mt-1">{{ video.name }}</h5>
+        <h6 class="teacher-name text-secondary ">
+            <i class="fa-solid fa-user-graduate"></i>&nbsp;&nbsp;<span><em>{{ video.user.name }}</em></span>
+            </h6>
 
     </div>
 </template>
@@ -13,18 +13,8 @@
 
 export default {
     props: {
-        curs: {
+        video: {
             type: Object
-        }
-    },
-    data() {
-        return {
-
-        }
-    },
-    computed: {
-        dataFinal() {
-            return moment(this.activitat.end_date, 'YYYY-MM-DD').format('LL')
         }
     }
 
@@ -38,7 +28,8 @@ export default {
     border-radius: 42px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.thumbnail{
+
+.thumbnail {
     height: 10rem;
     overflow: hidden;
     background-position: center;

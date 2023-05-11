@@ -20,7 +20,7 @@
 
             <tbody>
               <tr v-for="(usuari, index) in usuaris" :key="index" class="error">
-                
+
                 <td>
                   <input type="text" class="form-control is-invalid" v-model="usuari.name">
                   <div class="invalid-feedback">
@@ -39,14 +39,16 @@
                 </td>
                 <td class="input-group">
                   <input type="password" class="form-control" v-model="usuari.password">
-                  <button class="btn btn-outline-primary btn-small" type="button"><i
+                  <i class="fa-solid text-secondary" :class="{ 'fa-eye-slash': mostrarPassword, 'fa-eye': !mostrarPassword }" id="togglePassword"></i>
+                  <button class="btn btn-outline-primary btn-small" title="Generar contrasenya" type="button" @click="generarContrasenya(usuari)"><i
                       class="fa-solid fa-rotate"></i></button>
                 </td>
               </tr>
             </tbody>
           </table>
           <!-- Botó afegir més usuris -->
-          <a href="#" class="showMore text-center card-footer" @click.prevent="afegirUsuariLlista"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Afegir més usuaris</a>
+          <a href="#" class="showMore text-center card-footer" @click.prevent="afegirUsuariLlista"><i
+              class="fa-solid fa-plus"></i>&nbsp;&nbsp;Afegir més usuaris</a>
         </div>
 
         <div class="text-start">
@@ -109,7 +111,8 @@ export default {
         loading: false,
         valid: false,
         usuarisErronis: [],
-      }
+      },
+      mostrarPassword: true
     }
   },
   computed: {
@@ -204,9 +207,28 @@ export default {
         })
 
       })
+    },
+    generarContrasenya(usuari) {
+        var longitut = Math.floor(Math.random() * 3) + 12; //Entre 12 i 14 caràcters.
+        var caracters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+        var contrasenya = '';
+        for (var i = 0; i < longitut; i++) {
+          let caracterAleatori = caracters.charAt(Math.floor(Math.random() * caracters.length));
+          contrasenya += caracterAleatori;
+        }
+        
+        usuari.password = contrasenya;
     }
 
 
   }
 }
 </script>
+<style>
+#togglePassword{
+position: absolute; 
+right: 3.7rem; 
+top: 1.1rem;
+cursor: pointer;
+}
+</style>

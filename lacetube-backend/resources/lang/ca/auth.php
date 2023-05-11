@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'No s\'ha trobat aquest compte d\'usuari.',
+    'failed' => 'Les credencials són incorrectes!',
     'throttle' => 'Massa intents d\'inici de sessió. Si us plau torna-ho a provar d\'aquí :seconds segons.',
 
 ];

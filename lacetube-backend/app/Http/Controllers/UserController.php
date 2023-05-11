@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ActivityResource;
 use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserVideos;
@@ -18,7 +19,7 @@ class UserController extends Controller
     public function getActivities() : JsonResponse
     {
         $user = Auth::user();
-        return response()->json($user->activities);
+        return response()->json(ActivityResource::collection($user->activities));
     }
     public function getAvatar($id=0) : JsonResponse
     {

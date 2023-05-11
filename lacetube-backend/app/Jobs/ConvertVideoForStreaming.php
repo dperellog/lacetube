@@ -17,39 +17,35 @@ class ConvertVideoForStreaming implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $video;
+    private $tempPath;
+    private $videoName;
 
-    public function __construct(Video $video)
+    public function __construct($tempPath, $videoName)
     {
-        $this->video = $video;
+        $this->tempPath = $tempPath;
+        $this->videoName = $videoName;
     }
 
     public function handle()
     {
         // create some video formats...
-        $lowBitrateFormat  = (new X264)->setKiloBitrate(500);
-        $midBitrateFormat  = (new X264)->setKiloBitrate(1500);
         $highBitrateFormat = (new X264)->setKiloBitrate(3000);
 
-        // open the uploaded video from the right disk...
-        SupportFFMpeg::fromDisk($this->video->disk)
-            ->open($this->video->path)
-
         // call the 'exportForHLS' method and specify the disk to which we want to export...
+        SupportFFMpeg::fromDisk('tmp')
+        ->open($this->tempPath)
             ->exportForHLS()
-            ->toDisk('streaming/')
+            ->toDisk('streaming')
 
-        // we'll add different formats so the stream will play smoothly
-        // with all kinds of internet connections...
-            ->addFormat($lowBitrateFormat)
-            ->addFormat($midBitrateFormat)
             ->addFormat($highBitrateFormat)
 
         // call the 'save' method with a filename...
-            ->save('/'.$this->video->id.'/'.$this->video->id . '.m3u8');
-        // update the database so we know the convertion is done!
-        $this->video->update([
-            'converted_for_streaming_at' => Carbon::now(),
-        ]);
+            ->save('/'.$this->videoName.'/'.$this->videoName . '.m3u8');
+
+        //Generar miniatura:
+        SupportFFMpeg::fromDisk('tmp')
+        ->open($this->tempPath)
+        ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
+        ->save(storage_path('app/thumbnails/').$this->videoName.'_thumbnail.jpg');
     }
 }

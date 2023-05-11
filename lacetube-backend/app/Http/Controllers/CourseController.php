@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseRequest;
 use App\Http\Resources\ActivityResource;
 use App\Http\Resources\CourseActivitiesResource;
 use App\Http\Resources\CourseResource;
@@ -12,6 +13,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -42,20 +44,14 @@ class CourseController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CourseRequest $request)
     {
 
-        $validateData = $request->validate([
-             'teacher_id' => 'required|exists:users,id',
-             'name' => 'required|max:255',
-             'thumbnailURL' => 'url',
-             'description' => 'required|max:255',
-             'year' => 'required|digits:4',
-             'parent_id' => 'nullable|exists:courses,id',
-         ]);
-
-         $thumbnailURL = $request->thumbnailURL ?? 'ola.jpg';
-
+         if ($request->hasFile('thumbnail')) {
+            $thumbnailURL = $request->file('thumbnail')->store('', 'thumbnails');
+         } else {
+            $thumbnailURL = 'thumbnail.png';
+         }
 
 
          $course = Course::create([
@@ -68,7 +64,7 @@ class CourseController extends Controller
          ]);
 
          //Add users to course:
-         foreach ($request->students as $student) {
+         foreach (json_decode($request->students) as $student) {
             $user = User::findOrFail($student);
 
             $user->courses()->attach($course);
@@ -77,34 +73,33 @@ class CourseController extends Controller
          return response()->json($course, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(CourseRequest $request, $id)
     {
         $course = Course::findOrFail($id);
         if ($request->teacher_id != $course->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
             return response()->json('',401);
         }
 
-        $validateData = $request->validate([
-            'teacher_id' => 'required|exists:users,id',
-            'name' => 'required|max:255',
-            'thumbnailURL' => 'url',
-            'description' => 'required|max:255',
-            'year' => 'required|max:255',
-            'parent_id' => 'exists:courses,id',
-        ]);
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailURL = $request->file('thumbnail')->store('', 'thumbnails');
+         } else {
+            $thumbnailURL = $request->thumbnailURL;
+         }
+
         $course->teacher_id = $request->teacher_id;
         $course->name = $request->name;
         $course->description = $request->description;
-        $course->thumbnailURL = $request->thumbnailURL;
+        $course->thumbnailURL = $thumbnailURL;
         $course->year = $request->year;
         $course->parent_id = $request->parent_id;
         $course->save();
 
 
         $students= $course->students;
+        $requestStudents = json_decode($request->students);
 
         //Add users to course:
-        foreach ($request->students as $student) {
+        foreach ($requestStudents as $student) {
             $user = User::findOrFail($student);
 
             if (!$students->contains($user)){
@@ -114,7 +109,7 @@ class CourseController extends Controller
 
          //Detach users to course:
          foreach ($students as $student) {
-            if (!in_array($student->id, $request->students)) {
+            if (!in_array($student->id, $requestStudents)) {
                $student->courses()->detach($course);
             }
          }

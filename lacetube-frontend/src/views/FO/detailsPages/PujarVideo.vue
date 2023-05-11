@@ -174,7 +174,6 @@ export default {
             this.videoFormStatus.error = null;
             this.videoFormStatus.errorMsg = '';
             let that = this;
-            let formVideo = this.videoForm
 
             const formData = new FormData();
             Object.keys(this.videoForm).forEach(key => {

@@ -19,7 +19,7 @@
       <!-- Llistat de tasques -->
     <h2 class="h3 mt-4 fw-bold">Tasques del curs:</h2>
     <div v-if="activitats.data != null && !activitats.error">
-      <ActivitatsTaula :activitats="activitats.data" :curs="curs" @refrescarTaula="refrescarTaula()"></ActivitatsTaula>
+      <ActivitatsTaula :activitats="activitats.data" :curs="curs" @refrescarTaula="refrescarTaula()" :obrirFormulariCreacio="crearTasca"></ActivitatsTaula>
     </div>
 
     <div v-else>
@@ -62,6 +62,12 @@ export default {
     ElsMeusCursos,
     ActivitatsTaula
   },
+  beforeMount() {
+    if (this.$route.query.crear) {
+      this.crearTasca = true;
+    }
+
+  },
   data() {
     return {
       curs: null,
@@ -69,6 +75,7 @@ export default {
         error: false,
         data: null
       },
+      crearTasca : false
     }
   },
   methods: {

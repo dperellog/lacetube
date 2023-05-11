@@ -20,12 +20,16 @@ export default {
 
     async createCourse(course) {
         return Service.get('sanctum/csrf-cookie')
-            .then(() => Service.post('/api/course/create', course))
+            .then(() => Service.post('/api/course/create', course, {headers: {
+                'content-type': 'multipart/form-data',
+              }}))
     },
 
-    async modifyCourse(course) {
+    async modifyCourse(course, id) {
         return Service.get('sanctum/csrf-cookie')
-            .then(() => Service.put('/api/course/modify/'+course.id, course))
+            .then(() => Service.post('/api/course/modify/'+id, course, {headers: {
+                'content-type': 'multipart/form-data',
+              }}))
     },
 
     async deleteCourse(courseID) {
@@ -41,6 +45,11 @@ export default {
     async modifyTask(task) {
         return Service.get('sanctum/csrf-cookie')
             .then(() => Service.put('/api/activity/modify/'+task.id, task))
+    },
+
+    async deleteTask(taskID) {
+        return Service.get('sanctum/csrf-cookie')
+        .then(() => Service.delete('/api/activity/delete/'+taskID))
     },
 
     async getAllStudents(){

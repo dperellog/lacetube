@@ -29,15 +29,15 @@ class ActivityResource extends JsonResource
         ];
     }
     public function entregada($id){
-        
+
         $videos=Video::where('activity_id', $id)
         ->where('user_id', Auth::user()->id)
         ->get();
         if ($videos->isEmpty()){
             return false;
         }else{
-            return $videos[0];
+            return new UserVideosResource($videos->last());
         }
-        
+
     }
 }

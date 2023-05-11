@@ -6,7 +6,7 @@
           Acció en massa
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#" @click.prevent="triggerEliminaractivitatos()">Eliminar</a></li>
+          <li><a class="dropdown-item" href="#" @click.prevent="triggerEliminarActivitats()">Eliminar</a></li>
         </ul>
       </div>
     </div>
@@ -47,32 +47,34 @@
         </div>
       </div>
 
-      <button v-if="!tascaFormStatus.editing" class="btn btn-success" @click="crearTasca" :disabled="newTaskFormCorrecte">Crear Tasca</button>
-      <button v-else class="btn btn-success" @click="modificarTasca" :disabled="newTaskFormCorrecte">Modificar Tasca</button>
+      <button v-if="!tascaFormStatus.editing" class="btn btn-success" @click="crearTasca"
+        :disabled="newTaskFormCorrecte">Crear Tasca</button>
+      <button v-else class="btn btn-success" @click="modificarTasca" :disabled="newTaskFormCorrecte">Modificar
+        Tasca</button>
 
       <div class="mt-2" v-if="tascaFormStatus.loading">
-      <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
-        <span class="visually-hidden">Creant tasca...</span>
+        <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+          <span class="visually-hidden">Creant tasca...</span>
+        </div>
+        <span v-if="!tascaFormStatus.editing" class="text-secondary">Creant tasca... </span>
+        <span v-else class="text-secondary">Modificant tasca... </span>
       </div>
-      <span v-if="!tascaFormStatus.editing" class="text-secondary">Creant tasca... </span>
-      <span v-else class="text-secondary">Modificant tasca... </span>
-    </div>
 
-    <div class="mt-2" v-if="tascaFormStatus.error === true">
-      <div class="alert alert-dismissible alert-danger">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>Hi ha hagut un error!</strong>
-        <p class="mb-0">{{ tascaFormStatus.errorMsg }}</p>
+      <div class="mt-2" v-if="tascaFormStatus.error === true">
+        <div class="alert alert-dismissible alert-danger">
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          <strong>Hi ha hagut un error!</strong>
+          <p class="mb-0">{{ tascaFormStatus.errorMsg }}</p>
+        </div>
       </div>
-    </div>
-    <div class="mt-2" v-if="tascaFormStatus.error === false">
-      <div class="alert alert-dismissible alert-success">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>Acció completada: </strong>
-        <p v-if="!tascaFormStatus.editing" class="mb-0">S'ha creat la tasca exitosament!</p>
-        <p v-else class="mb-0">S'ha modificat la tasca exitosament!</p>
+      <div class="mt-2" v-if="tascaFormStatus.error === false">
+        <div class="alert alert-dismissible alert-success">
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          <strong>Acció completada: </strong>
+          <p v-if="!tascaFormStatus.editing" class="mb-0">S'ha creat la tasca exitosament!</p>
+          <p v-else class="mb-0">S'ha modificat la tasca exitosament!</p>
+        </div>
       </div>
-    </div>
 
     </div>
   </div>
@@ -97,11 +99,12 @@
       </thead>
 
       <tbody>
-        <tr v-if="activitatsFiltrades.length > 0" v-for="activitat in limitarArray(activitatsFiltrades)" :key="activitat.id">
+        <tr v-if="activitatsFiltrades.length > 0" v-for="activitat in limitarArray(activitatsFiltrades)"
+          :key="activitat.id">
           <td style="width:5%">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" :value="activitat" :id="'activitat' + activitat.id"
-                v-model="activitatModificar">
+                v-model="activitatsModificar">
             </div>
           </td>
           <td style="width:35%">
@@ -121,7 +124,7 @@
             <button @click="formulariEditarTasca(activitat)" class="btn btn-sm btn-info m-1">
               Editar
             </button>
-            <button type="button" @click="triggerEliminaractivitat(activitat)" class="btn btn-sm btn-danger m-1">
+            <button type="button" @click="triggerEliminarActivitat(activitat)" class="btn btn-sm btn-danger m-1">
               Eliminar
             </button>
           </td>
@@ -138,6 +141,109 @@
     <!-- Botó mostrar més -->
     <a href="#" class="showMore text-center card-footer" v-if="limit != -1 && activitatsFiltrades > limit"
       @click.prevent="mostrarMes">Mostra'n més</a>
+
+
+    <!-- Confirmació eliminar activitat single -->
+    <div class="modal fade" id="confirmacioEliminar" tabindex="-1" aria-labelledby="confirmacioEliminar"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="confirmacioEliminar">Segur que vols eliminar l'activitat?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Estas a punt d'eliminar la següent activitat: <span class="fw-bold text-dark">{{
+              activitatEliminar.data.name }}</span>
+            </p>
+            <p v-if="!activitatEliminar.valid">Estas segur que vols eliminar l'activitat? <span
+                class="fw-bold h6 text-danger">Aquesta acció no es pot revertir!</span></p>
+
+            <!-- Missatge de confirmació -->
+            <div class="mt-2" v-if="activitatEliminar.loading">
+              <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+                <span class="visually-hidden">Eliminant activitat...</span>
+              </div>
+              <span class="text-secondary">Eliminant activitat... </span>
+            </div>
+            <div class="mt-2" v-if="activitatEliminar.error === true">
+              <div class="alert alert-danger">
+                <strong>Hi ha hagut un error!</strong>
+                <p class="mb-0">{{ activitatEliminar.errorMsg }}</p>
+              </div>
+            </div>
+            <div class="mt-2" v-if="activitatEliminar.error === false">
+              <div class="alert alert-success">
+                <strong>Acció completada: </strong>
+                <p class="mb-0">S'ha eliminat l'activitat exitosament!</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" v-if="!activitatEliminar.valid">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel·lar</button>
+            <button type="button" @click="eliminarActivitat(activitatEliminar.data.id)"
+              class="btn btn-outline-danger">Eliminar
+              Activitat</button>
+          </div>
+          <div class="modal-footer" v-else>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tancar</button>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmació eliminar curs multi -->
+  <div class="modal fade" id="confirmacioEliminarMulti" tabindex="-1" aria-labelledby="confirmacioEliminarMulti"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="confirmacioEliminarMulti">Segur que vols eliminar tots aquests cursos?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Estas a punt d'eliminar les següents activitats: </p>
+          <ul>
+            <li v-for="activitat in activitatsModificar">
+              <span class="fw-bold text-dark">{{ activitat.name }}</span>
+            </li>
+          </ul>
+          <p v-if="!activitatEliminar.valid">Estas segur que vols eliminar aquestes activitats? <span
+              class="fw-bold h6 text-danger">Aquesta acció no es pot revertir!</span></p>
+
+          <!-- Missatge de confirmació -->
+          <div class="mt-2" v-if="activitatEliminar.loading">
+            <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+              <span class="visually-hidden">Eliminant activitats...</span>
+            </div>
+            <span class="text-secondary">Eliminant activitats... </span>
+          </div>
+          <div class="mt-2" v-if="activitatEliminar.error === true">
+            <div class="alert alert-danger">
+              <strong>Hi ha hagut un error!</strong>
+              <p class="mb-0">{{ activitatEliminar.errorMsg }}</p>
+            </div>
+          </div>
+          <div class="mt-2" v-if="activitatEliminar.error === false">
+            <div class="alert alert-success">
+              <strong>Acció completada: </strong>
+              <p class="mb-0">S'han eliminat les activitats exitosament!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" v-if="!activitatEliminar.valid">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel·lar</button>
+          <button type="button" @click="eliminarActivitats()" class="btn btn-outline-danger">Eliminar
+            Activitats</button>
+        </div>
+        <div class="modal-footer" v-else>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tancar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style>
@@ -175,6 +281,9 @@ export default {
     curs: {
       type: Object,
       required: true
+    },
+    obrirFormulariCreacio: {
+      type: Boolean
     }
   },
   emits: ["refrescarTaula"],
@@ -184,6 +293,8 @@ export default {
   beforeMount() {
     this.activitatsFiltrades = this.activitats
     this.tascaForm = { ...this.tascaModel }
+
+    this.creantTasca = this.obrirFormulariCreacio;
   },
   data() {
     return {
@@ -212,7 +323,18 @@ export default {
         valid: false,
         editing: false,
       },
-      activitatModificar: []
+      activitatEliminar: {
+        data: {
+          id: '',
+          name: ''
+        },
+        error: null,
+        errorMsg: '',
+        loading: false,
+        valid: false,
+        alerta: false
+      },
+      activitatsModificar: []
 
     }
   },
@@ -230,7 +352,7 @@ export default {
     }
   },
   methods: {
-    formatarData(data){
+    formatarData(data) {
       return moment(data).format('DD-MM-YYYY')
     },
     limitarArray(arr) {
@@ -250,7 +372,7 @@ export default {
     },
     mostrarMes() {
       this.limit += 10;
-      if (this.limit >= this.activitatos.length) {
+      if (this.limit >= this.activitats.length) {
         this.limit = -1;
       }
     },
@@ -273,20 +395,20 @@ export default {
 
       this.columnesOrdre[atribut] = !this.columnesOrdre[atribut]
     },
-    formulariCrearTasca(){
+    formulariCrearTasca() {
       this.tascaForm = { ...this.tascaModel }
       this.tascaFormStatus.editing = false;
       this.creantTasca = true;
     },
-    actualitzarTaula(){
+    actualitzarTaula() {
       this.$emit('refrescarTaula');
     },
     formulariEditarTasca(tasca) {
-      this.tascaForm = {...tasca};
+      this.tascaForm = { ...tasca };
 
       this.tascaFormStatus.editing = true;
       this.creantTasca = true;
-      
+
     },
     async crearTasca() {
       //Reset defaults:
@@ -295,7 +417,7 @@ export default {
       this.tascaFormStatus.errorMsg = '';
       let that = this;
 
-      let tasca = {...this.tascaForm}
+      let tasca = { ...this.tascaForm }
       tasca.course_id = this.curs.id
 
       Resources.createTask(tasca)
@@ -303,7 +425,7 @@ export default {
           console.log('r :>> ', r);
           that.tascaFormStatus.error = false;
 
-          that.tascaForm = {...that.tascaModel}
+          that.tascaForm = { ...that.tascaModel }
         })
         .catch(e => {
           console.log('e :>> ', e);
@@ -322,7 +444,7 @@ export default {
       this.tascaFormStatus.errorMsg = '';
       let that = this;
 
-      let tasca = {...this.tascaForm}
+      let tasca = { ...this.tascaForm }
       tasca.course_id = this.curs.id
       tasca.id = this.curs.id
 
@@ -331,7 +453,7 @@ export default {
           console.log('r :>> ', r);
           that.tascaFormStatus.error = false;
 
-          that.tascaForm = {...that.tascaModel}
+          that.tascaForm = { ...that.tascaModel }
         })
         .catch(e => {
           console.log('e :>> ', e);
@@ -342,7 +464,87 @@ export default {
           //Update UI:
           that.tascaFormStatus.loading = false;
         })
-      }
+    },
+    triggerEliminarActivitat(activitat) {
+      this.activitatEliminar.valid = false;
+      this.activitatEliminar.data = activitat;
+
+      this.activitatEliminar.alerta = new bootstrap.Modal(document.getElementById('confirmacioEliminar'), { backdrop: true })
+      this.activitatEliminar.alerta.show()
+    },
+    eliminarActivitat(activitatID) {
+      //Reset defaults:
+      this.activitatEliminar.loading = true;
+      this.activitatEliminar.error = null;
+      this.activitatEliminar.errorMsg = '';
+      let that = this;
+
+      Resources.deleteTask(activitatID)
+        .then(r => {
+          console.log('r :>> ', r);
+          that.activitatEliminar.error = false;
+          this.activitatEliminar.valid = true;
+
+          const alerta = document.getElementById('confirmacioEliminar')
+
+          alerta.addEventListener('hidden.bs.modal', event => {
+            that.$emit('refrescarTaula');
+          })
+
+        })
+        .catch(e => {
+          console.log('e :>> ', e);
+          that.activitatEliminar.error = true;
+          that.activitatEliminar.errorMsg = e.response.data.message;
+        })
+        .finally(() => {
+          //Update UI:
+          that.activitatEliminar.loading = false;
+        })
+    },
+    triggerEliminarActivitats() {
+      this.activitatEliminar.valid = false;
+
+      this.activitatEliminar.alerta = new bootstrap.Modal(document.getElementById('confirmacioEliminarMulti'), { backdrop: true })
+      this.activitatEliminar.alerta.show()
+    },
+    async eliminarActivitats() {
+      //Reset defaults:
+      this.activitatEliminar.loading = true;
+      this.activitatEliminar.error = null;
+      this.activitatEliminar.errorMsg = '';
+      let that = this;
+
+      //Eliminar tots els cursos:
+      let activitatsAEliminar = this.activitatsModificar.map(activitat => {
+        return Resources.deleteTask(activitat.id)
+      })
+
+      Promise.all(activitatsAEliminar)
+        .then(responses => {
+          // Aquí tienes todas las respuestas de los fetches
+          console.log('responses :>> ', responses);
+
+          that.activitatEliminar.error = false;
+          this.activitatEliminar.valid = true;
+
+          const alerta = document.getElementById('confirmacioEliminarMulti')
+
+          alerta.addEventListener('hidden.bs.modal', event => {
+            that.$emit('refrescarTaula');
+          })
+        })
+        .catch(error => {
+          // Aquí manejas el error si alguno de los fetches falla
+          console.log('errors :>> ', error);
+          that.activitatEliminar.error = true;
+          that.activitatEliminar.errorMsg = e.response.data.message;
+        })
+        .finally(() => {
+          this.activitatEliminar.loading = false;
+        })
+
+    }
   }
 
 

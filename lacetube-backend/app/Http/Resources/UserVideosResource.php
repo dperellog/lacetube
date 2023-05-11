@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class UserVideosResource extends JsonResource
 {
@@ -21,8 +23,9 @@ class UserVideosResource extends JsonResource
             'comments' => $this->comments,
             'title' => $this->title,
             'description' => $this->description,
-            'path' => $this->path,
-            
+            'streamingPath' => Storage::disk('streaming')->url($this->video_name.'/'.$this->streamingPath),
+            'downloadPath' => Storage::disk('download')->url($this->video_name.'/'.$this->downloadPath),
+            'thumbnail' => Storage::disk('thumbnails')->url($this->thumbnailPath),
         ];
     }
 }

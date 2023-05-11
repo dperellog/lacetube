@@ -28,7 +28,7 @@ class ActivityController extends Controller
 
         $validateData = $request->validate([
             'name' => 'required|max:255',
-            'description' => 'required|max:255',
+            'description' => 'required|max:5000',
             'end_date' => 'required|date',
             'course_id' => 'exists:courses,id',
         ]);

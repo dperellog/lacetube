@@ -17,41 +17,34 @@ class ConvertVideoForDownloading implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $video;
+    private $tempPath;
+    private $videoName;
 
-    public function __construct(Video $video)
+    public function __construct($tempPath, $videoName)
     {
-        $this->video = $video;
+        $this->tempPath = $tempPath;
+        $this->videoName = $videoName;
     }
 
     public function handle()
     {
         // create a video format...
-        $lowBitrateFormat = (new X264)->setKiloBitrate(500);
+        $bitrateFormat = (new X264)->setKiloBitrate(3000);
 
         // open the uploaded video from the right disk...
 
-        FFMpeg::fromDisk($this->video->disk)
-            ->open($this->video->path)
-
-        // add the 'resize' filter...
-            ->addFilter(function ($filters) {
-                $filters->resize(new Dimension(960, 540));
-            })
+        FFMpeg::fromDisk('tmp')
+            ->open($this->tempPath)
 
         // call the 'export' method...
             ->export()
 
         // tell the MediaExporter to which disk and in which format we want to export...
             ->toDisk('download')
-            ->inFormat($lowBitrateFormat)
+            ->inFormat($bitrateFormat)
 
         // call the 'save' method with a filename...
-            ->save('/'.$this->video->id.'/'.$this->video->id . '.mp4');
+            ->save('/'.$this->videoName.'/'.$this->videoName . '.mp4');
 
-        // update the database so we know the convertion is done!
-        $this->video->update([
-            'converted_for_downloading_at' => Carbon::now(),
-        ]);
     }
 }

@@ -13,25 +13,15 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
 
-            
+
                 $table->id();
                 $table->string('title');
                 $table->string('description');
-                $table->string('original_name');
-                $table->string('disk');
-                $table->string('path');
-                $table->datetime('converted_for_downloading_at')->nullable();
-                $table->datetime('converted_for_streaming_at')->nullable();
+                $table->string('video_name');
+                $table->string('streamingPath');
+                $table->string('downloadPath');
+                $table->string('thumbnailPath');
                 $table->timestamps();
-        //     $table->id();
-        //     $table->string('title');
-        //     $table->string('original_name');
-        //     $table->string('disk');
-        //     $table->string('mediaURL')->nullable();
-        //     $table->string('path');
-        //     $table->datetime('converted_for_downloading_at')->nullable();
-        //     $table->datetime('converted_for_streaming_at')->nullable();
-        //     $table->timestamps();
 
         //     //Relationships:
              $table->foreignId('activity_id')

@@ -2,19 +2,23 @@
     <div>
         <div class="card">
             <div class="row px-4 py-2">
-                <div class="card-body col-11">
+                <div class="card-body col-sm-10">
                     <header class="">
                         <h3 class="h4 fw-bold">{{ activitat.name }}</h3>
-                        <h6 class="text-secondary" v-if="disseny == 'carta'"><i class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;<span>{{
-                            activitat.course_name }}</span></h6>
+                        <router-link :to="{ path: '/curs/'+activitat.course.id }" class="h6 text-secondary text-decoration-none" v-if="disseny == 'carta'"><i class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;<span>{{
+                            activitat.course.name }}</span></router-link>
                         <h6 class="text-secondary"><i class="fa-solid fa-calendar-check"></i>&nbsp;&nbsp;<span>Venciment: {{
                             dataFinal }}</span></h6>
                         <hr>
                     </header>
                     <p>{{ activitat.description }}</p>
                 </div>
-                <div class="col-1 mt-4 d-grid gap-2 mb-auto">
+                <div v-if="!activitat.entregada" class="col-sm-2 col-md-1 mt-sm-4 d-grid gap-2 mb-auto">
                     <router-link :to="{ path: '/activitat/penjar/' + activitat.id }" class="btn btn-warning d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-sharp fa-solid fa-upload"></i></router-link>
+                </div>
+                <div v-else class="col-1 mt-4 d-grid gap-2 mb-auto">
+                    <router-link :to="{ path: '/' }" class="btn btn-success d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-solid fa-check-to-slot"></i></router-link>
+                    <router-link :to="{ path: '/' }" class="btn btn-info d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-solid fa-pencil"></i></router-link>
                 </div>
             </div>
         </div>
