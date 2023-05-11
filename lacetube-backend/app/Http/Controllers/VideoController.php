@@ -7,6 +7,7 @@ use App\Jobs\ConvertVideoForDownloading;
 use App\Jobs\ConvertVideoForStreaming;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
@@ -44,7 +45,7 @@ class VideoController extends Controller
             'thumbnailPath' => $videoName.'_thumbnail.jpg'
         ]);
 
-
+        Storage::disk('tmp')->delete($tempPath);
         return response()->json(new UserVideosResource($video), 201);
     }
 
