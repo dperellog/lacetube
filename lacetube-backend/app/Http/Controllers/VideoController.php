@@ -67,7 +67,12 @@ class VideoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $video=Video::findOrFail($id);
+        Storage::disk('download')->delete($video->video_name);
+        Storage::disk('streaming')->delete($video->video_name);
+        $video->delete();
+        return response()->json(null, 204);
+
     }
 
 }
