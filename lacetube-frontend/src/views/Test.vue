@@ -23,7 +23,7 @@ export default {
     HeaderFrontoffice
   },
   beforeMount() {
-      axios.get('/api/recomended/1', {
+      axios.delete('/api/video/delete/4', {
         description: 'Comentari de provaF',
         stars : 4,
         video_id: 1,
