@@ -35,16 +35,22 @@
                 <label for="exampleInputEmail1" class="form-label h4">Títol del video:</label>
                 <input type="text" class="form-control" v-model="videoForm.title">
             </div>
+
+            <!-- Descripcio -->
             <div class="row">
                 <div class="col-sm-8">
                     <label for="exampleInputPassword1" class="form-label">Descripció del video:</label>
                     <textarea class="form-control" rows="9" v-model="videoForm.description"></textarea>
                 </div>
+
+                <!-- Caixa -->
                 <div class="col-sm-4">
                     <label for="exampleInputPassword1" class="form-label">Arxiu de video:</label>
-                    <div class="dropbox">
+                    <div class="dropbox rounded-4">
                         <input type="file" @change="filesChange()" accept="video/*" ref="videoInput" class="input-file">
-
+                        <p v-if="!this.videoForm.video"><i class="fa-solid fa-file-arrow-up text-grey"></i></p>
+                        <p v-else><i class="fa-solid fa-file-circle-check text-success"></i></p>
+                        
                     </div>
                 </div>
             </div>
@@ -210,7 +216,7 @@ export default {
     outline: 2px dashed grey;
     /* the dash box */
     outline-offset: -10px;
-    background: lightcyan;
+    background: #fff9f1;
     color: dimgray;
     padding: 10px 10px;
     min-height: 200px;
@@ -229,12 +235,12 @@ export default {
 }
 
 .dropbox:hover {
-    background: lightblue;
+    background: #ffeed4;
     /* when mouse over to the drop zone, change color */
 }
 
 .dropbox p {
-    font-size: 1.2em;
+    font-size: 4em;
     text-align: center;
     padding: 50px 0;
 }</style>

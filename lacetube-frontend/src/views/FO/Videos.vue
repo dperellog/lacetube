@@ -3,7 +3,7 @@
   <div class="container mt-4 px-4">
     <h1 class="fw-bold">Els meus videos:</h1>
     <hr>
-      <ElsMeusCursos class="my-5" mostrarTots></ElsMeusCursos>
+      <ElsMeusVideos class="my-5" mostrarTots></ElsMeusVideos>
     
   </div>
   <FooterFrontoffice></FooterFrontoffice>
@@ -12,13 +12,13 @@
 <script>
 import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
 import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
-import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
+import ElsMeusVideos from '@/components/FO/tauler/sections/ElsMeusVideos.vue';
 
 export default {
   components: {
     HeaderFrontoffice,
     FooterFrontoffice,
-    ElsMeusCursos
+    ElsMeusVideos
   },
   data() {
     return {

@@ -11,6 +11,9 @@
     <p class="h2 my-4 col-8">Els meus cursos:</p>
     <ElsMeusCursos class="mb-5"></ElsMeusCursos>
 
+    <p class="h2 my-4 col-8">Els meus videos:</p>
+    <ElsMeusVideos class="mb-5"></ElsMeusVideos>
+
   </div>
   <FooterFrontoffice></FooterFrontoffice>
 </template>
@@ -21,6 +24,7 @@ import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
 import TasquesRecents from '@/components/FO/tauler/sections/TasquesRecents.vue'
 import TasquesPassades from '@/components/FO/tauler/sections/TasquesPassades.vue';
 import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
+import ElsMeusVideos from '@/components/FO/tauler/sections/ElsMeusVideos.vue';
 
 export default {
   components: {
@@ -28,7 +32,8 @@ export default {
     FooterFrontoffice,
     TasquesRecents,
     TasquesPassades,
-    ElsMeusCursos
+    ElsMeusCursos,
+    ElsMeusVideos
   },
   data() {
     return {

@@ -36,6 +36,7 @@ const router = createRouter({
       component: () => import('../views/FO/Cursos.vue'),
       meta: { usuariAutenticat: true }
     },
+    
     {
       path: '/curs/:id',
       name: 'curs-detall',
@@ -49,6 +50,18 @@ const router = createRouter({
       name: 'pujar-video',
       component: () => import('../views/FO/detailsPages/PujarVideo.vue'),
       meta: { usuariAutenticat: true },
+      props: true
+    },
+    {
+      path: '/videos',
+      name: 'videos',
+      component: () => import('../views/FO/Videos.vue'),
+      meta: { usuariAutenticat: true }
+    },
+    {
+      path: '/video/:id',
+      name: 'watch',
+      component: () => import('../views/FO/detailsPages/View.vue'),
       props: true
     },
 

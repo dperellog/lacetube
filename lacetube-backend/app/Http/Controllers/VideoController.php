@@ -7,6 +7,8 @@ use App\Jobs\ConvertVideoForDownloading;
 use App\Jobs\ConvertVideoForStreaming;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
@@ -15,7 +17,7 @@ class VideoController extends Controller
      */
     public function getVideo($id): JsonResponse
     {
-        return response()->json(Video::findOrFail($id));
+        return response()->json(new UserVideosResource(Video::findOrFail($id)));
     }
 
     /**
@@ -29,7 +31,7 @@ class VideoController extends Controller
         $videoName = explode('.',$tempPath)[0];
 
         //Processar video:
-        ConvertVideoForDownloading::dispatch($tempPath, $videoName);
+        //ConvertVideoForDownloading::dispatch($tempPath, $videoName);
         ConvertVideoForStreaming::dispatch($tempPath, $videoName);
 
 
@@ -51,8 +53,13 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function stream(string $file)
     {
+        $contents = file_get_contents(Storage::disk('streaming')->path($file));
+        $response = Response::make($contents, 200);
+        $response->header('Content-Type', 'application/vnd.apple.mpegurl');
+        return $response;
+
         //
     }
 

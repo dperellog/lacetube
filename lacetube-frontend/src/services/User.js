@@ -44,12 +44,12 @@ export default {
             if (!storeCourses || force) {
                 if (userStore.hasRole('admin')) {
                     Service.get('api/course/all')
-                    .then(r => {
-                        userStore.setUserCourses(r.data);
-                        resolve(r.data)
-                    })
-                    .catch(e => reject(e))
-                } 
+                        .then(r => {
+                            userStore.setUserCourses(r.data);
+                            resolve(r.data)
+                        })
+                        .catch(e => reject(e))
+                }
                 else {
                     Service.get('api/user/courses')
                         .then(r => {
@@ -88,5 +88,36 @@ export default {
         }
 
         return roles[role];
+    },
+
+    async getVideos(force = false) {
+        let userStore = useUserStore();
+
+        return new Promise((resolve, reject) => {
+
+            let storeVideos = userStore.getUserVideos();
+
+            if (!storeVideos || force) {
+                if (userStore.hasRole('admin')) {
+                    Service.get('api/user/videos')
+                        .then(r => {
+                            userStore.setUserVideos(r.data.data);
+                            resolve(r.data.data)
+                        })
+                        .catch(e => reject(e))
+                }
+                else {
+                    Service.get('api/user/videos')
+                        .then(r => {
+                            userStore.setUserVideos(r.data.data);
+                            resolve(r.data.data)
+                        })
+                        .catch(e => reject(e))
+                }
+
+            } else {
+                resolve(storeVideos)
+            }
+        })
     }
 }

@@ -16,7 +16,7 @@
           <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
             <span class="visually-hidden">Tancant Sessió...</span>
           </div>
-
+          <p class="h6 fw-bold">Si passat uns segons aquesta pantalla no desapareix, refresqueu la pàgina.</p>
         </div>
       </div>
 

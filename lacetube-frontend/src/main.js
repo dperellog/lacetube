@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import DropZone from 'dropzone-vue';
+import VuePlyr from 'vue-plyr'
 
 
 import App from './App.vue'
@@ -15,7 +15,8 @@ import moment from 'moment';
 import 'moment/dist/locale/ca';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-import 'dropzone-vue/dist/dropzone-vue.common.css';
+import 'vue-plyr/dist/vue-plyr.css'
+import 'video.js/dist/video-js.css'
 
 
 moment.locale('ca');
@@ -26,7 +27,9 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(DropZone)
+app.use(VuePlyr, {
+    plyr: {}
+  })
 
 app.component('VueDatePicker', VueDatePicker);
 

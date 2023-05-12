@@ -1,9 +1,9 @@
 <template>
     <div class="cursPreview">
         <div class="thumbnail border rounded-4" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
-        <h5 class="fw-bold mt-1">{{ video.name }}</h5>
+        <h5 class="fw-bold mt-1">{{ video.title }}</h5>
         <h6 class="teacher-name text-secondary ">
-            <i class="fa-solid fa-user-graduate"></i>&nbsp;&nbsp;<span><em>{{ video.user.name }}</em></span>
+            <i class="fa-solid fa-user"></i>&nbsp;&nbsp;<span><em>{{ video.user.name }}</em></span>
             </h6>
 
     </div>

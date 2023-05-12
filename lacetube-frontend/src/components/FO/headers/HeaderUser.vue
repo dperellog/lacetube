@@ -31,7 +31,7 @@
               class="btn-tauler-dropdown btn btn-warning my-3 rounded-pill fw-bold">Tauler</router-link></li>
           <li><router-link to="/cursos" class="dropdown-item"><i
                 class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;Cursos</router-link></li>
-          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-video"></i>&nbsp;&nbsp;Els meus videos</a></li>
+          <li><router-link to="/videos" class="dropdown-item"><i class="fa-solid fa-video"></i>&nbsp;&nbsp;Els meus videos</router-link></li>
           <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;El meu perfil</a></li>
           <li><a class="dropdown-item" href="#">Configuració</a></li>
           <div v-if="userStore.canAccessGestio">

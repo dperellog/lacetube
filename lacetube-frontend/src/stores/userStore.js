@@ -9,7 +9,8 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user: JSON.parse(localStorage.getItem('lacetubeUser')),
     userCourses: null,
-    userActivities: null
+    userActivities: null,
+    userVideos: null,
   }),
   getters: {
     currentUser: (state) => state.user,
@@ -66,6 +67,12 @@ export const useUserStore = defineStore('user', {
     },
     getUserActivities(){
       return this.userActivities;
+    },
+    setUserVideos(videos){
+      this.userVideos = videos;
+    },
+    getUserVideos(){
+      return this.userVideos;
     }
   },
 })

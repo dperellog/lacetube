@@ -82,14 +82,12 @@ class CourseController extends Controller
 
         if ($request->hasFile('thumbnail')) {
             $thumbnailURL = $request->file('thumbnail')->store('', 'thumbnails');
-         } else {
-            $thumbnailURL = $request->thumbnailURL;
+            $course->thumbnailURL = $thumbnailURL;
          }
 
         $course->teacher_id = $request->teacher_id;
         $course->name = $request->name;
         $course->description = $request->description;
-        $course->thumbnailURL = $thumbnailURL;
         $course->year = $request->year;
         $course->parent_id = $request->parent_id;
         $course->save();

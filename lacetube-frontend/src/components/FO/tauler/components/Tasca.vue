@@ -17,7 +17,7 @@
                     <router-link :to="{ path: '/activitat/penjar/' + activitat.id }" class="btn btn-warning d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-sharp fa-solid fa-upload"></i></router-link>
                 </div>
                 <div v-else class="col-1 mt-4 d-grid gap-2 mb-auto">
-                    <router-link :to="{ path: '/' }" class="btn btn-success d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-solid fa-check-to-slot"></i></router-link>
+                    <router-link :to="{ path: '/video/'+activitat.entregada.id }" class="btn btn-success d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-solid fa-check-to-slot"></i></router-link>
                     <router-link :to="{ path: '/' }" class="btn btn-info d-block" style="min-height: 3rem; font-size: 1.4rem;"><i class="fa-solid fa-pencil"></i></router-link>
                 </div>
             </div>

@@ -13,11 +13,14 @@
     "chart.js": "^4.3.0",
     "crypto-js": "^4.1.1",
     "dropzone-vue": "^0.1.11",
+    "hls.js": "^1.4.3",
     "moment": "^2.29.4",
     "pinia": "^2.0.32",
+    "video.js": "^8.3.0",
     "vue": "^3.2.47",
     "vue-chartjs": "^5.2.0",
     "vue-moment": "^4.1.0",
+    "vue-plyr": "^7.0.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

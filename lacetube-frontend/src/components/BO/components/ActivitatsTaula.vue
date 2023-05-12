@@ -108,7 +108,7 @@
             </div>
           </td>
           <td style="width:35%">
-            <router-link :to="{ path: '/' }" class="text-primary fw-bold mb-1">{{
+            <router-link :to="{ path: '/activitat/penjar/'+activitat.id }" class="text-primary fw-bold mb-1">{{
               activitat.name.length < 50 ? activitat.name : activitat.name.substring(0, 50) + "..." }}</router-link>
                 <p class="text-muted mb-0">{{ activitat.description.length < 30 ? activitat.description :
                   activitat.description.substring(0, 30) + "..." }}</p>

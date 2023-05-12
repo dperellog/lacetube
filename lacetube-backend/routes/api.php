@@ -25,6 +25,9 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('video/{id}', [VideoController::class, 'getVideo']);
+Route::get('streaming/{id}', [VideoController::class, 'stream']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
         Route::get('all', [CourseController::class, 'getAll']);
@@ -59,7 +62,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('delete/{id}', [CommentController::class, 'destroy']);
     });
     Route::prefix('video')->group(function () {
-        Route::get('{id}', [VideoController::class, 'getVideo']);
         Route::post('upload-video', [VideoController::class, 'store']);
         Route::put('modify/:id', [VideoController::class, 'update']);
     });

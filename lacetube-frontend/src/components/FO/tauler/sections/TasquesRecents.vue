@@ -5,6 +5,7 @@
         <div class="row">
             <p class="h2 mb-3 col-8">Tasques pendents:</p>
             <div class="col-4 d-flex justify-content-end">
+                <div class="btn btn-secondary"><i class="fa-solid fa-calendar-xmark"></i></div>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -23,10 +24,12 @@
         <!-- Llistat de tasques -->
         <div v-if="tasques != null">
             <div class="row gy-3" v-if="tasquesFiltrades.length > 0">
-                <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat" :disseny="'carta'"></Tasca>
+                <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat"
+                    :disseny="'carta'"></Tasca>
 
                 <!-- Botó mostrar més -->
-                <a href="#" class="showMore text-center" v-if="limit != -1 && tasquesFiltrades.length > limit" @click.prevent="mostrarMes">Mostra'n més</a>
+                <a href="#" class="showMore text-center" v-if="limit != -1 && tasquesFiltrades.length > limit"
+                    @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
 
             <div v-else class="alert alert-info" role="alert">
@@ -90,7 +93,7 @@ export default {
             this.ordre = dies;
             this.limit = 2;
 
-            const limitInferior = moment().subtract(1, 'days'); 
+            const limitInferior = moment().subtract(1, 'days');
             const limitSuperior = moment().add(this.ordre, 'days');
 
             //Filtrar tasques:
