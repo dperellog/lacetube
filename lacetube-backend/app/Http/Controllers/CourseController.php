@@ -81,6 +81,7 @@ class CourseController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
+            Storage::disk('thumbnails')->delete($course->thumbnailURL);
             $thumbnailURL = $request->file('thumbnail')->store('', 'thumbnails');
             $course->thumbnailURL = $thumbnailURL;
          }

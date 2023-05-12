@@ -23,7 +23,7 @@ export default {
     HeaderFrontoffice
   },
   beforeMount() {
-      axios.get('/api/activity/1', {
+      axios.get('/api/recomended/1', {
         description: 'Comentari de provaF',
         stars : 4,
         video_id: 1,

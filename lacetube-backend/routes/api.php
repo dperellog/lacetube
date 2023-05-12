@@ -3,7 +3,9 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\RecomendedController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use App\Models\User;
@@ -61,6 +63,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('modify/{id}', [CommentController::class, 'update']);
         Route::delete('delete/{id}', [CommentController::class, 'destroy']);
     });
+
     Route::prefix('video')->group(function () {
         Route::post('upload-video', [VideoController::class, 'store']);
         Route::put('modify/:id', [VideoController::class, 'update']);
@@ -83,6 +86,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/register/json', [App\Http\Controllers\Auth\RegisteredUserController::class, 'storeJSON']);
     Route::post('/search/json', [SearchController::class, 'search']);
+    Route::get('/stats', [StatsController::class, 'stats']);
+    Route::get('/recomended/{id}', [RecomendedController::class, 'recomended']);
+
     // {
     //     content: "video"
     //     search: "loquebuscas"

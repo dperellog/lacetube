@@ -46,7 +46,7 @@ class VideoController extends Controller
             'thumbnailPath' => $videoName.'_thumbnail.jpg'
         ]);
 
-
+        Storage::disk('tmp')->delete($tempPath);
         return response()->json(new UserVideosResource($video), 201);
     }
 
@@ -73,7 +73,12 @@ class VideoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $video=Video::findOrFail($id);
+        Storage::disk('download')->delete($video->video_name);
+        Storage::disk('streaming')->delete($video->video_name);
+        $video->delete();
+        return response()->json(null, 204);
+
     }
 
 }
