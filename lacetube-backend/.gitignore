@@ -5,6 +5,7 @@
 /public/storage
 /public/avatar
 /public/videos/*
+/public/*
 /storage/*
 /storage/*.key
 /vendor
