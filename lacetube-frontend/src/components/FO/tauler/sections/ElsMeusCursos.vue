@@ -49,6 +49,10 @@ export default {
         force: {
             type: Boolean,
             default: false
+        },
+        inputCursos: {
+            type: Object,
+            default: null
         }
     },
     data() {
@@ -59,8 +63,13 @@ export default {
         }
     },
     async beforeMount() {
-        //Obtenir tasques del backend
-        this.cursos = await this.getCursos();
+        if (this.inputCursos) {
+            this.cursos = this.inputCursos
+        } else {
+            //Obtenir videos del backend
+            this.cursos = await this.getCursos();
+        }
+        
 
         if (this.mostrarTots) {
             this.limit = -1

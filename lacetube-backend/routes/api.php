@@ -69,7 +69,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('modify/:id', [VideoController::class, 'update']);
     });
     Route::prefix('user')->group(function () {
-        Route::get('/', [UserController::class, 'getUser']);
         Route::get('/avatar', [UserController::class, 'getAvatar']);
         Route::get('/avatar/{id}', [UserController::class, 'getAvatar']);
         Route::get('activities', [UserController::class, 'getActivities']);
@@ -78,6 +77,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('teachers', [UserController::class, 'getAllTeachers']);
         Route::get('students', [UserController::class, 'getAllStudents']);
         Route::get('all', [UserController::class, 'getAllUsers']);
+        Route::get('/{id}', [UserController::class, 'getUser']);
 
         Route::group(['middleware' => ['role:admin']], function () {
             Route::delete('delete/{id}', [UserController::class, 'destroy']);

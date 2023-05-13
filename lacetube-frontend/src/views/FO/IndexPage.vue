@@ -1,7 +1,9 @@
 <template>
     <HeaderFrontoffice></HeaderFrontoffice>
-    <h2>{{ store.count }}</h2>
-    <!-- <font-awesome-icon icon="fa-solid fa-user-secret" /> -->
+    <div class="main-content-section">
+        <h2>{{ store.count }}</h2>
+            <!-- <font-awesome-icon icon="fa-solid fa-user-secret" /> -->
+    </div>
     <FooterFrontoffice></FooterFrontoffice>
 </template>
 <script>

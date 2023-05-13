@@ -14,6 +14,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class CourseController extends Controller
 {
@@ -48,9 +50,18 @@ class CourseController extends Controller
     {
 
          if ($request->hasFile('thumbnail')) {
+            //If user has sent a thumbnail, upload it to backend.
             $thumbnailURL = $request->file('thumbnail')->store('', 'thumbnails');
          } else {
-            $thumbnailURL = 'thumbnail.png';
+            //If user hasn't sent a thumbnail, apply the default one.
+            $defaultThumb = Storage::disk('defaults')->path('thumbnail.png');
+
+            $thumbName = Str::random(20).'.png';
+            $thumbnailURL = $thumbName;
+
+            //return response()->json($defaultThumb, 419);
+            Storage::copy('defaults/thumbnail.png', 'thumbnails/'.$thumbName);
+
          }
 
 

@@ -3,16 +3,32 @@
 
         <!-- Capçalera i botons de filtre -->
         <div class="row">
-            <p class="h2 mb-3 col-8">Tasques passades:</p>
+            <p class="h2 mb-3 col-8">Tasques entregades:</p>
+            <div class="col-4 d-flex justify-content-end">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Històric {{ ordre }} dies
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(7)">Històric 7 dies</a></li>
+                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(14)">Històric 14 dies</a></li>
+                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(21)">Històric 21 dies</a></li>
+                        <li><a class="dropdown-item" href="#" @click.prevent="ordenarTasques(31)">Històric 31 dies</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- Llistat de tasques -->
         <div v-if="tasques != null">
             <div class="row gy-3" v-if="tasquesFiltrades.length > 0">
-                <!-- <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat" :disseny="'carta'"></Tasca> -->
-                <h2>TODO: Buscar ultims videos de l'usuari</h2>
+                <Tasca class="col-12" v-for="activitat in limitarArray(tasquesFiltrades)" :activitat="activitat"
+                    :disseny="'carta'"></Tasca>
+
                 <!-- Botó mostrar més -->
-                <a href="#" class="showMore text-center" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
+                <a href="#" class="showMore text-center" v-if="limit != -1 && tasquesFiltrades.length > limit"
+                    @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
 
             <div v-else class="alert alert-info" role="alert">
@@ -49,7 +65,8 @@ export default {
             tasques: null,
             tasquesFiltrades: null,
             error: null,
-            limit: 4
+            ordre: 7,
+            limit: 2,
         }
     },
     async beforeMount() {
@@ -64,21 +81,36 @@ export default {
         async getTasques() {
             return UserService.getActivities()
                 .then(r => {
-                    return r.data;
+                    return r;
                 })
                 .catch(e => {
                     this.error = e;
+                    console.log('e :>> ', e);
                 });
         },
-        ordenarTasques() {
+        ordenarTasques(dies = 7) {
+            this.ordre = dies;
             this.limit = 2;
 
-            const limitSuperior = moment().subtract(1, 'days')
-            const limitInferior = moment().subtract(30, 'days');
+            const limitInferior = moment().subtract(this.ordre, 'days');
+            const limitSuperior = moment().subtract(1, 'days');
 
             //Filtrar tasques:
             this.tasquesFiltrades = this.tasques.filter(tasca => {
-                return moment(tasca.end_date).isBetween(limitInferior, limitSuperior, null, '[]')
+                let filtrar = false;
+
+                if (tasca.entregada) {
+                    if (moment(tasca.end_date).isBetween(limitInferior, limitSuperior, null, '[]')) {
+                        filtrar = true;
+                    }
+
+                    if (moment(tasca.end_date).diff(limitSuperior) >= 0 ) {
+                        filtrar = true;
+                    }
+
+                }
+
+                return filtrar
             });
 
             //Ordenar per dies.
@@ -101,7 +133,7 @@ export default {
             return null;
         },
         mostrarMes() {
-            this.limit += 4;
+            this.limit += 3;
             if (this.limit >= this.tasquesFiltrades.length) {
                 this.limit = -1;
             }
@@ -119,5 +151,4 @@ a.showMore {
 a.showMore:hover {
     color: #77b6dc;
     text-decoration: none;
-}
-</style>
+}</style>

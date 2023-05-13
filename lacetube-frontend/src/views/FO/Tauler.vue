@@ -1,11 +1,11 @@
 <template>
   <HeaderFrontoffice></HeaderFrontoffice>
-  <div class="container mt-4 px-4">
+  <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold">Tauler:</h1>
     <hr>
-    <TasquesRecents></TasquesRecents>
+    <TasquesPendents></TasquesPendents>
 
-    <!-- <TasquesPassades class="my-5"></TasquesPassades> -->
+    <TasquesEntregades class="my-5"></TasquesEntregades>
     
     <!-- Capçalera i botons de filtre -->
     <p class="h2 my-4 col-8">Els meus cursos:</p>
@@ -21,8 +21,8 @@
 <script>
 import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
 import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
-import TasquesRecents from '@/components/FO/tauler/sections/TasquesRecents.vue'
-import TasquesPassades from '@/components/FO/tauler/sections/TasquesPassades.vue';
+import TasquesPendents from '@/components/FO/tauler/sections/TasquesPendents.vue'
+import TasquesEntregades from '@/components/FO/tauler/sections/TasquesEntregades.vue';
 import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
 import ElsMeusVideos from '@/components/FO/tauler/sections/ElsMeusVideos.vue';
 
@@ -30,8 +30,8 @@ export default {
   components: {
     HeaderFrontoffice,
     FooterFrontoffice,
-    TasquesRecents,
-    TasquesPassades,
+    TasquesPendents,
+    TasquesEntregades,
     ElsMeusCursos,
     ElsMeusVideos
   },

@@ -1,6 +1,6 @@
 <template>
   <HeaderBackoffice></HeaderBackoffice>
-  <div class="container mt-4 px-4">
+  <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold" v-if="!modificar">Crear un nou curs:</h1>
     <h1 class="fw-bold" v-else>Modificant curs:</h1>
     <router-link to="/gestio/cursos" class="h6 text-decoration-none returnback" @click.prevent="curs = null"><i
@@ -392,9 +392,15 @@ export default {
     },
     async getCursos() {
       let that = this;
-      return Resources.getAllCourses()
+      Resources.getAllCourses()
         .then(r => {
-          that.cursos.data = r.data;
+          let cursos = r.data;
+
+          if (that.modificar) {
+            cursos = cursos.filter(curs => curs.id != that.id)
+          }
+          
+          that.cursos.data = cursos;
         })
         .catch(e => {
           this.cursos.error = e;

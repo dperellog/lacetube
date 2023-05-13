@@ -5,7 +5,10 @@
         <div class="row">
             <p class="h2 mb-3 col-8">Tasques pendents:</p>
             <div class="col-4 d-flex justify-content-end">
-                <div class="btn btn-secondary"><i class="fa-solid fa-calendar-xmark"></i></div>
+                <div :class="['btn', 'me-2', mostrarVencudes ? 'btn-light' : 'btn-secondary']" @click="mostrarTasquesVencudes" :title="mostrarVencudes ? 'Amagar tasques vencudes' : 'Mostrar tasques vençudes'" style="height: 2.4rem;">
+                    <i v-if="!mostrarVencudes" class="fa-solid fa-calendar-xmark"></i>
+                    <i v-else class="fa-solid fa-calendar-check"></i>
+                </div>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -67,7 +70,8 @@ export default {
             tasquesFiltrades: null,
             error: null,
             ordre: 7,
-            limit: 2
+            limit: 2,
+            mostrarVencudes: false
         }
     },
     async beforeMount() {
@@ -95,10 +99,32 @@ export default {
 
             const limitInferior = moment().subtract(1, 'days');
             const limitSuperior = moment().add(this.ordre, 'days');
+            let mostrarVencudes = this.mostrarVencudes;
 
             //Filtrar tasques:
             this.tasquesFiltrades = this.tasques.filter(tasca => {
-                return moment(tasca.end_date).isBetween(limitInferior, limitSuperior, null, '[]')
+                let filtrar = false;
+                
+                //Si la tasca es troba dins del filtre de dies:
+                if (moment(tasca.end_date).isBetween(limitInferior, limitSuperior, null, '[]')) {
+
+                    if (tasca.entregada) {
+                        filtrar = false;
+                    }else{
+                        filtrar = true;
+                    }
+                    
+                }
+
+                
+
+                if (mostrarVencudes ? tasca.entregada == false : false) {
+                    filtrar = true;
+                }
+
+                
+
+                return filtrar
             });
 
             //Ordenar per dies.
@@ -125,6 +151,10 @@ export default {
             if (this.limit >= this.tasquesFiltrades.length) {
                 this.limit = -1;
             }
+        },
+        mostrarTasquesVencudes() {
+            this.mostrarVencudes = !this.mostrarVencudes;
+            this.ordenarTasques();
         }
     }
 }

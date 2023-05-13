@@ -1,6 +1,6 @@
 <template>
   <HeaderBackoffice></HeaderBackoffice>
-  <div class="container mt-4 px-4">
+  <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold">Tots els usuaris:</h1>
     <section class="mt-4">
       <!-- Llistat de cursos -->

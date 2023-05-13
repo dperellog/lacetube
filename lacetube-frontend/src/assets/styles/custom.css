@@ -1,3 +1,8 @@
+.main-content-section {
+  min-height: 78vh;
+}
+
+
 .header-img{
   max-height: 3rem;
 }

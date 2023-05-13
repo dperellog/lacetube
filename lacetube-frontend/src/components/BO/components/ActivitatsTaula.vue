@@ -34,7 +34,7 @@
             <input type="text" class="form-control" v-model="tascaForm.name">
           </div>
           <div class="my-2">
-            <label for="exampleInputPassword1" class="form-label">Descripció del curs:</label>
+            <label for="exampleInputPassword1" class="form-label">Descripció de la tasca:</label>
             <textarea class="form-control" rows="8" v-model="tascaForm.description"></textarea>
           </div>
         </div>
@@ -446,7 +446,7 @@ export default {
 
       let tasca = { ...this.tascaForm }
       tasca.course_id = this.curs.id
-      tasca.id = this.curs.id
+      tasca.id = this.tascaForm.id
 
       Resources.modifyTask(tasca)
         .then(r => {

@@ -54,6 +54,10 @@ return [
             'root' => storage_path('app/thumbnails'),
             'url' => env('APP_URL').'/thumbnail',
         ],
+        'defaults' => [
+            'driver' => 'local',
+            'root' => storage_path('app/defaults'),
+        ],
 
         'public' => [
             'driver' => 'local',

@@ -115,6 +115,10 @@ export default {
   },
   beforeMount() {
     this.usuarisFiltrats = this.usuaris
+
+    if (this.limit >= this.usuaris.length) {
+        this.limit = -1;
+      }
   },
   data() {
     return {

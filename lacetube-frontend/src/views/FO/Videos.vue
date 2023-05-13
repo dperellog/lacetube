@@ -1,6 +1,6 @@
 <template>
   <HeaderFrontoffice></HeaderFrontoffice>
-  <div class="container mt-4 px-4">
+  <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold">Els meus videos:</h1>
     <hr>
       <ElsMeusVideos class="my-5" mostrarTots></ElsMeusVideos>

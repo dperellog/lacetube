@@ -1,30 +1,37 @@
 <template>
   <HeaderFrontoffice></HeaderFrontoffice>
-  <div v-if="video.data !== null">
-    <!-- <vue-plyr ref="plyr" :options="playerOptions">
-      <video width="352" height="198" controls crossorigin playsinline id="videoplayer"
-        ></video>
-        :poster="video.data.thumbnailURL"
-    </vue-plyr> -->
-    <vue-plyr :options="playerOptions">
-			<video
-				controls
-				crossorigin
-				playsinline
-				:data-poster="video.data.thumbnailURL"
-			>
-				<source
-					:src="video.data.streamingPath"
-					type="application/vnd.apple.mpegurl"
-				/>
-			</video>
-		</vue-plyr>
-  
-  </div>
-  <!-- <video width="352" height="198" controls v-if="video.data !== null">
-    <source :src="video.data.streamingPath" type="application/x-mpegURL">
-</video> -->
+  <div class="main-content-section">
+      <div v-if="video.data !== null">
+        <div class="row">
 
+          <!-- Video Player -->
+          <div class="col-sm-9">
+            <vue-plyr :options="playerOptions">
+      			<video
+      				controls
+      				crossorigin
+      				playsinline
+      				:data-poster="video.data.thumbnailURL"
+      			>
+      				<source
+      					:src="video.data.streamingPath"
+      					type="application/vnd.apple.mpegurl"
+      				/>
+      			</video>
+      		</vue-plyr>
+
+          </div>
+
+          <!-- Recomanats -->
+          <div class="col-sm-3">
+            <h4 class="fst-italic">Videos Recomanats:</h4>
+          </div>
+        </div>
+          
+        
+        </div>
+      
+  </div>
   
 
   <FooterFrontoffice></FooterFrontoffice>

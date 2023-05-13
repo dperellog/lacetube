@@ -64,6 +64,13 @@ const router = createRouter({
       component: () => import('../views/FO/detailsPages/View.vue'),
       props: true
     },
+    {
+      path: '/usuari/:id',
+      name: 'usuariDetall',
+      component: () => import('../views/FO/detailsPages/UsuariDetall.vue'),
+      props: true,
+      meta: { usuariAutenticat: true }
+    },
 
     //Rutes de BACK OFFICE:
     {

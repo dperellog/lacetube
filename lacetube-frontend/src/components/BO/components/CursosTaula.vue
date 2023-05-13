@@ -227,6 +227,10 @@ export default {
   },
   beforeMount() {
     this.cursosFiltrats = this.cursos
+
+    if (this.limit >= this.cursos.length) {
+        this.limit = -1;
+      }
   },
   data() {
     return {

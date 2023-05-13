@@ -23,8 +23,8 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated' => $this->updated_at,
             'roles' => $this->getRoleNames(),
-            'courses' => $this->courses,
-            'videos' => $this->videos
+            'courses' => UserCourseResource::collection($this->courses),
+            'videos' => UserVideosResource::collection($this->videos)
         ];
     }
 }

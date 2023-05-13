@@ -2,7 +2,7 @@
   <HeaderFrontoffice></HeaderFrontoffice>
 
 
-  <section class="mt-4">
+  <section class="main-content-section mt-4">
     <div class="container-fluid">
       <div class="row d-flex justify-content-around align-items-center">
         <div class="col-sm-6">

@@ -4,10 +4,11 @@
         <!-- Llistat de tasques -->
         <div v-if="videos != null">
             <div class="row gy-3" v-if="videos.length > 0">
-                <router-link v-for="video in limitarArray(videos)" :to="{ path: '/video/'+video.id}" class="text-decoration-none col-sm-4 col-lg-3">
+                <router-link v-for="video in limitarArray(videos)" :to="{ path: '/video/' + video.id }"
+                    class="text-decoration-none col-sm-4 col-lg-3">
                     <Video :video="video"></Video>
                 </router-link>
-                
+
                 <!-- Botó mostrar més -->
                 <a href="#" class="showMore text-center" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
@@ -41,10 +42,14 @@ export default {
         Video
     },
     props: {
-        mostrarTots : Boolean,
+        mostrarTots: Boolean,
         force: {
             type: Boolean,
             default: false
+        },
+        inputVideos: {
+            type: Object,
+            default: null
         }
     },
     data() {
@@ -55,12 +60,18 @@ export default {
         }
     },
     async beforeMount() {
-        //Obtenir videos del backend
-        this.videos = await this.getVideos();
+
+        if (this.inputVideos) {
+            this.videos = this.inputVideos
+        } else {
+            //Obtenir videos del backend
+            this.videos = await this.getVideos();            
+        }
 
         if (this.mostrarTots) {
-            this.limit = -1
-        }
+                this.limit = -1
+            }
+
     },
     methods: {
         async getVideos() {
@@ -73,7 +84,7 @@ export default {
                     this.error = e;
                 });
         },
-        
+
         limitarArray(arr) {
             if (arr && arr.length) {
                 let limit = this.limit;

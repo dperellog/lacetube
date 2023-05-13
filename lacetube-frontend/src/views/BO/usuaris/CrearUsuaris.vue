@@ -1,6 +1,6 @@
 <template>
   <HeaderBackoffice></HeaderBackoffice>
-  <div class="container mt-4 px-4">
+  <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold">Crear nous usuaris:</h1>
     <h2 class="text-secondary"></h2>
     <section class="mt-4">

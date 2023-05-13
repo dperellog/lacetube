@@ -119,5 +119,9 @@ export default {
                 resolve(storeVideos)
             }
         })
+    },
+
+    async getUserByID(id) {
+        return Service.get('api/user/'+id)
     }
 }

@@ -1,90 +1,92 @@
 <template>
     <HeaderFrontoffice></HeaderFrontoffice>
-    <div v-if="activitat.data !== null" class="container mt-4 px-4">
-        <h1 class="h2">Pujar video</h1>
-        <hr>
-
-        <!-- Informació de tasca -->
-        <h3>Informació de la tasca:</h3>
-        <div class="card bg-white p-3">
-            <div class="row justify-content-between">
-                <div class="col-sm-7">
-                    <h3 class="fw-bold h4">{{ activitat.data.name }}</h3>
-                    <p>{{ activitat.data.description }}</p>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card p-2">
-                        <div class="d-flex align-items-center">
-                            <img :src="userService.getAvatarURLByAvatar(activitat.data.teacher.avatar)" alt="foto-professor"
-                                style="width: 45px; height: 45px" class="rounded-circle">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">{{ activitat.data.teacher.name }}</p>
-                                <p class="text-muted mb-0">{{ activitat.data.teacher.email }}</p>
+    <div class="main-content-section">
+        <div v-if="activitat.data !== null" class="container mt-4 px-4">
+                <h1 class="h2">Pujar video</h1>
+                <hr>
+        
+                <!-- Informació de tasca -->
+                <h3>Informació de la tasca:</h3>
+                <div class="card bg-white p-3">
+                    <div class="row justify-content-between">
+                        <div class="col-sm-7">
+                            <h3 class="fw-bold h4">{{ activitat.data.name }}</h3>
+                            <p>{{ activitat.data.description }}</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card p-2">
+                                <div class="d-flex align-items-center">
+                                    <img :src="userService.getAvatarURLByAvatar(activitat.data.teacher.avatar)" alt="foto-professor"
+                                        style="width: 45px; height: 45px" class="rounded-circle">
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1">{{ activitat.data.teacher.name }}</p>
+                                        <p class="text-muted mb-0">{{ activitat.data.teacher.email }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Formulari de pujada de video -->
-        <form class="mt-5" @submit.prevent="pujarvideo" enctype="multipart/form-data">
-            <h3 class="fw-bold">La teva entrega:</h3>
-            <!-- Nom del video -->
-            <div class="my-3">
-                <label for="exampleInputEmail1" class="form-label h4">Títol del video:</label>
-                <input type="text" class="form-control" v-model="videoForm.title">
-            </div>
-
-            <!-- Descripcio -->
-            <div class="row">
-                <div class="col-sm-8">
-                    <label for="exampleInputPassword1" class="form-label">Descripció del video:</label>
-                    <textarea class="form-control" rows="9" v-model="videoForm.description"></textarea>
-                </div>
-
-                <!-- Caixa -->
-                <div class="col-sm-4">
-                    <label for="exampleInputPassword1" class="form-label">Arxiu de video:</label>
-                    <div class="dropbox rounded-4">
-                        <input type="file" @change="filesChange()" accept="video/*" ref="videoInput" class="input-file">
-                        <p v-if="!this.videoForm.video"><i class="fa-solid fa-file-arrow-up text-grey"></i></p>
-                        <p v-else><i class="fa-solid fa-file-circle-check text-success"></i></p>
-                        
+        
+                <!-- Formulari de pujada de video -->
+                <form class="mt-5" @submit.prevent="pujarvideo" enctype="multipart/form-data">
+                    <h3 class="fw-bold">La teva entrega:</h3>
+                    <!-- Nom del video -->
+                    <div class="my-3">
+                        <label for="exampleInputEmail1" class="form-label h4">Títol del video:</label>
+                        <input type="text" class="form-control" v-model="videoForm.title">
                     </div>
-                </div>
+        
+                    <!-- Descripcio -->
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <label for="exampleInputPassword1" class="form-label">Descripció del video:</label>
+                            <textarea class="form-control" rows="9" v-model="videoForm.description"></textarea>
+                        </div>
+        
+                        <!-- Caixa -->
+                        <div class="col-sm-4">
+                            <label for="exampleInputPassword1" class="form-label">Arxiu de video:</label>
+                            <div class="dropbox rounded-4">
+                                <input type="file" @change="filesChange()" accept="video/*" ref="videoInput" class="input-file">
+                                <p v-if="!this.videoForm.video"><i class="fa-solid fa-file-arrow-up text-grey"></i></p>
+                                <p v-else><i class="fa-solid fa-file-circle-check text-success"></i></p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-warning mt-3" :disabled="!formCorrecte">Entregar</button>
+        
+                    <div class="mt-2" v-if="videoFormStatus.loading">
+                        <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+                            <span class="visually-hidden">Enviant dades...</span>
+                        </div>
+                        <span class="text-secondary">Enviant dades... </span>
+                    </div>
+        
+                    <div class="mt-2" v-if="videoFormStatus.error === true">
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>Hi ha hagut un error!</strong>
+                            <p class="mb-0">{{ videoFormStatus.errorMsg }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-2" v-if="videoFormStatus.error === false">
+                        <div class="alert alert-dismissible alert-success">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>Acció completada: </strong>
+                            <p class="mb-0">S'ha entregat correctament!</p>
+                        </div>
+                    </div>
+                </form>
+        
             </div>
-            <button type="submit" class="btn btn-outline-warning mt-3" :disabled="!formCorrecte">Entregar</button>
-
-            <div class="mt-2" v-if="videoFormStatus.loading">
-                <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
-                    <span class="visually-hidden">Enviant dades...</span>
-                </div>
-                <span class="text-secondary">Enviant dades... </span>
+            <div v-else class="d-flex justify-content-center container mt-4 px-4">
+                <strong>Carregant activitat...</strong>
+                <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
             </div>
-
-            <div class="mt-2" v-if="videoFormStatus.error === true">
-                <div class="alert alert-dismissible alert-danger">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    <strong>Hi ha hagut un error!</strong>
-                    <p class="mb-0">{{ videoFormStatus.errorMsg }}</p>
-                </div>
-            </div>
-            <div class="mt-2" v-if="videoFormStatus.error === false">
-                <div class="alert alert-dismissible alert-success">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    <strong>Acció completada: </strong>
-                    <p class="mb-0">S'ha entregat correctament!</p>
-                </div>
-            </div>
-        </form>
-
+        
     </div>
-    <div v-else class="d-flex justify-content-center container mt-4 px-4">
-        <strong>Carregant activitat...</strong>
-        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-    </div>
-
 
     <FooterFrontoffice></FooterFrontoffice>
 </template>

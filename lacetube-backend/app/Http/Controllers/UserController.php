@@ -49,10 +49,10 @@ class UserController extends Controller
 
         return UserVideosResource::collection(Video::where('user_id', '=', $user->id)->get());
     }
-    public function getUser(){
-        // $user = Auth::user();
-        // return new UserResource($user);
-        return response()->json(User::role('teacher')->get());
+    public function getUser($id){
+        $user = User::findOrFail($id);
+        return new UserResource($user);
+        //return response()->json(User::role('teacher')->get());
     }
 
     public function getAllUsers(){
