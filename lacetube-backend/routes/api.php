@@ -66,7 +66,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('video')->group(function () {
         Route::post('upload-video', [VideoController::class, 'store']);
-        Route::put('modify/:id', [VideoController::class, 'update']);
+        Route::put('modify/{id}', [VideoController::class, 'update']);
+        Route::delete('delete/{id}', [VideoController::class, 'destroy']);
     });
     Route::prefix('user')->group(function () {
         Route::get('/avatar', [UserController::class, 'getAvatar']);

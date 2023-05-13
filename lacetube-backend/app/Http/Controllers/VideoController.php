@@ -5,8 +5,11 @@ use App\Http\Requests\StoreVideoRequest;
 use App\Http\Resources\UserVideosResource;
 use App\Jobs\ConvertVideoForDownloading;
 use App\Jobs\ConvertVideoForStreaming;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
@@ -67,15 +70,32 @@ class VideoController extends Controller
      * Update the specified resource in storage.
      */
 
-
+     public function update(Request $request, string $id)
+     {
+        $video=Video::findOrFail($id);
+        if (Auth::user()->id != $video->user->id){
+            return response()->json('',401);
+        }
+        $validateData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ]);
+        $video->title = $request->title;
+        $video->description = $request->description;
+        $video->save();
+        return response()->json($video, 201);
+     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         $video=Video::findOrFail($id);
-        Storage::disk('download')->delete($video->video_name);
-        Storage::disk('streaming')->delete($video->video_name);
+        if (Auth::user()->id != $video->user->id && Auth::user()->id != $video->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
+            return response()->json('',401);
+        }
+        Storage::disk('download')->deleteDirectory($video->video_name);
+        Storage::disk('streaming')->deleteDirectory($video->video_name);
         $video->delete();
         return response()->json(null, 204);
 
