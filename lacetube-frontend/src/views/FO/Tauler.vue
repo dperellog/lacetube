@@ -1,37 +1,39 @@
 <template>
-  <Header></Header>
-  <div class="container mt-4 px-4">
+  <HeaderFrontoffice></HeaderFrontoffice>
+  <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold">Tauler:</h1>
     <hr>
-    <TasquesRecents></TasquesRecents>
+    <TasquesPendents></TasquesPendents>
 
-    <TasquesPassades class="my-5"></TasquesPassades>
-
+    <TasquesEntregades class="my-5"></TasquesEntregades>
     
     <!-- Capçalera i botons de filtre -->
-    <div class="row" v-if="!mostrarTots">
-        <p class="h2 mb-3 col-8">Els meus cursos:</p>
-    </div>
+    <p class="h2 my-4 col-8">Els meus cursos:</p>
     <ElsMeusCursos class="mb-5"></ElsMeusCursos>
 
+    <p class="h2 my-4 col-8">Els meus videos:</p>
+    <ElsMeusVideos class="mb-5"></ElsMeusVideos>
+
   </div>
-  <Footer></Footer>
+  <FooterFrontoffice></FooterFrontoffice>
 </template>
   
 <script>
-import Header from '@/components/FO/Header.vue';
-import Footer from '@/components/FO/Footer.vue';
-import TasquesRecents from '@/components/FO/tauler/sections/TasquesRecents.vue'
-import TasquesPassades from '@/components/FO/tauler/sections/TasquesPassades.vue';
+import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
+import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
+import TasquesPendents from '@/components/FO/tauler/sections/TasquesPendents.vue'
+import TasquesEntregades from '@/components/FO/tauler/sections/TasquesEntregades.vue';
 import ElsMeusCursos from '@/components/FO/tauler/sections/ElsMeusCursos.vue';
+import ElsMeusVideos from '@/components/FO/tauler/sections/ElsMeusVideos.vue';
 
 export default {
   components: {
-    Header,
-    Footer,
-    TasquesRecents,
-    TasquesPassades,
-    ElsMeusCursos
+    HeaderFrontoffice,
+    FooterFrontoffice,
+    TasquesPendents,
+    TasquesEntregades,
+    ElsMeusCursos,
+    ElsMeusVideos
   },
   data() {
     return {

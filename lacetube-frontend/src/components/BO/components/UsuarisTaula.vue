@@ -15,7 +15,7 @@
     </div>
 
     <div class="col-4 d-flex justify-content-end" v-if="this.btnNovaTaula">
-      <router-link to="/gestio/cursos/crear" class="btn btn-success" type="button">
+      <router-link to="/gestio/usuaris/crear" class="btn btn-success" type="button">
         <i class="fa-solid fa-plus" style="color: #ffffff;"></i>&nbsp;&nbsp;
           Crear Usuaris
         </router-link>
@@ -23,7 +23,7 @@
   </div>
 
   <!-- TAULA CURSOS -->
-  <div class="card">
+  <div class="card taula">
     <table class="card-table table">
       <thead class="card-header capcalera-taula">
         <tr>
@@ -82,8 +82,9 @@
   margin-bottom: 0em;
 }
 
-.card{
-  overflow-x: scroll;
+.card.taula{
+
+  overflow-x: auto;
 }
 
 .sortingArrow{
@@ -114,6 +115,10 @@ export default {
   },
   beforeMount() {
     this.usuarisFiltrats = this.usuaris
+
+    if (this.limit >= this.usuaris.length) {
+        this.limit = -1;
+      }
   },
   data() {
     return {

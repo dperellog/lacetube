@@ -1,35 +1,40 @@
 <template>
-  <Header></Header>
+  <HeaderFrontoffice></HeaderFrontoffice>
+
+  <!-- <div class="container">
+    <div>
+      <form @submit.prevent="submitForm">
+        <div>
+          <label for="video-upload">Selecciona un video:</label>
+          <input type="file" id="video-upload" ref="fileInput" @change="handleFileUpload">
+        </div>
+        <button type="submit">Subir video</button>
+      </form>
+    </div>
+  </div> -->
 </template>
+
 <script>
-import Header from "@/components/FO/Header.vue";
+import HeaderFrontoffice from "@/components/FO/HeaderFrontoffice.vue";
 import axios from "@/services/Axios";
 
 export default {
   components: {
-    Header,
+    HeaderFrontoffice
   },
   beforeMount() {
-    //  axios
-    //    .get("/api/user/videos",)
-    //    .then((r) => console.log("r :>> ", r))
-    //    .catch((e) => console.log("e :>> ", e));
-
-    axios
-      .get("sanctum/csrf-cookie")
-      .then(() =>
-        axios.put("api/course/all", {
-          
-          
-          name: "CourseProva",
-          thumbnailURL: "https://via.placeholder.com/640x480.png/00eeaa?text=a",
-          description: "Curs de prova",
-          year: 2024,
-          
+      axios.delete('/api/video/delete/4', {
+        description: 'Comentari de provaF',
+        stars : 4,
+        video_id: 1,
+        user_id: 2
+     })
+        .then(response => {
+          console.log(response.data);
         })
-      )
-      .then((r) => console.log("r :>> ", r))
-      .catch((e) => console.log("e :>> ", e));
-  },
-};
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
 </script>

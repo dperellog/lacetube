@@ -16,16 +16,15 @@
 
                 <!-- MENU USUARIS -->
 
-                <li class="nav-item dropdown me-2">
+                <li class="nav-item dropdown me-2" v-if="userStore.hasRole('admin')">
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="true" aria-expanded="false">Gestio Usuaris</a>
                   <div class="dropdown-menu">
-                    <router-link to="/gestio/usuaris" class="dropdown-item" href="#">Gestió d'usuaris</router-link>
+                    <router-link to="/gestio/usuaris" class="dropdown-item"><i
+                        class="fa-solid fa-user"></i>&nbsp;&nbsp;Gestió d'usuaris</router-link>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Crear Usuaris</a>
-                    <a class="dropdown-item" href="#">Modificar Usuaris</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <a class="dropdown-item" href="#">Separated link</a>
+                    <router-link to="/gestio/usuaris/crear" class="dropdown-item"><i
+                        class="fa-solid fa-plus"></i>&nbsp;&nbsp;Crear usuaris</router-link>
                   </div>
                 </li>
 
@@ -35,21 +34,20 @@
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="true" aria-expanded="false">Cursos</a>
                   <div class="dropdown-menu">
-                    <router-link to="/gestio/cursos" class="dropdown-item" href="#">Gestió de cursos</router-link>
-                    <a class="dropdown-item" href="#">Gestió d'activitats</a>
+                    <router-link to="/gestio/cursos" class="dropdown-item"><i
+                        class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;Gestió de cursos</router-link>
+                    <router-link to="/gestio/activitats" class="dropdown-item"><i
+                        class="fa-solid fa-paintbrush"></i>&nbsp;&nbsp;Gestió d'activitats</router-link>
                     <div class="dropdown-divider"></div>
-                    <router-link class="dropdown-item" to="/gestio/cursos/crear">Crear Curs</router-link>
-                    <a class="dropdown-item" href="#">Crear Activitat</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <router-link class="dropdown-item" to="/gestio/cursos/crear"><i
+                        class="fa-solid fa-plus"></i>&nbsp;&nbsp;Crear Curs</router-link>
+                    <router-link class="dropdown-item" to="/gestio/activitats?crear=true"><i
+                        class="fa-solid fa-plus"></i>&nbsp;&nbsp;Crear Activitat</router-link>
                   </div>
                 </li>
 
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Features</a>
-                </li>
-                
               </ul>
-  
+
             </div>
           </div>
         </nav>
@@ -64,15 +62,36 @@
             <avatar :url="userService.getAvatarURLByAvatar(userStore.currentUser.avatar)" :size="'sm'"></avatar>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUsuari">
-            <li><router-link to="/login" class="dropdown-item">Login</router-link></li>
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><router-link to="/cursos" class="dropdown-item"><i
+                  class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;Cursos</router-link></li>
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-video"></i>&nbsp;&nbsp;Els meus videos</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;El meu perfil</a></li>
+            <li><a class="dropdown-item" href="#">Configuració</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><button @click="userStore.logout" class="dropdown-item" href="#">Sign out</button></li>
+            <li><button @click="logout" class="dropdown-item" href="#">Tancar Sessió</button></li>
           </ul>
+        </div>
+      </div>
+
+      <!-- Modal tancant sessió -->
+      <div class="modal fade" id="tancantSessio" tabindex="-1" aria-labelledby="tancantSessio" data-bs-backdrop="static"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              Tancant sessió...
+            </div>
+            <div class="modal-body">
+              <span class="text-secondary">S'està tancant la sessió... </span>
+              <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
+                <span class="visually-hidden">Tancant Sessió...</span>
+              </div>
+              <p class="h6 fw-bold">Si passat uns segons aquesta pantalla no desapareix, refresqueu la pàgina.</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -97,17 +116,35 @@ export default {
       userService: userService,
       userStore: userStore
     }
+  },
+  mounted() {
+    this.logoutAlert = bootstrap.Modal.getOrCreateInstance('#tancantSessio');
+  },
+  data() {
+    return {
+      logoutAlert: null
+    }
+  },
+  methods: {
+    logout() {
+      this.logoutAlert.show()
+      this.userStore.logout();
+    }
+  },
+  beforeUnmount() {
+    this.logoutAlert.hide()
   }
 
 }
 </script>
 
 <style scoped>
-.navbar {padding: 0 }
-
+.navbar {
+  padding: 0
+}
 </style>
 <style scoped>
-.useroptions.dropdown-toggle::after{
+.useroptions.dropdown-toggle::after {
   vertical-align: 1.3em;
   margin-left: 0.5em;
 }

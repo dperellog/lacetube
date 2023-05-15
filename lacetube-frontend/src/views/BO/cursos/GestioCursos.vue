@@ -1,16 +1,25 @@
 <template>
   <HeaderBackoffice></HeaderBackoffice>
-  <div class="container mt-4 px-4">
+  <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold">Tots els cursos:</h1>
     <section class="mt-4">
       <!-- Llistat de cursos -->
       <div v-if="cursos != null">
         <div v-if="cursos.length > 0">
-          <CursosTaula :cursos="cursos" btnNovaTaula></CursosTaula>
+          <CursosTaula :cursos="cursos" btnNovaTaula @refrescarTaula="refrescarTaula" :key="clau"></CursosTaula>
         </div>
 
-        <div v-else class="alert alert-info" role="alert">
-          No hi han cursos disponibles!
+        <div v-else>
+          <div class="col-12 d-flex justify-content-end mb-3">
+            <router-link to="/gestio/cursos/crear" class="btn btn-success" type="button">
+              <i class="fa-solid fa-plus" style="color: #ffffff;"></i>&nbsp;&nbsp;
+              Crear Curs
+            </router-link>
+          </div>
+          <div class="alert alert-info" role="alert">
+            No hi han cursos disponibles!
+          </div>
+          
         </div>
       </div>
 
@@ -27,7 +36,7 @@
     </section>
 
 
-    
+
 
   </div>
   <FooterBackoffice></FooterBackoffice>
@@ -51,6 +60,7 @@ export default {
     return {
       cursos: null,
       error: null,
+      clau: 0
     }
   },
   async beforeMount() {
@@ -61,16 +71,22 @@ export default {
 
   methods: {
     async getCursos() {
+      console.log('obtenint cursos...');
       return Resources.getAllCourses()
         .then(r => {
           return r.data;
         })
         .catch(e => {
           this.error = e;
-        });
+        })
     },
 
-    
+    async refrescarTaula() {
+      this.cursos = await this.getCursos();
+      this.clau += 1;
+    }
+
+
   }
 }
 </script>

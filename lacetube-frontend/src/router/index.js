@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/userStore';
-import Index from '@/views/FO/Index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Index
+      component: () => import('../views/FO/IndexPage.vue'),
     },
     {
       path: '/login',
@@ -37,12 +36,46 @@ const router = createRouter({
       component: () => import('../views/FO/Cursos.vue'),
       meta: { usuariAutenticat: true }
     },
+    
     {
       path: '/curs/:id',
       name: 'curs-detall',
       component: () => import('../views/FO/detailsPages/CursDetall.vue'),
       meta: { usuariAutenticat: true },
       props: true
+    },
+
+    {
+      path: '/activitat/penjar/:id',
+      name: 'pujar-video',
+      component: () => import('../views/FO/detailsPages/PujarVideo.vue'),
+      meta: { usuariAutenticat: true },
+      props: true
+    },
+    {
+      path: '/videos',
+      name: 'videos',
+      component: () => import('../views/FO/Videos.vue'),
+      meta: { usuariAutenticat: true }
+    },
+    {
+      path: '/video/:id',
+      name: 'watch',
+      component: () => import('../views/FO/detailsPages/View.vue'),
+      props: true
+    },
+    {
+      path: '/usuari/:id',
+      name: 'usuariDetall',
+      component: () => import('../views/FO/detailsPages/UsuariDetall.vue'),
+      props: true,
+      meta: { usuariAutenticat: true }
+    },
+    {
+      path: '/configuracio',
+      name: 'configuracio',
+      component: () => import('../views/FO/ConfiguracioUsuari.vue'),
+      meta: { usuariAutenticat: true }
     },
 
     //Rutes de BACK OFFICE:
@@ -61,6 +94,11 @@ const router = createRouter({
       meta: { accessGestio: true }
     },
     {
+      path: '/gestio/usuaris/crear',
+      component: () => import('../views/BO/usuaris/CrearUsuaris.vue'),
+      meta: { accessGestio: true }
+    },
+    {
       path: '/gestio/cursos',
       component: () => import('../views/BO/cursos/GestioCursos.vue'),
       meta: { accessGestio: true }
@@ -75,6 +113,11 @@ const router = createRouter({
       component: () => import('../views/BO/cursos/CursForm.vue'),
       props: true,
       meta: { accessGestio: true },
+    },
+    {
+      path: '/gestio/activitats',
+      component: () => import('../views/BO/activitats/GestioActivitats.vue'),
+      meta: { accessGestio: true }
     },
   ]
 });
