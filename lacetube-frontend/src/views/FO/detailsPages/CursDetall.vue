@@ -121,7 +121,7 @@
 <script>
 import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
 import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
-import Tasca from '@/components/FO/tauler/components/Tasca.vue';
+import Tasca from '@/components/FO/components/Tasca.vue';
 
 import cursService from '@/services/Resources';
 import userService from '@/services/User';

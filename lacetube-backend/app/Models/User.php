@@ -56,10 +56,19 @@ class User extends Authenticatable
         return $this->hasMany(Video::class, 'user');
     }
 
+    public function getAllCoursesAttribute() {
+        if (in_array("admin", $this->getRoleNames()->toArray())){
+            return Course::all();
+        }elseif(in_array("teacher", $this->getRoleNames()->toArray())){
+            return Course::where('teacher_id', '=', $this->id)->get();
+        }else{
+            return $this->courses;
+        }
+    }
 
     public function getActivitiesAttribute()
     {
-       $activities = $this->courses->flatMap(function ($course) {
+       $activities = $this->allCourses->flatMap(function ($course) {
         return $course->activities->map(function ($activity) {
             $activity->course_name = $activity->course->name;
             return $activity;

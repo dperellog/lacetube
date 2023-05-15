@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Facade as Avatar;
 
@@ -24,7 +25,7 @@ class UserFactory extends Factory
         $avatarName = uniqid().'.png';
         $name = fake()->firstName();
         $surname = fake()->lastName();
-        Avatar::create($name.' '.$surname)->save('public/avatar/'.$avatarName);
+        Avatar::create($name.' '.$surname)->save(Storage::disk('avatars')->path($avatarName));
 
         return [
             'name' => $name.' '.$surname,

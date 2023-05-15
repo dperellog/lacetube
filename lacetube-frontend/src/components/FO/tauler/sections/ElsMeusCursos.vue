@@ -36,7 +36,7 @@
 <script>
 
 import UserService from '@/services/User';
-import Curs from '../components/Curs.vue'
+import Curs from '@/components/FO/components/Curs.vue';
 
 
 export default {

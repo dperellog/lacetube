@@ -53,7 +53,7 @@
 
 import UserService from '@/services/User';
 import moment from 'moment';
-import Tasca from '../components/Tasca.vue'
+import Tasca from '@/components/FO/components/Tasca.vue';
 
 
 export default {

@@ -21,6 +21,14 @@ a.showMore:hover {
   text-decoration: none;
 }
 
+a{
+  color: #373e44
+}
+
+a:hover{
+  color: #1eb185;
+}
+
 
 @media screen and (max-width: 700px){
 

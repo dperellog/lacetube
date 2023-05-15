@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Course;
 use App\Models\User;
@@ -25,7 +26,7 @@ class CommentController extends Controller
             'user_id' => 'exists:users,id',
         ]);
         $comment = Comment::create($request->all());
-        return response()->json($comment, 201);
+        return response()->json(new CommentResource($comment), 201);
     }
 
     /**

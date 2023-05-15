@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
+use App\Http\Resources\UserVideosResource;
 use App\Models\Activity;
 use App\Models\Comment;
 use App\Models\Course;
@@ -17,35 +19,19 @@ class RecomendedController extends Controller
      */
     public function recomended($id)
     {
-        function shuffleObjectArray($array) {
-            $count = count($array);
-            
-            // Recorremos la array de atrás hacia adelante
-            for ($i = $count - 1; $i > 0; $i--) {
-              // Generamos un índice aleatorio entre 0 y $i
-              $j = rand(0, $i);
-              
-              // Intercambiamos los elementos en las posiciones $i y $j
-              $temp = $array[$i];
-              $array[$i] = $array[$j];
-              $array[$j] = $temp;
-            }
-            
-            return $array;
-          }
+
+        $recomendedVideos = collect();
+
         $video = Video::findOrFail($id);
-        $array1 = array($video->activity->course->students);
-        shuffleObjectArray($array1[0]);
-        $array2 = array_slice($array1[0]->toArray(), 0, 5);
-        $ArrayVideos= array();
-        foreach ($array2 as $alu) {
-            $user=User::findOrFail($alu["id"]);
-            $aluvideos=$user->videos;
-            foreach ($aluvideos as $video){
-                array_push($ArrayVideos, $video);
-            }
+
+        $interestedUsers = collect($video->activity->students->add($video->activity->teacher))->shuffle()->flatten();
+
+
+        foreach ($interestedUsers as $user) {
+            $userVideos = collect($user->videos)->shuffle()->take(rand(3, 5));
+            $recomendedVideos->push($userVideos);
         }
-        return response()->json($ArrayVideos)
-        ;
+
+        return response()->json(UserVideosResource::collection($recomendedVideos->flatten())->slice(0,20));
     }
 }

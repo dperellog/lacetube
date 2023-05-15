@@ -33,7 +33,7 @@
                 class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;Cursos</router-link></li>
           <li><router-link to="/videos" class="dropdown-item"><i class="fa-solid fa-video"></i>&nbsp;&nbsp;Els meus videos</router-link></li>
           <li><router-link :to="{ path: '/usuari/' + userStore.currentUser.id }" class="dropdown-item"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;El meu perfil</router-link></li>
-          <li><a class="dropdown-item" href="#">Configuració</a></li>
+          <li><router-link :to="{ path: '/configuracio/' }" class="dropdown-item"><i class="fa-solid fa-wrench"></i>&nbsp;&nbsp;Configuració</router-link></li>
           <div v-if="userStore.canAccessGestio">
             <li>
               <hr class="dropdown-divider">

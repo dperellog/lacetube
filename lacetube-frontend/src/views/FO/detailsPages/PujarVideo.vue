@@ -185,7 +185,6 @@ export default {
 
             const formData = new FormData();
             Object.keys(this.videoForm).forEach(key => {
-                console.log('key :>> ', that.videoForm);
                 formData.append(key, that.videoForm[key]);
             })
             console.log('formData :>> ', formData);

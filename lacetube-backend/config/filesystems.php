@@ -34,6 +34,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+        'avatars' => [
+            'driver' => 'local',
+            'root' => storage_path('app/avatars'),
+        ],
 
         'tmp' => [
             'driver' => 'local',
@@ -94,9 +98,11 @@ return [
     */
 
     'links' => [
+        public_path('avatar') => storage_path('app/avatars'),
         public_path('download') => storage_path('app/download'),
         public_path('video') => storage_path('app/streaming'),
         public_path('thumbnail') => storage_path('app/thumbnails'),
+
     ],
 
 ];

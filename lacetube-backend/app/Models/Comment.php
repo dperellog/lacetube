@@ -27,7 +27,7 @@ class Comment extends Model
         return $this->belongsTo(Video::class, 'video_id');
     }
 
-    public function isTeacher()
+    public function getisTeacherAttribute()
     {
         //TODO: Return if teacher
         return $this->user->id == $this->video->teacher->id;

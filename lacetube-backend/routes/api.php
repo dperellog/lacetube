@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\RecomendedController;
@@ -72,6 +73,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('/avatar', [UserController::class, 'getAvatar']);
         Route::get('/avatar/{id}', [UserController::class, 'getAvatar']);
+        Route::post('update-avatar', [UserController::class, 'updateAvatar']);
         Route::get('activities', [UserController::class, 'getActivities']);
         Route::get('courses', [UserController::class, 'getCourses']);
         Route::get('videos', [UserController::class, 'getVideos']);
@@ -90,9 +92,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/stats', [StatsController::class, 'stats']);
     Route::get('/recomended/{id}', [RecomendedController::class, 'recomended']);
 
-    // {
-    //     content: "video"
-    //     search: "loquebuscas"
-    // }
-    // return json de modelo video que en el titulo contenta "loquebuscas"
+    Route::post('update-password', [NewPasswordController::class, 'updatePassword']);
 });

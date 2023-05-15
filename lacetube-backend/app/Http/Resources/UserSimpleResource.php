@@ -6,7 +6,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class UserSimpleResource extends JsonResource
 {
     public static $wrap = null;
     /**
@@ -23,9 +23,7 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'created_at' => $this->created_at,
             'updated' => $this->updated_at,
-            'roles' => $this->getRoleNames(),
-            'courses' => UserCourseResource::collection($this->courses),
-            'videos' => UserVideosResource::collection($this->videos)
+            'roles' => $this->getRoleNames()
         ];
     }
 }

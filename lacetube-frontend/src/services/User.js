@@ -75,6 +75,11 @@ export default {
 
     },
 
+    async updateAvatar(avatar){
+        return Service.get('sanctum/csrf-cookie')
+        .then(() => Service.post('api/user/update-avatar', avatar))
+    },
+
     async logout() {
         return Service.get('sanctum/csrf-cookie')
             .then(() => Service.post('logout'))

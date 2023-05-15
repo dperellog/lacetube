@@ -71,6 +71,12 @@ const router = createRouter({
       props: true,
       meta: { usuariAutenticat: true }
     },
+    {
+      path: '/configuracio',
+      name: 'configuracio',
+      component: () => import('../views/FO/ConfiguracioUsuari.vue'),
+      meta: { usuariAutenticat: true }
+    },
 
     //Rutes de BACK OFFICE:
     {

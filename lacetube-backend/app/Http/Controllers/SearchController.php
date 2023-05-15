@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CourseResource;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\UserVideosResource;
 use App\Models\Activity;
 use App\Models\Course;
 use App\Models\User;
@@ -22,20 +25,17 @@ class SearchController extends Controller
         $request->content;
         switch ($request->content) {
             case "user":
-                 return response()->json(User::where('name', 'LIKE', '%'.$request->search.'%')->get());
+                 return response()->json(UserResource::collection(User::where('name', 'LIKE', '%'.$request->search.'%')->get()));
                 break;
             case "course":
-                return response()->json(Course::where('name', 'LIKE', '%'.$request->search.'%')->get());
-                break;
-            case "activity":
-                return response()->json(Activity::where('name', 'LIKE', '%'.$request->search.'%')->get());
+                return response()->json(CourseResource::collection(Course::where('name', 'LIKE', '%'.$request->search.'%')->get()));
                 break;
             case "video":
-                return response()->json(Video::where('title', 'LIKE', '%'.$request->search.'%')->get());
+                return response()->json(UserVideosResource::collection(Video::where('title', 'LIKE', '%'.$request->search.'%')->get()));
                 break;
             default:
             return response()->json('',404);
-                
+
         }
     }
 }

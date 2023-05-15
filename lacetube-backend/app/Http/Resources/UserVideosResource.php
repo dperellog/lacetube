@@ -20,12 +20,14 @@ class UserVideosResource extends JsonResource
             'id' => $this->id,
             'user' => $this->user,
             'activity' => $this->activity,
-            'comments' => $this->comments,
+            'teacher' => $this->activity->teacher,
+            'comments' => CommentResource::collection($this->comments),
             'title' => $this->title,
             'description' => $this->description,
             'streamingPath' => url('/api/streaming/'.$this->streaming_path),
             'downloadPath' => Storage::disk('download')->url($this->video_name.'/'.$this->downloadPath),
             'thumbnailURL' => Storage::disk('thumbnails')->url($this->thumbnailPath),
+            'publish_date' => $this->created_at
         ];
     }
 }

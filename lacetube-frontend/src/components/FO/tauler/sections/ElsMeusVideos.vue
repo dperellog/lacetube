@@ -34,7 +34,7 @@
 <script>
 
 import UserService from '@/services/User';
-import Video from '@/components/FO/tauler/components/Video.vue';
+import Video from '@/components/FO/components/Video.vue';
 
 
 export default {

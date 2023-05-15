@@ -38,6 +38,7 @@ export const useUserStore = defineStore('user', {
 
           this.userCourses = null;
           this.userActivities = null;
+          this.userVideos = null;
           
           this.user = null;
           localStorage.removeItem('lacetubeUser');
@@ -52,9 +53,17 @@ export const useUserStore = defineStore('user', {
           console.log('error :>> ', error);
         })
     },
+    updatePassword(passwordForm) {
+      return Auth.updatePassword(passwordForm)
+    },
     hasRole(role){
       let roles = this.user.roles.filter(value => [role].includes(value));
       return roles.length > 0;
+    },
+    refreshAvatar(avatarURL){
+      let currentUser = this.currentUser;
+      currentUser.avatar = avatarURL;
+      localStorage.setItem('lacetubeUser', JSON.stringify(currentUser));
     },
     setUserCourses(courses){
       this.userCourses = courses;
