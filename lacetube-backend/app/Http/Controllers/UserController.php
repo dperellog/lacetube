@@ -133,6 +133,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
+         //Eliminar avatar.
+         Storage::disk('avatars')->delete(''.$user->avatar);
         return response()->json(null, 204);
     }
 }

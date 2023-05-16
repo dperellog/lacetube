@@ -128,5 +128,10 @@ export default {
 
     async getUserByID(id) {
         return Service.get('api/user/'+id)
+    },
+
+    async removeUser(id) {
+        return Service.delete('api/user/delete/'+id)
+
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Requests\StoreVideoRequest;
 use App\Http\Resources\UserVideosResource;
 use App\Jobs\ConvertVideoForDownloading;
 use App\Jobs\ConvertVideoForStreaming;
+use App\Models\Activity;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +22,16 @@ class VideoController extends Controller
     public function getVideo($id): JsonResponse
     {
         return response()->json(new UserVideosResource(Video::findOrFail($id)));
+    }
+
+    public function getByTask($id)
+    {
+        if ($id == 0) {
+            return response()->json(UserVideosResource::collection(Video::all()));
+        }else{
+            $task = Activity::findOrFail($id);
+            return response()->json(UserVideosResource::collection($task->videos));
+        }
     }
 
     /**

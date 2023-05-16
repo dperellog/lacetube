@@ -15,33 +15,47 @@
                 <th>Correu electrònic</th>
                 <th>Rol</th>
                 <th>Contrasenya</th>
+                <th></th>
               </tr>
             </thead>
 
             <tbody>
               <tr v-for="(usuari, index) in usuaris" :key="index" class="error">
-
                 <td>
-                  <input type="text" class="form-control is-invalid" v-model="usuari.name">
-                  <div class="invalid-feedback">
-                    Missatge d'error
+                  <input type="text" class="form-control" :class="{'is-invalid' :  usuari.errors.name}" v-model="usuari.user.name">
+                  <div class="invalid-feedback" v-if="usuari.errors.name">
+                    {{ usuari.errors.name }}
                   </div>
                 </td>
                 <td>
-                  <input type="email" class="form-control" v-model="usuari.email">
+                  <input type="email" class="form-control" :class="{'is-invalid' :  usuari.errors.email}" v-model="usuari.user.email">
+                  <div class="invalid-feedback" v-if="usuari.errors.email">
+                    {{ usuari.errors.email }}
+                  </div>
                 </td>
                 <td>
-                  <select class="form-select" v-model="usuari.role">
+                  <select class="form-select" :class="{'is-invalid' :  usuari.errors.role}" v-model="usuari.user.role">
                     <option value="student">Alumne</option>
                     <option value="teacher">Professor</option>
                     <option value="admin">Administrador</option>
                   </select>
+                  <div class="invalid-feedback" v-if="usuari.errors.role">
+                    {{ usuari.errors.role }}
+                  </div>
                 </td>
                 <td class="input-group">
-                  <input type="password" class="form-control" v-model="usuari.password">
-                  <i class="fa-solid text-secondary" :class="{ 'fa-eye-slash': mostrarPassword, 'fa-eye': !mostrarPassword }" id="togglePassword"></i>
-                  <button class="btn btn-outline-primary btn-small" title="Generar contrasenya" type="button" @click="generarContrasenya(usuari)"><i
-                      class="fa-solid fa-rotate"></i></button>
+                  <input :type="usuari.viewPassword ? 'text' : 'password'" class="form-control" :class="{'is-invalid' :  usuari.errors.password}" v-model="usuari.user.password">
+                  <i class="fa-solid text-secondary"
+                    :class="{ 'fa-eye-slash': usuari.viewPassword, 'fa-eye': !usuari.viewPassword }" @click="usuari.viewPassword = !usuari.viewPassword" id="togglePassword"></i>
+                  <button class="btn btn-outline-primary btn-small" title="Generar contrasenya" type="button"
+                    @click="generarContrasenya(usuari)"><i class="fa-solid fa-rotate"></i></button>
+                  <div class="invalid-feedback" v-if="usuari.errors.password">
+                    {{ usuari.errors.password }}
+                  </div>
+                </td>
+                <td>
+                  <button v-if="index > 0" class="btn btn-outline-danger" @click.prevent="usuaris.splice(index, 1)"><i class="fa-solid fa-trash"></i></button>
+                  <button v-else class="btn btn-outline-danger" disabled><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
             </tbody>
@@ -100,10 +114,16 @@ export default {
     return {
       usuaris: [],
       usuariMotlle: {
-        name: '',
-        email: '',
-        role: 'student',
-        password: ''
+        user: {
+          name: '',
+          email: '',
+          role: 'student',
+          password: ''
+        },
+        errors: {
+
+        },
+        viewPassword: false
       },
       formStatus: {
         error: null,
@@ -141,15 +161,13 @@ export default {
     }
   },
   async beforeMount() {
-    this.usuaris.push({ ...this.usuariMotlle })
+    this.usuaris.push(JSON.parse(JSON.stringify(this.usuariMotlle)));
   },
 
   methods: {
     afegirUsuariLlista() {
-      //Validar que les dades
       //Afegir l'usuari del formulari al llistat
-      this.usuaris.push({ ...this.usuariMotlle })
-      this.validarUsuaris()
+      this.usuaris.push(JSON.parse(JSON.stringify(this.usuariMotlle)));
     },
     async crearUsuaris() {
       //Reset defaults:
@@ -158,7 +176,9 @@ export default {
       this.formStatus.errorMsg = '';
       let that = this;
 
-      userService.registerUsers(this.usuaris)
+      let usuaris = this.usuaris.map(usuari => usuari.user)
+
+      userService.registerUsers(usuaris)
         .then(r => {
           console.log('r :>> ', r);
           that.formStatus.error = false;
@@ -168,8 +188,7 @@ export default {
           that.formStatus.error = true;
           if (e.response.status == 409) {
             that.formStatus.errorMsg = "No s'han pogut crear tots els usuaris!";
-            that.formStatus.usuarisErronis = e.response.data.data;
-            that.mostrarErrorsUsuaris()
+            that.usuaris = e.response.data.data;
           } else {
             that.formStatus.errorMsg = e.message
           }
@@ -181,54 +200,28 @@ export default {
           that.formStatus.loading = false;
         })
     },
-    mostrarErrorsUsuaris() {
-      let that = this;
-
-      this.formStatus.usuarisErronis.forEach(usuariErroni => {
-        that.usuaris.forEach(usuari => {
-          if (usuariErroni.email == usuari.email) {
-            usuari.error = usuariErroni.error
-          }
-        })
-      })
-    },
-    validarUsuaris() {
-      let that = this
-      this.usuaris.forEach(usuari => {
-        Object.keys(usuari).forEach(key => {
-          switch (key) {
-            case 'name':
-              that.formValidat = true
-              break;
-
-            default:
-              break;
-          }
-        })
-
-      })
-    },
     generarContrasenya(usuari) {
-        var longitut = Math.floor(Math.random() * 3) + 12; //Entre 12 i 14 caràcters.
-        var caracters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
-        var contrasenya = '';
-        for (var i = 0; i < longitut; i++) {
-          let caracterAleatori = caracters.charAt(Math.floor(Math.random() * caracters.length));
-          contrasenya += caracterAleatori;
-        }
-        
-        usuari.password = contrasenya;
+      var longitut = Math.floor(Math.random() * 3) + 12; //Entre 12 i 14 caràcters.
+      var caracters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+      var contrasenya = '';
+      for (var i = 0; i < longitut; i++) {
+        let caracterAleatori = caracters.charAt(Math.floor(Math.random() * caracters.length));
+        contrasenya += caracterAleatori;
+      }
+
+      usuari.user.password = contrasenya;
     }
 
 
   }
 }
 </script>
-<style>
-#togglePassword{
-position: absolute; 
-right: 3.7rem; 
-top: 1.1rem;
-cursor: pointer;
+<style scoped>
+#togglePassword {
+  position: absolute;
+  right: 3.7rem;
+  top: 1.1rem;
+  cursor: pointer;
+  z-index: 8;
 }
 </style>

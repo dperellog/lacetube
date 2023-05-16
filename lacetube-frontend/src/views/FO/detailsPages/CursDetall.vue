@@ -155,6 +155,9 @@ export default {
   async beforeMount() {
     let cursID = this.id;
     this.curs = await userService.getCourses().then(cursos => cursos.filter(curs => curs.id == cursID).shift())
+    if (this.curs == undefined) {
+      this.$router.push('/404')
+    }
     let that = this;
 
     await cursService.getCourseActivities(this.id)
@@ -175,7 +178,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .thumbnail {
   height: 20rem;
   overflow: hidden;

@@ -212,7 +212,7 @@ export default {
 ...
 
 <!-- SASS styling -->
-<style>
+<style scoped>
 .dropbox {
     outline: 2px dashed grey;
     /* the dash box */

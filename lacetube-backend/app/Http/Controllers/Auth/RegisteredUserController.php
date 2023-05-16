@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
         foreach ($request->users as $user) {
             try {
                 $all_roles_in_database = Role::all()->pluck('name');
-                Validator::make($user, [
+                $validator = Validator::make($user, [
                     'name' => ['required', 'string', 'max:255'],
                     'email' => [
                         'required',
@@ -37,7 +37,21 @@ class RegisteredUserController extends Controller
                     ],
                     'role' => 'required|in:' . implode(',', $all_roles_in_database->toArray()),
                     'password' => 'required',
-                ])->validate();
+                ]);
+
+                if ($validator->fails()) {
+                    $campos_erroneos = [];
+                    foreach ($validator->errors()->toArray() as $campo => $error) {
+                        $campos_erroneos[$campo] = $error[0];
+                    }
+
+                    $usersIncorrectes[] = [
+                        'user' => $user,
+                        'errors' => $campos_erroneos,
+                    ];
+                }
+
+                $validated = $validator->validated();
 
                 //Crear avatar
                 $avatarName = uniqid() . '.png';
@@ -52,9 +66,9 @@ class RegisteredUserController extends Controller
                 array_push($usersIncorrectes2, $user);
             } catch (\Throwable $th) {
 
-                $user['error'] = $th->getMessage();
+                // $user['error'] = $th->getMessage();
 
-                array_push($usersIncorrectes, $user);
+                // array_push($usersIncorrectes, $user);
             }
         }
         if (sizeof($usersIncorrectes) > 0) {

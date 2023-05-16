@@ -7,7 +7,7 @@
           class="header-img header-logo"></router-link>
 
       <!-- Barra de cerca -->
-      <Search class="searchbar col-sm-7 mt-3 mb-3 mb-lg-0 me-lg-3 mx-2"></Search>
+      <Search class="searchbar col-sm-7 mt-3 mb-3 mb-lg-0 me-lg-3 mx-2" userAuthenticated></Search>
 
       <!-- Tauler -->
       <router-link to="/tauler"

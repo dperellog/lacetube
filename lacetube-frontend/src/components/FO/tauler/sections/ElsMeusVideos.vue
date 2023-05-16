@@ -10,7 +10,7 @@
                 </router-link>
 
                 <!-- Botó mostrar més -->
-                <a href="#" class="showMore text-center" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
+                <a href="#" class="showMore text-center" v-if="limit != -1 && videos.length > limit" @click.prevent="mostrarMes">Mostra'n més</a>
             </div>
 
             <div v-else class="alert alert-info" role="alert">

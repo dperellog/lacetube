@@ -81,6 +81,15 @@ export default {
         return Service.get('api/video/' + videoID)
     },
 
+    async deleteVideo(videoID){
+        return Service.get('sanctum/csrf-cookie')
+            .then(() => Service.delete('/api/video/delete/' + videoID))
+    },
+
+    async getVideos(tascaID) {
+        return Service.get('api/video/task/' + tascaID)
+    },
+
     async getRecomended(videoID) {
         return Service.get('api/recomended/' + videoID)
     },

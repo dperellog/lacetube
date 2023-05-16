@@ -119,6 +119,15 @@ const router = createRouter({
       component: () => import('../views/BO/activitats/GestioActivitats.vue'),
       meta: { accessGestio: true }
     },
+    {
+      path: '/gestio/videos',
+      component: () => import('../views/BO/videos/GestioVideos.vue'),
+      meta: { accessGestio: true }
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      component: () => import('../views/404.vue')
+    },
   ]
 });
 
