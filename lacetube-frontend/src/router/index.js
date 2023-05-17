@@ -53,6 +53,13 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/activitat/modificar/:videoID',
+      name: 'modificar-video',
+      component: () => import('../views/FO/detailsPages/PujarVideo.vue'),
+      meta: { usuariAutenticat: true },
+      props: true
+    },
+    {
       path: '/videos',
       name: 'videos',
       component: () => import('../views/FO/Videos.vue'),

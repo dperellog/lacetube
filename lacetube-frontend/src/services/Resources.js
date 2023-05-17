@@ -77,6 +77,11 @@ export default {
             }))
     },
 
+    async modifyVideo(videoID, videoForm) {
+        return Service.get('sanctum/csrf-cookie')
+            .then(() => Service.post('api/video/modify/' + videoID, videoForm))
+    },
+
     async getVideo(videoID) {
         return Service.get('api/video/' + videoID)
     },
