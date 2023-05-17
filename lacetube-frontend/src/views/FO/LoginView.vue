@@ -6,7 +6,7 @@
     <div class="container-fluid">
       <div class="row d-flex justify-content-around align-items-center">
         <div class="col-sm-6">
-          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid"
+          <img src="/loginimage.webp" class="img-fluid"
             alt="Sample image">
         </div>
         <div class="col-sm-5">
