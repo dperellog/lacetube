@@ -1,6 +1,9 @@
 <template>
     <div class="cursPreview" v-if="estil == 'block'">
-        <div class="thumbnail border rounded-4" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
+        
+            <div class="thumbnail border rounded-4" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
+        
+        
         <h5 class="fw-bold mt-1">{{ video.title }}</h5>
         <h6 class="teacher-name text-secondary ">
             <i class="fa-solid fa-user"></i>&nbsp;&nbsp;<span><em>{{ video.user.name }}</em></span>
@@ -46,8 +49,8 @@ export default {
 }
 
 .thumbnail {
-    height: 10rem;
-    width: 17rem;
+    width: 100%;
+    padding-bottom: 56.25%;
     overflow: hidden;
     background-position: center;
     background-size: cover;

@@ -22,6 +22,11 @@ class SearchController extends Controller
      */
     public function search(Request $request)
     {
+        $userAuthenticated = Auth::check();
+
+        if (!$userAuthenticated && $request->content != 'video') {
+            return response()->json('',401);
+        }
         $request->content;
         switch ($request->content) {
             case "user":

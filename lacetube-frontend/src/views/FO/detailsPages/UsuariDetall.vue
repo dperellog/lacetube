@@ -133,7 +133,7 @@ export default {
 
 }
 </script>
-<style>
+<style scoped>
 .card.userheader {
   background-color: #ffffff;
   border-color: #F9F7F3;

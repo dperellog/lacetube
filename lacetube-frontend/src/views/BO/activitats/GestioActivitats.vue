@@ -103,9 +103,7 @@ export default {
       })
     },
     async refrescarTaula() {
-      await this.obtenirActivitats();
-
-      
+      await this.obtenirActivitats();     
     }
   }
 }

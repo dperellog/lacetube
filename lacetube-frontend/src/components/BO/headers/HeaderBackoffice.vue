@@ -29,7 +29,6 @@
                 </li>
 
                 <!-- MENU CURSOS -->
-
                 <li class="nav-item dropdown me-2">
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="true" aria-expanded="false">Cursos</a>
@@ -43,6 +42,17 @@
                         class="fa-solid fa-plus"></i>&nbsp;&nbsp;Crear Curs</router-link>
                     <router-link class="dropdown-item" to="/gestio/activitats?crear=true"><i
                         class="fa-solid fa-plus"></i>&nbsp;&nbsp;Crear Activitat</router-link>
+                  </div>
+                </li>
+
+                <!-- MENU VIDEOS -->
+                <li class="nav-item dropdown me-2">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-haspopup="true" aria-expanded="false">Videos</a>
+                  <div class="dropdown-menu">
+                    <router-link to="/gestio/videos" class="dropdown-item">
+                      <i class="fa-solid fa-video"></i>&nbsp;&nbsp;Gestió de videos
+                    </router-link>
                   </div>
                 </li>
 

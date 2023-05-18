@@ -25,7 +25,7 @@ components: {
 
 }
 </script>
-<style>
+<style scoped>
 @media screen and (max-width: 990px) {
   .searchbar {
     margin-top: 2rem !important;

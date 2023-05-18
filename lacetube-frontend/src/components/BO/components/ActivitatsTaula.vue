@@ -117,7 +117,7 @@
             {{ formatarData(activitat.end_date) }}
           </td>
           <td class="text-center" style="width:15%">
-            {{ activitat.videos.length }}
+            <router-link :to="'/gestio/videos?activitat='+activitat.id">{{ activitat.videos.length }}</router-link>
           </td>
 
           <td class="text-center" style="width:25%">
@@ -201,7 +201,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="confirmacioEliminarMulti">Segur que vols eliminar tots aquests cursos?</h1>
+          <h1 class="modal-title fs-5" id="confirmacioEliminarMulti">Segur que vols eliminar totes aquestes activitats?</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -246,7 +246,7 @@
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .table {
   margin-bottom: 0em;
 }

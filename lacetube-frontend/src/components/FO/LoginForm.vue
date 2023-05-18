@@ -90,6 +90,7 @@ export default {
         })
         .catch(function (error) {
           //Login Failed:
+          console.log('e :>> ', error);
           component.formStatus.error = true;
           component.formStatus.errorMsg = error.response.data.message
         })

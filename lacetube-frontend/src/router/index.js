@@ -53,6 +53,13 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/activitat/modificar/:videoID',
+      name: 'modificar-video',
+      component: () => import('../views/FO/detailsPages/PujarVideo.vue'),
+      meta: { usuariAutenticat: true },
+      props: true
+    },
+    {
       path: '/videos',
       name: 'videos',
       component: () => import('../views/FO/Videos.vue'),
@@ -118,6 +125,15 @@ const router = createRouter({
       path: '/gestio/activitats',
       component: () => import('../views/BO/activitats/GestioActivitats.vue'),
       meta: { accessGestio: true }
+    },
+    {
+      path: '/gestio/videos',
+      component: () => import('../views/BO/videos/GestioVideos.vue'),
+      meta: { accessGestio: true }
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      component: () => import('../views/404.vue')
     },
   ]
 });

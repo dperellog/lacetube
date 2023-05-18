@@ -6,7 +6,7 @@
       <!-- Llistat de cursos -->
       <div v-if="usuaris != null">
         <div v-if="usuaris.length > 0">
-          <UsuarisTaula :usuaris="usuaris" btnNovaTaula></UsuarisTaula>
+          <UsuarisTaula :usuaris="usuaris" btnNovaTaula @refrescarTaula="refrescarTaula()" :key="usuaris.length"></UsuarisTaula>
         </div>
 
         <div v-else class="alert alert-info" role="alert">
@@ -69,6 +69,10 @@ export default {
           this.error = e;
         });
     },
+    async refrescarTaula() {
+      console.log('refrescar! :>> ');
+      this.usuaris = await this.getUsuaris();   
+    }
 
     
   }

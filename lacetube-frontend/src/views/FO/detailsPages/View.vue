@@ -5,7 +5,7 @@
       <div class="row gy-4">
 
         <!-- Video Player -->
-        <div class="col-lg-10 px-4">
+        <div class="col-lg-9 px-4">
           <div class="text-center">
             <vue-plyr :options="playerOptions">
               <video controls crossorigin playsinline :data-poster="video.data.thumbnailURL">
@@ -63,25 +63,25 @@
               </div>
               <div v-else class="alert alert-info" role="alert">
                 No hi han comentaris disponibles! Sigues el primer en comentar :D
-            </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Recomanats -->
-        <div class="col-lg-2">
+        <div class="col-lg-3">
           <h4 class="fw-bold">Recomanats:</h4>
           <hr>
           <div v-if="recomendedVideos.length > 0">
             <router-link :to="{ path: '/video/' + video.id }" v-for="video in recomendedVideos"
-              class="my-4 text-decoration-none ">
+              class="my-4 d-block text-decoration-none">
               <Video :video="video"></Video>
             </router-link>
           </div>
           <div v-else class="d-flex justify-content-center">
-                <strong>Carregant videos recomanants...</strong>
-                <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-            </div>
+            <strong>Carregant videos recomanants...</strong>
+            <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+          </div>
         </div>
       </div>
 
@@ -145,6 +145,7 @@ export default {
       playerOptions: {
         controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
         settings: ['quality', 'speed', 'loop'],
+        ratio: '16:9'
       },
       recomendedVideos: [],
       comentaris: [],
@@ -155,7 +156,8 @@ export default {
     dataPublicacio() {
       return moment(this.video.data.publish_date, 'YYYY-MM-DD').format('LL')
     },
-    player() {coment
+    player() {
+      coment
       console.log(this.$refs.plyr.player);
       return this.$refs.plyr.player;
     },
@@ -165,10 +167,14 @@ export default {
     this.video.data = await videoService.getVideo(videoID)
       .then(r => {
         return r.data;
-      });
+      })
+      .catch(e => {
+        console.log('e :>> ', e);
+        this.$router.push('/404')
+      })
 
     this.getRecomended()
-    
+
     this.comentaris = this.video.data.comments;
 
     //Obtenir comentari del profe:
@@ -212,11 +218,11 @@ export default {
 }
 </script>
 <style scoped>
-@media screen and (min-width: 700px){
+@media screen and (min-width: 700px) {
 
   .main-content-section {
-  padding: 2rem 10rem 2rem 8rem;
-}
+    padding: 2rem 3rem 2rem 2rem;
+  }
 }
 
 

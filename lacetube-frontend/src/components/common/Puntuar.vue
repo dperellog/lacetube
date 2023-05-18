@@ -40,7 +40,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .star {
     font-size: 2em;
     color: #D5D5D5;

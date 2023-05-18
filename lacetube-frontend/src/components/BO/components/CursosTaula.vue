@@ -188,7 +188,7 @@
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .table {
   margin-bottom: 0em;
 }

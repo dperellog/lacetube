@@ -69,13 +69,25 @@ export default {
             userService : userService
         }
     },
+    props: {
+        userAuthenticated: {
+            type: Boolean
+        }
+    },
+    beforeMount(){
+        if (this.userAuthenticated) {
+            this.types = [
+                { type: 'video', name: 'Video' },
+                { type: 'user', name: 'Usuari' },
+                { type: 'course', name: 'Curs' }
+            ];
+        }
+    },
     data() {
         return {
             currentType: { type: 'video', name: 'Video' },
             types: [
                 { type: 'video', name: 'Video' },
-                { type: 'user', name: 'Usuari' },
-                { type: 'course', name: 'Curs' }
             ],
             searchText: '',
             resultatsBackend: [],
@@ -134,7 +146,7 @@ export default {
         searchText(searchText, oldtext) {
 
             //Si la longitut es 2, buscar al backend:
-            if (searchText.length == 2 && oldtext.length < 2) {
+            if (searchText.length == 2 && oldtext.length < 2 || searchText.length > 2 && this.resultatsBackend.length == 0) {
                 this.searchToBackend(this.searchText)
             }
 

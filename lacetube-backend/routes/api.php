@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::get('video/{id}', [VideoController::class, 'getVideo']);
 Route::get('streaming/{id}', [VideoController::class, 'stream']);
+Route::post('/search/json', [SearchController::class, 'search']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('course')->group(function () {
@@ -67,8 +68,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('video')->group(function () {
         Route::post('upload-video', [VideoController::class, 'store']);
-        Route::put('modify/{id}', [VideoController::class, 'update']);
+        Route::post('modify/{id}', [VideoController::class, 'update']);
         Route::delete('delete/{id}', [VideoController::class, 'destroy']);
+        Route::get('task/{id}', [VideoController::class, 'getByTask']);
     });
     Route::prefix('user')->group(function () {
         Route::get('/avatar', [UserController::class, 'getAvatar']);
@@ -88,7 +90,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::post('/register/json', [App\Http\Controllers\Auth\RegisteredUserController::class, 'storeJSON']);
-    Route::post('/search/json', [SearchController::class, 'search']);
     Route::get('/stats', [StatsController::class, 'stats']);
     Route::get('/recomended/{id}', [RecomendedController::class, 'recomended']);
 
