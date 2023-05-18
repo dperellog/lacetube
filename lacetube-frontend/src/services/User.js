@@ -68,7 +68,7 @@ export default {
 
     getAvatarURLByAvatar(avatar) {
         if (avatar) {
-            return baseURL + 'api/avatar/' + avatar
+            return baseURL + '/api/avatar/' + avatar
         } else {
             ''
         }

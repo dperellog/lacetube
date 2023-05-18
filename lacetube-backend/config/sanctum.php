@@ -30,6 +30,7 @@ return [
     | not expire. This won't tweak the lifetime of first-party sessions.
     |
     */
+    'prefix' => 'api/sanctum',
 
     'expiration' => null,
 
