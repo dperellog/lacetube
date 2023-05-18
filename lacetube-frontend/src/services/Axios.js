@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = "http://api.lacetube.cat:8000/";
+const baseURL = process.env.BACKEND_API_URL;
 
 const bckend = axios.create({
     baseURL : baseURL,

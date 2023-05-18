@@ -7,7 +7,7 @@ export default {
 
     async registerUsers(usersArray) {
 
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('api/register/json', { users: usersArray }))
     },
 
@@ -68,7 +68,7 @@ export default {
 
     getAvatarURLByAvatar(avatar) {
         if (avatar) {
-            return baseURL + 'avatar/' + avatar
+            return baseURL + 'api/avatar/' + avatar
         } else {
             ''
         }
@@ -76,13 +76,13 @@ export default {
     },
 
     async updateAvatar(avatar){
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
         .then(() => Service.post('api/user/update-avatar', avatar))
     },
 
     async logout() {
-        return Service.get('sanctum/csrf-cookie')
-            .then(() => Service.post('logout'))
+        return Service.get('api/sanctum/csrf-cookie')
+            .then(() => Service.post('api/logout'))
     },
 
     translateRole(role) {

@@ -19,7 +19,7 @@ export default {
     },
 
     async createCourse(course) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('/api/course/create', course, {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -28,7 +28,7 @@ export default {
     },
 
     async modifyCourse(course, id) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('/api/course/modify/' + id, course, {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -37,22 +37,22 @@ export default {
     },
 
     async deleteCourse(courseID) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.delete('/api/course/delete/' + courseID))
     },
 
     async createTask(task) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('/api/activity/create', task))
     },
 
     async modifyTask(task) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.put('/api/activity/modify/' + task.id, task))
     },
 
     async deleteTask(taskID) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.delete('/api/activity/delete/' + taskID))
     },
 
@@ -69,7 +69,7 @@ export default {
     },
 
     async uploadVideo(video) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('api/video/upload-video', video, {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -78,7 +78,7 @@ export default {
     },
 
     async modifyVideo(videoID, videoForm) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('api/video/modify/' + videoID, videoForm))
     },
 
@@ -87,7 +87,7 @@ export default {
     },
 
     async deleteVideo(videoID){
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.delete('/api/video/delete/' + videoID))
     },
 
@@ -100,7 +100,7 @@ export default {
     },
 
     async searchBackend(searchText, searchField) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('api/search/json', {
                 content: searchField,
                 search: searchText
@@ -108,7 +108,7 @@ export default {
     },
 
     async sendComment(comment) {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('api/comment/create', comment));
     },
 
@@ -117,7 +117,7 @@ export default {
     },
 
     async logout() {
-        return Service.get('sanctum/csrf-cookie')
+        return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('logout'))
     }
 }
