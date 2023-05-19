@@ -46,16 +46,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Relate with courses where user is student.
+     */
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'course_user', 'user','course');
     }
 
+    /**
+     * Relate with all the videos user has uploaded.
+     */
     public function videos()
     {
         return $this->hasMany(Video::class, 'user');
     }
 
+    /**
+     * Get all courses where user is student, teacher or if is admin get all.
+     */
     public function getAllCoursesAttribute() {
         if (in_array("admin", $this->getRoleNames()->toArray())){
             return Course::all();
@@ -66,6 +75,9 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * Get all activities of courses where user is student.
+     */
     public function getActivitiesAttribute()
     {
        $activities = $this->allCourses->flatMap(function ($course) {
@@ -78,6 +90,9 @@ class User extends Authenticatable
         return $activities;
     }
 
+    /**
+     * Get all videos of the user.
+     */
     public function getVideosAttribute()
     {
        $videos = $this->activities->flatMap(function ($activity) {

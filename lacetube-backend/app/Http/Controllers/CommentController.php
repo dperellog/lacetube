@@ -14,35 +14,47 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created comment in storage.
      */
     public function store(Request $request)
     {
+        // Get the video.
         $video = Video::findOrFail($request->video_id);
+
+        // Validate comment data.
         $validateData = $request->validate([
             'description' => 'max:255',
             'stars' => 'required|integer',
             'video_id' => 'exists:videos,id',
             'user_id' => 'exists:users,id',
         ]);
+
+        // Create the comment.
         $comment = Comment::create($request->all());
         return response()->json(new CommentResource($comment), 201);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified comment in storage.
      */
     public function update(Request $request, string $id)
     {
+        // Get the comment.
         $Comment = Comment::findOrFail($id);
+
+        // Check if user comment is the owner.
         if (Auth::user()->id != $Comment->user_id) {
+            // If not, fail.
             return response()->json('', 401);
         }
+
+        // Validate comment data.
         $validateData = $request->validate([
             'description' => 'max:255',
             'stars' => 'required|integer',
         ]);
 
+        // Update the comment.
         $Comment->stars = $request->stars;
         $Comment->description = $request->description;
         $Comment->save();
@@ -50,14 +62,20 @@ class CommentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified comment from storage.
      */
     public function destroy($id)
     {
+        // Get the comment.
         $Comment = Comment::findOrFail($id);
+
+        // Check if requested user is the owner, or the activity teacher or an admin.
         if (Auth::user()->id != $Comment->user_id && !User::find(Auth::user()->id)->hasRole('admin') && Auth::user()->id != $Comment->video->teacher->id) {
+            // If not, fail.
             return response()->json('', 401);
         }
+
+        // Delete the comment.
         $Comment->delete();
         return response()->json(null, 204);
     }

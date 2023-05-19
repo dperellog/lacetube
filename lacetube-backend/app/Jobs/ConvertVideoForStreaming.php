@@ -26,23 +26,26 @@ class ConvertVideoForStreaming implements ShouldQueue
         $this->videoName = $videoName;
     }
 
+    /**
+     * Method used to convert an uploaded video to HLS format ready for its streaming.
+     */
     public function handle()
     {
-        // create some video formats...
-        $highBitrateFormat = (new X264)->setKiloBitrate(3000);
+        // Create video format:
+        $bitrateFormat = (new X264)->setKiloBitrate(3000);
 
-        // call the 'exportForHLS' method and specify the disk to which we want to export...
+        // Call the 'exportForHLS' method and specify the disk to which we want to export:
         SupportFFMpeg::fromDisk('tmp')
         ->open($this->tempPath)
             ->exportForHLS()
             ->toDisk('streaming')
 
-            ->addFormat($highBitrateFormat)
+            ->addFormat($bitrateFormat)
 
-        // call the 'save' method with a filename...
+        // Call the 'save' method with a filename:
             ->save('/'.$this->videoName.'/'.$this->videoName . '.m3u8');
 
-        //Generar miniatura:
+        // Generate a thumbnail for the video and store it to filesystem:
         SupportFFMpeg::fromDisk('tmp')
         ->open($this->tempPath)
         ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))

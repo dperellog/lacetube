@@ -26,21 +26,33 @@ class Course extends Model
         'parent_id'
     ];
 
+    /**
+     * Relate course teacher user.
+     */
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
+    /**
+     * Relate course parent.
+     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Course::class, 'parent_id')->withDefault();
     }
 
+    /**
+     * Relate to all course students users.
+     */
     public function students()
     {
         return $this->belongsToMany(User::class, 'course_user', 'course','user');
     }
 
+    /**
+     * Relate to all course activities.
+     */
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class, 'course_id');

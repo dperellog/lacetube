@@ -10,16 +10,16 @@ class Admin
 {
     public function handle(Request $request, Closure $next)
     {
-        // Verificar si el usuario está autenticado
+        // Check if user is authenticated
         if (!auth()->check()) {
             return redirect('/login');
         }
-        // Verificar si el usuario tiene el rol de administrador
+        // Check wether user is admin or not.
         if (!$request->hasRole('admin')) {
             return redirect('/tauler'); // canviar a respuesta con json
         }
 
-        // Si el usuario está autenticado y es un administrador, dejarlo pasar
+        // If user is logged in and admin, let it pass.
         return $next($request);
     }
 }

@@ -26,24 +26,26 @@ class ConvertVideoForDownloading implements ShouldQueue
         $this->videoName = $videoName;
     }
 
+    /**
+     * Method used to convert an uploaded video to MP4 format ready for its download.
+     */
     public function handle()
     {
-        // create a video format...
+        // Create a video format:
         $bitrateFormat = (new X264)->setKiloBitrate(3000);
 
-        // open the uploaded video from the right disk...
-
+        // Open the uploaded video from the right disk:
         FFMpeg::fromDisk('tmp')
             ->open($this->tempPath)
 
-        // call the 'export' method...
+        // Call the 'export' method:
             ->export()
 
-        // tell the MediaExporter to which disk and in which format we want to export...
+        // Tell the MediaExporter to which disk and in which format we export the video:
             ->toDisk('download')
             ->inFormat($bitrateFormat)
 
-        // call the 'save' method with a filename...
+        // Store the video to DB and Filesystem.
             ->save('/'.$this->videoName.'/'.$this->videoName . '.mp4');
 
     }

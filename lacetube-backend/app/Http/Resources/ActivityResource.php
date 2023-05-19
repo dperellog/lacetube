@@ -28,11 +28,17 @@ class ActivityResource extends JsonResource
             'entregada' => $this->entregada($this->id),
         ];
     }
-    public function entregada($id){
 
+    /**
+     * Check if current task is delivered or not.
+     */
+    public function entregada($id){
+        // Get task video.
         $videos=Video::where('activity_id', $id)
         ->where('user_id', Auth::user()->id)
         ->get();
+
+        // If no video found means task is no delivered.
         if ($videos->isEmpty()){
             return false;
         }else{

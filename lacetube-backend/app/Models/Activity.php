@@ -21,21 +21,33 @@ class Activity extends Model
         'course_id'
     ];
 
+    /**
+     * Relationship with its course.
+     */
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
 
+    /**
+     * Relate with activity videos.
+     */
     public function videos(): HasMany
     {
         return $this->hasMany(Video::class, 'activity_id');
     }
 
+    /**
+     * Relate with teacher user.
+     */
     public function teacher()
     {
         return $this->course->teacher();
     }
 
+    /**
+     * Relate with students user.
+     */
     public function students()
     {
         return $this->course->students();

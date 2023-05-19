@@ -17,19 +17,27 @@ class Comment extends Model
         'user_id'
     ];
 
+    /**
+     * Relate with comment user.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * Relationship with video where coment is.
+     */
     public function video(): BelongsTo
     {
         return $this->belongsTo(Video::class, 'video_id');
     }
 
+    /**
+     * Get wether comment has been made by the task teacher or not. Returns boolean.
+     */
     public function getisTeacherAttribute()
     {
-        //TODO: Return if teacher
         return $this->user->id == $this->video->teacher->id;
     }
 }

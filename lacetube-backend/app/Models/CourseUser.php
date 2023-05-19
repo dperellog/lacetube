@@ -4,10 +4,11 @@ namespace App\Pivots;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-
+/**
+ * Model made to relate many-to-many user and courses.
+ */
 class CourseUser extends Pivot
 {
-
     public function user(){
         return $this->belongsTo(User::class);
     }

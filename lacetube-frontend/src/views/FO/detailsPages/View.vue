@@ -7,11 +7,12 @@
         <!-- Video Player -->
         <div class="col-lg-9 px-4">
           <div class="text-center">
-            <vue-plyr :options="playerOptions">
-              <video controls crossorigin playsinline :data-poster="video.data.thumbnailURL">
-                <source :src="video.data.streamingPath" type="application/vnd.apple.mpegurl" />
+            <!-- <vue-plyr ref="plyr" :options="playerOptions">
+              <video ref="video" preload="none" :id="'video-' + video.data.id" :data-poster="video.data.thumbnailURL">
               </video>
-            </vue-plyr>
+            </vue-plyr> -->
+            <video ref="videoPlayer" class="video-js vjs-default-skin"></video>
+
           </div>
 
           <!-- Titol i info -->
@@ -75,7 +76,7 @@
           <div v-if="recomendedVideos.length > 0">
             <router-link :to="{ path: '/video/' + video.id }" v-for="video in recomendedVideos"
               class="my-4 d-block text-decoration-none">
-              <Video :video="video"></Video>
+              <VideoComponent :video="video"></VideoComponent>
             </router-link>
           </div>
           <div v-else class="d-flex justify-content-center">
@@ -108,23 +109,22 @@
 <script>
 import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
 import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
-import Video from '@/components/FO/components/Video.vue';
+import { default as VideoComponent } from '@/components/FO/components/Video.vue';
 import ComentariForm from '@/components/FO/singlePages/watch/ComentariForm.vue';
 import Comentari from '@/components/FO/components/Comentari.vue';
 
 import videoService from '@/services/Resources';
 import userService from '@/services/User';
 
-import VuePlyr from 'vue-plyr';
-import Hls from 'hls.js';
 import moment from 'moment';
+
+import videojs from 'video.js';
 
 export default {
   components: {
     HeaderFrontoffice,
     FooterFrontoffice,
-    VuePlyr,
-    Video,
+    VideoComponent,
     ComentariForm,
     Comentari
   },
@@ -143,10 +143,31 @@ export default {
         data: null
       },
       playerOptions: {
-        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-        settings: ['quality', 'speed', 'loop'],
-        ratio: '16:9'
+        autoplay: true,
+        controls: true,
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false
+        }
+        // poster: 'https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg'
       },
+      // playerOptions: {
+      //   controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
+      //   settings: ['quality', 'speed', 'loop'],
+      //   ratio: '16:9'
+      // },
+      videoOptions: {
+        autoplay: true,
+        controls: true,
+        sources: [
+          {
+            src:
+              'http://infla.cat:10085/resources/streaming/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u.m3u8',
+            type: 'application/vnd.apple.mpegurl'
+          }
+        ]
+      },
+      player: null,
       recomendedVideos: [],
       comentaris: [],
       comentariProfe: null
@@ -157,10 +178,8 @@ export default {
       return moment(this.video.data.publish_date, 'YYYY-MM-DD').format('LL')
     },
     player() {
-      coment
-      console.log(this.$refs.plyr.player);
-      return this.$refs.plyr.player;
-    },
+      return this.$refs.videoPlayer.player
+    }
   },
   async beforeMount() {
     let videoID = this.id;
@@ -193,14 +212,16 @@ export default {
   },
   methods: {
     videoMounted() {
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(this.video.data.streamingPath);
-        //hls.loadSource("http://api.lacetube.cat:8000/video/Y6nSEN5ggwWcy3vYFDvDgaLFzcvye4miBnoVU1tr/Y6nSEN5ggwWcy3vYFDvDgaLFzcvye4miBnoVU1tr_0_3000.m3u8");
-        hls.attachMedia(this.player.media);
+      const options = {
+      techOrder: ['html5'],
+      sources: [{
+        src: 'http://infla.cat:10085/resources/streaming/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u.m3u8',
+        type: 'application/x-mpegURL'
+      }]
+    };
 
-        window.hls = hls;
-      }
+    const player = videojs(this.$refs.videoPlayer, options);
+    player.play();
     },
     getRecomended() {
       videoService.getRecomended(this.id)

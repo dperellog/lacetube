@@ -4,28 +4,33 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules;
 use Spatie\Permission\Models\Role;
 use Laravolt\Avatar\Facade as Avatar;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class RegisteredUserController extends Controller
 {
-
+    //Method for registring users massively.
     public function storeJSON(Request $request)
     {
-        $usersIncorrectes = [];
-        $usersIncorrectes2 = [];
+        $invalidUsers = [];
+        $validUsers = [];
+
         foreach ($request->users as $user) {
             try {
+
+                // Validate data:
                 $all_roles_in_database = Role::all()->pluck('name');
+                $passwordValid = Password::min(8);
+                $passwordValid->mixedCase();
+                $passwordValid->numbers();
+
                 $validator = Validator::make($user, [
                     'name' => ['required', 'string', 'max:255'],
                     'email' => [
@@ -36,45 +41,48 @@ class RegisteredUserController extends Controller
                         Rule::unique(User::class),
                     ],
                     'role' => 'required|in:' . implode(',', $all_roles_in_database->toArray()),
-                    'password' => 'required',
+                    'password' => ['required', $passwordValid]
                 ]);
 
+                // If fails, append to invalid users array:
                 if ($validator->fails()) {
-                    $campos_erroneos = [];
-                    foreach ($validator->errors()->toArray() as $campo => $error) {
-                        $campos_erroneos[$campo] = $error[0];
+                    $invalidFields = [];
+
+                    //Get invalid fields and append it to errors array.
+                    foreach ($validator->errors()->toArray() as $field => $error) {
+                        $invalidFields[$field] = $error[0];
                     }
 
-                    $usersIncorrectes[] = [
+                    $invalidUsers[] = [
                         'user' => $user,
-                        'errors' => $campos_erroneos,
+                        'errors' => $invalidFields,
                     ];
+                } else {
+                    // If user validated:
+                    $validated = $validator->validated();
+
+                    // Create avatar:
+                    $avatarName = uniqid() . '.png';
+                    Avatar::create($user['name'])->save(Storage::disk('avatars')->path($avatarName));
+
+                    // Store to database:
+                    User::create([
+                        'name' => $user['name'],
+                        'email' => $user['email'],
+                        'password' => Hash::make($user['password']),
+                        'avatar' => $avatarName,
+                    ])->assignRole($user['role']);
+                    array_push($validUsers, $user);
                 }
-
-                $validated = $validator->validated();
-
-                //Crear avatar
-                $avatarName = uniqid() . '.png';
-                Avatar::create($user['name'])->save(Storage::disk('avatars')->path($avatarName));
-
-                User::create([
-                    'name' => $user['name'],
-                    'email' => $user['email'],
-                    'password' => Hash::make($user['password']),
-                    'avatar' => $avatarName,
-                ])->assignRole($user['role']);
-                array_push($usersIncorrectes2, $user);
             } catch (\Throwable $th) {
-
-                // $user['error'] = $th->getMessage();
-
-                // array_push($usersIncorrectes, $user);
             }
         }
-        if (sizeof($usersIncorrectes) > 0) {
-            return response()->json(['status' => 409, 'data' => $usersIncorrectes], 409);
+
+        // Returns:
+        if (sizeof($invalidUsers) > 0) {
+            return response()->json(['status' => 409, 'data' => $invalidUsers, 'validUsers' => $validUsers], 409);
         } else {
-            return response()->json(['status' => 200, 'data' => $usersIncorrectes], 200);
+            return response()->json(['status' => 200, 'data' => $invalidUsers, 'validUsers' => $validUsers], 200);
         }
     }
 }
