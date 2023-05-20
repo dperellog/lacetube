@@ -69,7 +69,6 @@ export default {
 
     //Obtenir videos del backend
     this.videos = await this.getVideos();
-    console.log('this.videos :>> ', this.videos);
   },
 
   methods: {
@@ -79,6 +78,7 @@ export default {
           return r.data;
         })
         .catch(e => {
+          console.log('e :>> ', e);
           this.error = e;
           this.$router.push('/404');
         })
@@ -88,8 +88,6 @@ export default {
       this.videos = await this.getVideos(this.tascaID);
       this.clau += 1;
     }
-
-
   }
 }
 </script>

@@ -16,8 +16,7 @@
                     <div class="col-sm-4">
                         <div class="card p-2">
                             <div class="d-flex align-items-center">
-                                <img :src="userService.getAvatarURLByAvatar(activitat.data.teacher.avatar)"
-                                    alt="foto-professor" style="width: 45px; height: 45px" class="rounded-circle">
+                                <Avatar :url="userService.getAvatarURLByAvatar(activitat.data.teacher.avatar)" :size="'sm'"></Avatar>
                                 <div class="ms-3">
                                     <p class="fw-bold mb-1">{{ activitat.data.teacher.name }}</p>
                                     <p class="text-muted mb-0">{{ activitat.data.teacher.email }}</p>
@@ -65,7 +64,7 @@
                     <div class="spinner-border spinner-border-sm text-secondary me-1" role="status">
                         <span class="visually-hidden">Enviant dades...</span>
                     </div>
-                    <span class="text-secondary">Enviant dades... </span>
+                    <span class="text-secondary">Pujant video... Això pot tardar uns minuts, no tanquis la pestanya del navegador!</span>
                 </div>
 
                 <div class="mt-2" v-if="videoFormStatus.error === true">
@@ -79,7 +78,7 @@
                     <div class="alert alert-dismissible alert-success">
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         <strong>Acció completada: </strong>
-                        <p v-if="!modificar" class="mb-0">S'ha entregat correctament!</p>
+                        <p v-if="!modificar" class="mb-0">S'ha entregat correctament! <router-link :to="{path: '/video/'+videoPujatId}">Veure el video</router-link></p>
                         <p v-else class="mb-0">S'ha modificat correctament!</p>
                     </div>
                 </div>
@@ -99,6 +98,7 @@
 <script>
 import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
 import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
+import Avatar from '@/components/common/Avatar.vue';
 
 import activityServce from '@/services/Resources';
 import userService from '@/services/User';
@@ -108,7 +108,8 @@ import { useUserStore } from '@/stores/userStore';
 export default {
     components: {
         HeaderFrontoffice,
-        FooterFrontoffice
+        FooterFrontoffice,
+        Avatar
     },
     props: {
         id: {
@@ -116,7 +117,6 @@ export default {
             required: true
         },
         videoID: String,
-
     },
     setup() {
         return {
@@ -143,7 +143,6 @@ export default {
                 })
             }
 
-
             return correcte;
         },
     },
@@ -168,7 +167,7 @@ export default {
                 currentStatus: null,
             },
             modificar: false,
-
+            videoPujatId: 0
         }
     },
     async beforeMount() {
@@ -182,7 +181,6 @@ export default {
             //Obtenir video del backend.
             await activityServce.getVideo(this.videoID)
                 .then(r => {
-                    console.log('r :>> ', r);
                     video = r.data
                     this.videoForm.title = video.title;
                     this.videoForm.description = video.description;
@@ -201,6 +199,7 @@ export default {
                     this.activitat.data = r.data
                 })
                 .catch(e => {
+                    console.log('e :>> ', e);
                     this.activitat.error = e
                 })
 
@@ -217,7 +216,6 @@ export default {
     },
     methods: {
         filesChange() {
-            console.log('object :>> ', this.$refs.videoInput);
             this.videoForm.video = this.$refs.videoInput.files[0];
         },
         pujarvideo() {
@@ -230,11 +228,10 @@ export default {
             Object.keys(this.videoForm).forEach(key => {
                 formData.append(key, that.videoForm[key]);
             })
-            console.log('formData :>> ', formData);
 
             activityServce.uploadVideo(formData)
                 .then(r => {
-                    console.log('r :>> ', r);
+                    this.videoPujatId = r.data.id;
                     that.videoFormStatus.error = false;
                 })
                 .catch(e => {
@@ -255,7 +252,6 @@ export default {
 
             activityServce.modifyVideo(this.videoID, this.videoForm)
                 .then(r => {
-                    console.log('r :>> ', r);
                     that.videoFormStatus.error = false;
                 })
                 .catch(e => {
@@ -272,10 +268,6 @@ export default {
 
 }
 </script>
-<!-- App.vue -->
-...
-
-<!-- SASS styling -->
 <style scoped>
 .dropbox {
     outline: 2px dashed grey;
@@ -292,7 +284,6 @@ export default {
 
 .input-file {
     opacity: 0;
-    /* invisible but it's there! */
     width: 100%;
     height: 200px;
     position: absolute;
@@ -301,7 +292,6 @@ export default {
 
 .dropbox:hover {
     background: #ffeed4;
-    /* when mouse over to the drop zone, change color */
 }
 
 .dropbox p {

@@ -9,7 +9,7 @@
                 <div class="col">
                     <div class="d-flex justify-content-between">
                         <div>
-                        <router-link :to="{ path: '/usuari/' + comentari.user.id }"><h6 class="fw-bold"> {{ comentari.user.name }}</h6></router-link>
+                        <router-link :to="{ path: '/usuari/' + comentari.user.id }" class="text-decoration-none"><h6 class="fw-bold"> {{ comentari.user.name }}</h6></router-link>
                         <span class="fw-normal text-secondary">Publicat {{ antiguitat }}</span></div>
                         <div v-if="professor" class="text-secondary"><i class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;És professor del curs</div>
                     </div>
@@ -54,11 +54,6 @@ export default {
             userService: userService
         }
     },
-    data() {
-        return {
-
-        }
-    },
     computed: {
         antiguitat() {
             // Obtener la fecha actual
@@ -72,7 +67,6 @@ export default {
             return moment.duration(diferenciaTemps, 'minutes').humanize(true);
         }
     }
-
 }
 </script>
 

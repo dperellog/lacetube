@@ -19,13 +19,6 @@ export default {
     HeaderFrontoffice,
     FooterFrontoffice,
     ElsMeusVideos
-  },
-  data() {
-    return {
-    }
-  },
-  methods: {
-    
   }
 }
 </script>

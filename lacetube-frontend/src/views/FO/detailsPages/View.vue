@@ -7,12 +7,11 @@
         <!-- Video Player -->
         <div class="col-lg-9 px-4">
           <div class="text-center">
-            <!-- <vue-plyr ref="plyr" :options="playerOptions">
-              <video ref="video" preload="none" :id="'video-' + video.data.id" :data-poster="video.data.thumbnailURL">
+            <vue-plyr :options="playerOptions">
+              <video controls crossorigin playsinline :data-poster="video.data.thumbnailURL">
+                <source :src="video.data.streamingPath" />
               </video>
-            </vue-plyr> -->
-            <video ref="videoPlayer" class="video-js vjs-default-skin"></video>
-
+            </vue-plyr>
           </div>
 
           <!-- Titol i info -->
@@ -28,8 +27,7 @@
           <div class="card p-2 mt-3 pe-5" style="width: fit-content;">
             <router-link :to="{ path: '/usuari/' + video.data.user.id }"
               class="d-flex align-items-center text-decoration-none">
-              <img :src="userService.getAvatarURLByAvatar(video.data.user.avatar)" alt="foto-usuari"
-                style="width: 45px; height: 45px" class="rounded-circle">
+              <avatar :url="userService.getAvatarURLByAvatar(video.data.user.avatar)" :size="'sm'"></avatar>
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{ video.data.user.name }}</p>
                 <p class="text-muted mb-0">{{ video.data.user.email }}</p>
@@ -112,13 +110,13 @@ import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
 import { default as VideoComponent } from '@/components/FO/components/Video.vue';
 import ComentariForm from '@/components/FO/singlePages/watch/ComentariForm.vue';
 import Comentari from '@/components/FO/components/Comentari.vue';
+import Avatar from '@/components/common/Avatar.vue';
 
 import videoService from '@/services/Resources';
 import userService from '@/services/User';
 
 import moment from 'moment';
-
-import videojs from 'video.js';
+import vuePlyr from 'vue-plyr';
 
 export default {
   components: {
@@ -126,7 +124,9 @@ export default {
     FooterFrontoffice,
     VideoComponent,
     ComentariForm,
-    Comentari
+    Comentari,
+    vuePlyr,
+    Avatar
   },
   props: {
     id: String
@@ -143,31 +143,10 @@ export default {
         data: null
       },
       playerOptions: {
-        autoplay: true,
-        controls: true,
-        controlBar: {
-          timeDivider: false,
-          durationDisplay: false
-        }
-        // poster: 'https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg'
+        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
+        settings: ['quality', 'speed', 'loop'],
+        ratio: '16:9'
       },
-      // playerOptions: {
-      //   controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-      //   settings: ['quality', 'speed', 'loop'],
-      //   ratio: '16:9'
-      // },
-      videoOptions: {
-        autoplay: true,
-        controls: true,
-        sources: [
-          {
-            src:
-              'http://infla.cat:10085/resources/streaming/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u.m3u8',
-            type: 'application/vnd.apple.mpegurl'
-          }
-        ]
-      },
-      player: null,
       recomendedVideos: [],
       comentaris: [],
       comentariProfe: null
@@ -177,9 +156,6 @@ export default {
     dataPublicacio() {
       return moment(this.video.data.publish_date, 'YYYY-MM-DD').format('LL')
     },
-    player() {
-      return this.$refs.videoPlayer.player
-    }
   },
   async beforeMount() {
     let videoID = this.id;
@@ -201,33 +177,15 @@ export default {
 
   },
   watch: {
-    video() {
-      if (video.data !== null) {
-        this.videoMounted()
-      }
-    },
     comentaris() {
       this.comentaris = this.comentaris.sort((a, b) => moment(b.published_at).diff(moment(a.published_at)))
     }
   },
   methods: {
-    videoMounted() {
-      const options = {
-      techOrder: ['html5'],
-      sources: [{
-        src: 'http://infla.cat:10085/resources/streaming/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u/Us5YMKBzTMJ5gUeAO8xWkE1OGqBPAG0X3E7R0I7u.m3u8',
-        type: 'application/x-mpegURL'
-      }]
-    };
-
-    const player = videojs(this.$refs.videoPlayer, options);
-    player.play();
-    },
     getRecomended() {
       videoService.getRecomended(this.id)
         .then(r => {
           this.recomendedVideos = r.data
-          console.log('r  :>> ', r)
         })
         .catch(e => console.log('e :>> ', e.response.data))
     },
@@ -245,7 +203,6 @@ export default {
     padding: 2rem 3rem 2rem 2rem;
   }
 }
-
 
 .card.description {
   background-color: #EAEAEA;

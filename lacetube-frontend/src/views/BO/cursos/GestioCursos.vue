@@ -34,10 +34,6 @@
         </div>
       </div>
     </section>
-
-
-
-
   </div>
   <FooterBackoffice></FooterBackoffice>
 </template>
@@ -50,7 +46,6 @@ import CursosTaula from '@/components/BO/components/CursosTaula.vue';
 import Resources from '@/services/Resources';
 
 export default {
-  name: 'TotsElsCursos',
   components: {
     HeaderBackoffice,
     FooterBackoffice,
@@ -66,27 +61,23 @@ export default {
   async beforeMount() {
     //Obtenir cursos del backend
     this.cursos = await this.getCursos();
-    console.log('this.cursos :>> ', this.cursos);
   },
 
   methods: {
     async getCursos() {
-      console.log('obtenint cursos...');
       return Resources.getAllCourses()
         .then(r => {
           return r.data;
         })
         .catch(e => {
+          console.log('e :>> ', e);
           this.error = e;
         })
     },
-
     async refrescarTaula() {
       this.cursos = await this.getCursos();
       this.clau += 1;
     }
-
-
   }
 }
 </script>

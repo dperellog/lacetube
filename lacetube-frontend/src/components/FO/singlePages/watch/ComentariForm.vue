@@ -6,7 +6,7 @@
                 <avatar :url="userService.getAvatarURLByAvatar(userStore.currentUser.avatar)" :size="'sm'"></avatar>
             </div>
             <div class="col-auto" style="font-size: 1rem;">
-                <Puntuar :maxRating="5" :currentRating="comentariForm.stars" @puntuacio="actualitzarPuntuacio"
+                <Puntuar :puntuacioMaxima="5" :puntuacioActual="comentariForm.stars" @puntuacio="actualitzarPuntuacio"
                     :key="comentariForm.stars"></Puntuar>
             </div>
         </div>
@@ -112,7 +112,6 @@ export default {
 
             Resources.sendComment(this.comentariForm)
                 .then(r => {
-                    console.log('r :>> ', r)
                     that.formStatus.error = false;
                     this.$emit('nouComentari', r.data)
 
@@ -159,7 +158,6 @@ export default {
     border-style: solid;
     transform: rotate(313deg);
     border-bottom-left-radius: 150px;
-    /* ajusta el valor de radius para redondear la punta del triángulo */
     border-top-right-radius: 200px;
     border-color: transparent transparent #ffffff transparent;
 }

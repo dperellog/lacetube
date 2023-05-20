@@ -164,7 +164,6 @@ export default {
         .then(() => {
           //Password change success:
           form.status.updated = true;
-
         })
         .catch(function (error) {
           //Login Failed:
@@ -181,8 +180,6 @@ export default {
     },
 
     avatarChange() {
-      console.log('object :>> ', this.$refs.newAvatar.files[0]);
-
       //Si l'usuari ha penjat una foto nova:
       if (this.$refs.newAvatar.files[0] !== undefined) {
         const formData = new FormData();

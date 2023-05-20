@@ -34,13 +34,6 @@ export default {
     TasquesEntregades,
     ElsMeusCursos,
     ElsMeusVideos
-  },
-  data() {
-    return {
-    }
-  },
-  methods: {
-    
   }
 }
 </script>

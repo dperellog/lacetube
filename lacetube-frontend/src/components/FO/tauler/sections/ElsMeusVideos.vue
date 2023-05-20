@@ -69,18 +69,18 @@ export default {
         }
 
         if (this.mostrarTots) {
-                this.limit = -1
-            }
+            this.limit = -1
+        }
 
     },
     methods: {
         async getVideos() {
             return UserService.getVideos(this.force)
                 .then(r => {
-                    console.log('r :>> ', r);
                     return r;
                 })
                 .catch(e => {
+                    console.log('e :>> ', e);
                     this.error = e;
                 });
         },

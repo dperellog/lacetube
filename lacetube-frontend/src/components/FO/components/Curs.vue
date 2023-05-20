@@ -32,13 +32,7 @@ export default {
             type: String,
             default: 'block'
         }
-    },
-    data() {
-        return {
-
-        }
     }
-
 }
 </script>
 

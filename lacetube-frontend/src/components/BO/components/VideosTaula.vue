@@ -35,17 +35,21 @@
       </thead>
 
       <tbody>
+        
         <tr v-for="video in limitarArray(videosFiltrats)" :key="video.id">
+          <!-- Check per marcar -->
           <td style="width:5%">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" :value="video" :id="'video' + video.id"
                 v-model="videosModificar">
             </div>
           </td>
+
+          <!-- Miniatura de video -->
           <td style="width:30%">
             <router-link :to="{path: '/video/'+video.id}" class="row text-decoration-none">
               <div class="col-4">
-                <img :src="video.thumbnailURL" alt="" class="thumbnail">
+                <div class="thumbnail border rounded-2" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
               </div>
               <div class="col-8">
                 <p class="fw-bold mb-1">{{ video.title.length < 50 ? video.title : video.title.substring(0, 50) + "..." }}</p>
@@ -54,16 +58,19 @@
               </div>
             </router-link>
           </td>
+
+          <!-- Usuari -->
           <td style="width:20%">
             <router-link :to="{ path: '/usuari/' + video.user.id }" class="d-flex align-items-center text-decoration-none">
-              <img :src="userService.getAvatarURLByAvatar(video.user.avatar)" alt="" style="width: 45px; height: 45px"
-                class="rounded-circle">
+              <avatar :url="userService.getAvatarURLByAvatar(video.user.avatar)" :size="'sm'"></avatar>
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{ video.user.name }}</p>
                 <p class="text-muted mb-0">{{ video.user.email }}</p>
               </div>
             </router-link>
           </td>
+
+          <!-- Link al curs -->
           <td style="width:15%">
             <router-link :to="{ path: '/curs/' + video.activity.course.id }" class="text-primary fw-bold mb-1">{{
               video.activity.course.name.length < 50 ? video.activity.course.name :
@@ -73,6 +80,8 @@
           <td style="width:15%" class="text-center">
             {{ dataPublicacio(video.publish_date) }}
           </td>
+
+          <!-- Accions -->
           <td class="text-center" style="width:15%">
             <router-link :to="{ path: '/video/' + video.id }" type="button"
               class="btn btn-sm btn-success m-1">
@@ -85,6 +94,7 @@
         </tr>
       </tbody>
     </table>
+
     <!-- Botó mostrar més -->
     <a href="#" class="showMore text-center card-footer" v-if="limit != -1" @click.prevent="mostrarMes">Mostra'n més</a>
   </div>
@@ -192,6 +202,7 @@
 <script>
 import userService from '@/services/User';
 import Resources from '@/services/Resources';
+import Avatar from '@/components/common/Avatar.vue';
 import moment from 'moment';
 
 export default {
@@ -203,6 +214,9 @@ export default {
     btnNovaTaula: {
       type: Boolean
     }
+  },
+  components: {
+    Avatar
   },
   emits: ["refrescarTaula"],
   setup() {
@@ -301,7 +315,6 @@ export default {
 
       Resources.deleteVideo(videoID)
         .then(r => {
-          console.log('r :>> ', r);
           that.videoEliminar.error = false;
           this.videoEliminar.valid = true;
 
@@ -342,10 +355,7 @@ export default {
 
       Promise.all(videosAEliminar)
         .then(responses => {
-          // Aquí tienes todas las respuestas de los fetches
-          console.log('responses :>> ', responses);
-
-          that.videoEliminar.error = false;
+          this.videoEliminar.error = false;
           this.videoEliminar.valid = true;
 
           const alerta = document.getElementById('confirmacioEliminarMulti')
@@ -355,7 +365,6 @@ export default {
           })
         })
         .catch(error => {
-          // Aquí manejas el error si alguno de los fetches falla
           console.log('errors :>> ', error);
           that.videoEliminar.error = true;
           that.videoEliminar.errorMsg = e.response.data.message;
@@ -363,7 +372,6 @@ export default {
         .finally(() => {
           this.videoEliminar.loading = false;
         })
-
     }
   }
 
@@ -376,7 +384,6 @@ export default {
 }
 
 .card.taula {
-
   overflow-x: auto;
 }
 
@@ -387,12 +394,11 @@ export default {
 .sortingArrow:hover {
   color: #212529;
 }
-
 .thumbnail {
-  width: 100%;
-  padding-bottom: 56.25%;
-  overflow: hidden;
-  background-position: center;
-  background-size: cover;
+    width: 100%;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
 }
 </style>

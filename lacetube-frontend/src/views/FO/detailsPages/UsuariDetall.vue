@@ -11,7 +11,8 @@
           <div class="col-sm">
             <h2 class="fw-bold">{{ usuari.name }}</h2>
             <h4 class="text-secondary fst-italic">{{ usuari.email }}</h4>
-            <h5 class="text-secondary"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;{{ userService.translateRole(rol) }}</h5>
+            <h5 class="text-secondary"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;{{ userService.translateRole(rol) }}
+            </h5>
           </div>
         </div>
       </div>
@@ -25,7 +26,7 @@
       <div class="row">
 
         <!-- Cursos -->
-        <div :class="[rol == 'student' ? 'col-lg-8' :'col-lg-12']">
+        <div :class="[rol == 'student' ? 'col-lg-8' : 'col-lg-12']">
           <ElsMeusCursos :="inputCursos"></ElsMeusCursos>
         </div>
 
@@ -37,9 +38,9 @@
               <tbody>
                 <tr v-for="professor in professors" :key="professor.id">
                   <td>
-                    <router-link :to="{path: '/usuari/' + professor.id}" class="d-flex align-items-center text-decoration-none">
-                      <img :src="userService.getAvatarURLByAvatar(professor.avatar)" alt=""
-                        style="width: 45px; height: 45px" class="rounded-circle">
+                    <router-link :to="{ path: '/usuari/' + professor.id }"
+                      class="d-flex align-items-center text-decoration-none">
+                      <Avatar :url="userService.getAvatarURLByAvatar(professor.avatar)" :size="'sm'"></Avatar>
                       <div class="ms-3">
                         <p class="fw-bold mb-1">{{ professor.name }}</p>
                         <p class="text-muted mb-0">{{ professor.email }}</p>
@@ -51,10 +52,7 @@
             </table>
           </div>
         </div>
-
-
       </div>
-
 
     </div>
     <div v-else>
@@ -113,7 +111,7 @@ export default {
     if (this.rol == 'student') {
       this.obtenirProfessors()
     }
-    
+
 
   },
   methods: {

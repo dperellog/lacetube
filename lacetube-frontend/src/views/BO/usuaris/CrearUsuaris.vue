@@ -66,7 +66,7 @@
         </div>
 
         <div class="text-start">
-          <button type="submit" class="btn btn-success mt-3" @click.prevent="crearUsuaris" :disabled="!formValidat">Crear
+          <button type="submit" class="btn btn-success mt-3" @click.prevent="crearUsuaris">Crear
             usuaris</button>
         </div>
 
@@ -135,35 +135,9 @@ export default {
       mostrarPassword: true
     }
   },
-  computed: {
-    formValidat() {
-      let valid = true
-
-      this.usuaris.forEach(usuari => {
-        for (const clau in Object.keys(usuari)) {
-          switch (clau) {
-            case 'name':
-              if (!usuari.name.test(/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/)) {
-                valid = false;
-              }
-              break;
-
-            default:
-              break;
-          }
-
-        }
-
-
-      })
-
-      return valid
-    }
-  },
   async beforeMount() {
     this.usuaris.push(JSON.parse(JSON.stringify(this.usuariMotlle)));
   },
-
   methods: {
     afegirUsuariLlista() {
       //Afegir l'usuari del formulari al llistat
@@ -180,7 +154,6 @@ export default {
 
       userService.registerUsers(usuaris)
         .then(r => {
-          console.log('r :>> ', r);
           that.formStatus.error = false;
         })
         .catch(e => {
@@ -192,8 +165,6 @@ export default {
           } else {
             that.formStatus.errorMsg = e.message
           }
-
-
         })
         .finally(() => {
           //Update UI:
@@ -208,11 +179,8 @@ export default {
         let caracterAleatori = caracters.charAt(Math.floor(Math.random() * caracters.length));
         contrasenya += caracterAleatori;
       }
-
       usuari.user.password = contrasenya;
     }
-
-
   }
 }
 </script>

@@ -70,7 +70,6 @@ export default {
             this.cursos = await this.getCursos();
         }
         
-
         if (this.mostrarTots) {
             this.limit = -1
         }
@@ -80,9 +79,9 @@ export default {
             return UserService.getCourses(this.force)
                 .then(r => {
                     return r;
-                    
                 })
                 .catch(e => {
+                    console.log('e :>> ', e);
                     this.error = e;
                 });
         },

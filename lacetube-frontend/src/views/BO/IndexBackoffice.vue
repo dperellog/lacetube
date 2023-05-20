@@ -19,15 +19,9 @@
   </div>
   <FooterBackoffice></FooterBackoffice>
 </template>
-<style scoped>
-/* body {
-    background-color: #e4e4e4 !important;
-} */
-</style>
 <script>
 import HeaderBackoffice from '@/components/BO/headers/HeaderBackoffice.vue';
 import FooterBackoffice from '@/components/BO/FooterBackoffice.vue';
-import { useCounterStore } from '@/stores/counter';
 
 import {
   Chart as ChartJS,
@@ -52,9 +46,6 @@ export default {
     FooterBackoffice,
     Bar,
     Doughnut
-  },
-  setup() {
-    return { store: useCounterStore() };
   },
   beforeMount() {
     this.getStatistics()
@@ -82,7 +73,7 @@ export default {
       },
       barchart: {
         data: {
-          labels: ['Videos', 'Cursos', 'Activitats', 'Usuaris'],
+          labels: ['Videos', 'Cursos', 'Activitats', 'Usuaris', 'Comentaris'],
           datasets: [{ 
             label: 'Total', 
             backgroundColor: [
@@ -90,9 +81,9 @@ export default {
               'rgb(54, 162, 235)',
               'rgb(255, 99, 132)',
               '#41B883',
-              'rgb(255, 99, 132)'
+              '#E46651'
             ],
-            data: [0, 0, 0, 0] 
+            data: [0, 0, 0, 0, 0] 
           }]
         },
         options: {
@@ -100,7 +91,6 @@ export default {
           responsive: true
         },
       },
-
       estadistiques: null
     }
   },
@@ -115,7 +105,6 @@ export default {
   },
   watch: {
     estadistiques(estadistiques){
-      console.log('estadistiques :>> ', estadistiques);
       if (estadistiques != null) {
         let donut = this.pieChart;
         let barra = this.barchart;
@@ -125,7 +114,7 @@ export default {
         donut.data.datasets[0].data = [estadistiques.students, estadistiques.teachers, admins]
 
         //Carregar dades al gràfic de barres
-        barra.data.datasets[0].data = [estadistiques.videos, estadistiques.courses, estadistiques.activities, estadistiques.users]
+        barra.data.datasets[0].data = [estadistiques.videos, estadistiques.courses, estadistiques.activities, estadistiques.users, estadistiques.comments]
       }
     }
   }

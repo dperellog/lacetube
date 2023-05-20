@@ -422,7 +422,6 @@ export default {
 
       Resources.createTask(tasca)
         .then(r => {
-          console.log('r :>> ', r);
           that.tascaFormStatus.error = false;
 
           that.tascaForm = { ...that.tascaModel }
@@ -450,7 +449,6 @@ export default {
 
       Resources.modifyTask(tasca)
         .then(r => {
-          console.log('r :>> ', r);
           that.tascaFormStatus.error = false;
 
           that.tascaForm = { ...that.tascaModel }
@@ -481,7 +479,6 @@ export default {
 
       Resources.deleteTask(activitatID)
         .then(r => {
-          console.log('r :>> ', r);
           that.activitatEliminar.error = false;
           this.activitatEliminar.valid = true;
 
@@ -522,9 +519,6 @@ export default {
 
       Promise.all(activitatsAEliminar)
         .then(responses => {
-          // Aquí tienes todas las respuestas de los fetches
-          console.log('responses :>> ', responses);
-
           that.activitatEliminar.error = false;
           this.activitatEliminar.valid = true;
 
@@ -535,7 +529,6 @@ export default {
           })
         })
         .catch(error => {
-          // Aquí manejas el error si alguno de los fetches falla
           console.log('errors :>> ', error);
           that.activitatEliminar.error = true;
           that.activitatEliminar.errorMsg = e.response.data.message;
