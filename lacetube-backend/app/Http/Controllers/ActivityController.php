@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class ActivityController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of activities.
      */
     public function getActivity($id): JsonResponse
     {
@@ -21,11 +21,11 @@ class ActivityController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created activity.
      */
     public function store(Request $request)
     {
-
+        // Validate data:
         $validateData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required|max:5000',
@@ -33,30 +33,40 @@ class ActivityController extends Controller
             'course_id' => 'exists:courses,id',
         ]);
 
+        // Check if requested user is teacher or admin
         $course = Course::findOrFail($request->course_id);
-        if (Auth::user()->id != $course->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
-            return response()->json('',401);
+        if (Auth::user()->id != $course->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')) {
+            //If is not teacher or admin, fail.
+            return response()->json('', 401);
         }
 
+        //If is teacher or admin, create.
         $activity = Activity::create($request->all());
         return response()->json($activity, 201);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified activity in storage.
      */
     public function update(Request $request, string $id)
     {
+        // Get the activity:
         $activity = Activity::findOrFail($id);
-        if (Auth::user()->id != $activity->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
-            return response()->json('',401);
+
+        // Check if user role has permissions.
+        if (Auth::user()->id != $activity->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')) {
+            // If doesn't have permission, fail.
+            return response()->json('', 401);
         }
+
+        // Validate data:
         $validateData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required|max:255',
             'end_date' => 'required|date',
         ]);
 
+        // Update the activity.
         $activity->name = $request->name;
         $activity->description = $request->description;
         $activity->end_date = $request->end_date;
@@ -65,14 +75,21 @@ class ActivityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified activity from storage.
      */
     public function destroy($id)
     {
-         $activity = Activity::findOrFail($id);
-         $activity->delete();
-         return response()->json(null, 204);
+        // Get the activity:
+        $activity = Activity::findOrFail($id);
 
+        // Check if user role has permissions.
+        if (Auth::user()->id != $activity->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')) {
+            // If doesn't have permission, fail.
+            return response()->json('', 401);
+        }
+
+        // Delete the activity.
+        $activity->delete();
+        return response()->json(null, 204);
     }
-
 }

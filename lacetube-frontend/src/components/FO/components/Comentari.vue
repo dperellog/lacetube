@@ -4,11 +4,12 @@
             <!-- Capçalera formulari -->
             <div class="row py-2">
                 <div class="col-auto">
-                    <avatar :url="userService.getAvatarURLByAvatar(comentari.user.avatar)" :size="'sm'"></avatar>
+                    <router-link :to="{ path: '/usuari/' + comentari.user.id }"><avatar :url="userService.getAvatarURLByAvatar(comentari.user.avatar)" :size="'sm'"></avatar></router-link>
                 </div>
                 <div class="col">
                     <div class="d-flex justify-content-between">
-                        <div><h6 class="fw-bold"> {{ comentari.user.name }}</h6>
+                        <div>
+                        <router-link :to="{ path: '/usuari/' + comentari.user.id }" class="text-decoration-none"><h6 class="fw-bold"> {{ comentari.user.name }}</h6></router-link>
                         <span class="fw-normal text-secondary">Publicat {{ antiguitat }}</span></div>
                         <div v-if="professor" class="text-secondary"><i class="fa-solid fa-graduation-cap"></i>&nbsp;&nbsp;És professor del curs</div>
                     </div>
@@ -53,11 +54,6 @@ export default {
             userService: userService
         }
     },
-    data() {
-        return {
-
-        }
-    },
     computed: {
         antiguitat() {
             // Obtener la fecha actual
@@ -71,7 +67,6 @@ export default {
             return moment.duration(diferenciaTemps, 'minutes').humanize(true);
         }
     }
-
 }
 </script>
 

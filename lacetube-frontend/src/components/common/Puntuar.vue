@@ -1,11 +1,11 @@
 <template>
-    <div class="star-rating">
-      <span v-for="i in maxRating"
-            v-bind:class="{ 'star': true, 'filled': i <= currentRating, 'hovered': i <= hoveredRating }"
+    <div class="star-puntuacio">
+      <span v-for="i in puntuacioMaxima"
+            v-bind:class="{ 'star': true, 'filled': i <= puntuacioActual, 'hovered': i <= puntuacioRatoli }"
             v-bind:key="i"
-            v-on:mouseover="setHoveredRating(i)"
-            v-on:mouseleave="setHoveredRating(currentRating)"
-            v-on:click="setCurrentRating(i)"><i class="fa-solid fa-star"></i>
+            v-on:mouseover="ratoliEstrelles(i)"
+            v-on:mouseleave="ratoliEstrelles(puntuacioActual)"
+            v-on:click="setPuntuacioActual(i)"><i class="fa-solid fa-star"></i>
       </span>
     </div>
   </template>
@@ -13,11 +13,11 @@
   <script>
   export default {
     props: {
-      maxRating: {
+      puntuacioMaxima: {
         type: Number,
         required: true
       },
-      currentRating: {
+      puntuacioActual: {
         type: Number,
         required: true
       }
@@ -25,16 +25,16 @@
     emits: ['puntuacio'],
     data() {
       return {
-        hoveredRating: 0
+        puntuacioRatoli: 0
       };
     },
     methods: {
-      setHoveredRating(rating) {
-        this.hoveredRating = rating;
+      ratoliEstrelles(puntuacio) {
+        this.puntuacioRatoli = puntuacio;
       },
-      setCurrentRating(rating) {
-        this.hoveredRating = 0;
-        this.$emit('puntuacio', rating);
+      setPuntuacioActual(puntuacio) {
+        this.puntuacioRatoli = 0;
+        this.$emit('puntuacio', puntuacio);
       }
     }
   };

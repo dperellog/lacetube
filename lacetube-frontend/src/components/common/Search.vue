@@ -94,7 +94,8 @@ export default {
             resultatsFiltrats: {
                 noHiHanResultats: null,
                 data: []
-            }
+            },
+            canviType: false
         }
     },
     methods: {
@@ -146,7 +147,7 @@ export default {
         searchText(searchText, oldtext) {
 
             //Si la longitut es 2, buscar al backend:
-            if (searchText.length == 2 && oldtext.length < 2 || searchText.length > 2 && this.resultatsBackend.length == 0) {
+            if (searchText.length == 2 && oldtext.length < 2 ) {
                 this.searchToBackend(this.searchText)
             }
 
@@ -158,6 +159,11 @@ export default {
             }
 
             this.filtrarResultats(searchText)
+        },
+        currentType(oldType, newType){
+            if (oldType != newType) {
+                this.searchToBackend(this.searchText)
+            }
         }
     }
 }

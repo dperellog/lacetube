@@ -6,7 +6,6 @@ import { useUserStore } from "../stores/userStore";
 export default {
 
     async registerUsers(usersArray) {
-
         return Service.get('api/sanctum/csrf-cookie')
             .then(() => Service.post('api/register/json', { users: usersArray }))
     },
@@ -29,9 +28,7 @@ export default {
             } else {
                 resolve(storeActivities)
             }
-
         })
-
     },
 
     async getCourses(force = false) {
@@ -58,11 +55,9 @@ export default {
                         })
                         .catch(e => reject(e))
                 }
-
             } else {
                 resolve(storeCourses)
             }
-
         })
     },
 
@@ -72,12 +67,11 @@ export default {
         } else {
             ''
         }
-
     },
 
-    async updateAvatar(avatar){
+    async updateAvatar(avatar) {
         return Service.get('api/sanctum/csrf-cookie')
-        .then(() => Service.post('api/user/update-avatar', avatar))
+            .then(() => Service.post('api/user/update-avatar', avatar))
     },
 
     async logout() {
@@ -91,7 +85,6 @@ export default {
             teacher: "Professor",
             student: "Estudiant"
         }
-
         return roles[role];
     },
 
@@ -127,11 +120,10 @@ export default {
     },
 
     async getUserByID(id) {
-        return Service.get('api/user/'+id)
+        return Service.get('api/user/' + id)
     },
 
     async removeUser(id) {
-        return Service.delete('api/user/delete/'+id)
-
+        return Service.delete('api/user/delete/' + id)
     }
 }

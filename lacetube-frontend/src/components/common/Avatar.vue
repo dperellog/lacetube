@@ -14,7 +14,6 @@ export default {
         size : {
             type: String,
             validator(value) {
-                // The value must match one of these strings
                 return ['sm', 'md', 'lg', 'xl'].includes(value)
             },
         }
@@ -26,9 +25,7 @@ export default {
 
 div{
     display: inline-block;
-
     border-radius: 50%;
-
     background-position: center;
     background-size: cover;
 }

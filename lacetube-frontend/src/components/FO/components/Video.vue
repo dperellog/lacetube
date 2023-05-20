@@ -1,9 +1,6 @@
 <template>
     <div class="cursPreview" v-if="estil == 'block'">
-        
-            <div class="thumbnail border rounded-4" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
-        
-        
+        <div class="thumbnail border rounded-4" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
         <h5 class="fw-bold mt-1">{{ video.title }}</h5>
         <h6 class="teacher-name text-secondary ">
             <i class="fa-solid fa-user"></i>&nbsp;&nbsp;<span><em>{{ video.user.name }}</em></span>
@@ -11,14 +8,15 @@
     </div>
     <div class="cursPreview row" v-if="estil == 'llista'">
         <div class="col-auto">
-            <div class="thumbnail-llista border rounded-3" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }"></div>
+            <div class="thumbnail-llista border rounded-3" :style="{ backgroundImage: 'url(' + video.thumbnailURL + ')' }">
+            </div>
         </div>
-        
+
         <div class="col-auto">
             <h5 class="fw-bold mt-1">{{ video.title }}</h5>
-                    <h6 class="teacher-name text-secondary ">
-                        <i class="fa-solid fa-user"></i>&nbsp;&nbsp;<span><em>{{ video.user.name }}</em></span>
-                    </h6>
+            <h6 class="teacher-name text-secondary ">
+                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;<span><em>{{ video.user.name }}</em></span>
+            </h6>
         </div>
     </div>
 </template>

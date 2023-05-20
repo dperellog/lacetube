@@ -43,34 +43,44 @@
 
       <tbody>
         <tr v-for="curs in limitarArray(cursosFiltrats)">
+          <!-- Seleccionar per modificar -->
           <td style="width:5%">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" :value="curs" :id="'curs' + curs.id"
                 v-model="cursosModificar">
             </div>
           </td>
+
+          <!-- Nom del curs -->
           <td style="width:25%">
             <router-link :to="{ path: '/curs/' + curs.id }" class="text-primary fw-bold mb-1">{{ curs.name.length < 50 ?
               curs.name : curs.name.substring(0, 50) + "..." }}</router-link>
                 <p class="text-muted mb-0">{{ curs.description.length < 30 ? curs.description :
                   curs.description.substring(0, 30) + "..." }}</p>
           </td>
+
+          <!-- Professor -->
           <td style="width:25%">
-            <div class="d-flex align-items-center">
-              <img :src="userService.getAvatarURLByAvatar(curs.teacher.avatar)" alt="" style="width: 45px; height: 45px"
-                class="rounded-circle">
+            <router-link :to="{ path: '/usuari/' + curs.teacher.id }" class="d-flex align-items-center text-decoration-none">
+              <avatar :url="userService.getAvatarURLByAvatar(curs.teacher.avatar)" :size="'sm'"></avatar>
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{ curs.teacher.name }}</p>
                 <p class="text-muted mb-0">{{ curs.teacher.email }}</p>
               </div>
-            </div>
+            </router-link>
           </td>
+
+          <!-- Quantitat d'estudiants -->
           <td class="text-center" style="width:15%">
             {{ curs.students.length }}
           </td>
+
+          <!-- Any del curs -->
           <td style="width:10%">
             {{ curs.year }}
           </td>
+
+          <!-- Accions -->
           <td class="text-center" style="width:25%">
             <router-link :to="{ path: '/gestio/cursos/modificar/' + curs.id }" type="button"
               class="btn btn-sm btn-info m-1">
@@ -208,6 +218,8 @@
 <script>
 import userService from '@/services/User';
 import Resources from '../../../services/Resources';
+import Avatar from '@/components/common/Avatar.vue';
+
 
 export default {
   props: {
@@ -218,6 +230,9 @@ export default {
     btnNovaTaula: {
       type: Boolean
     }
+  },
+  components : {
+    Avatar
   },
   emits: ["refrescarTaula"],
   setup() {
@@ -316,7 +331,6 @@ export default {
 
       Resources.deleteCourse(cursID)
         .then(r => {
-          console.log('r :>> ', r);
           that.cursEliminar.error = false;
           this.cursEliminar.valid = true;
 
@@ -357,8 +371,6 @@ export default {
 
       Promise.all(cursosAEliminar)
         .then(responses => {
-          // Aquí tienes todas las respuestas de los fetches
-          console.log('responses :>> ', responses);
 
           that.cursEliminar.error = false;
           this.cursEliminar.valid = true;
@@ -370,7 +382,6 @@ export default {
           })
         })
         .catch(error => {
-          // Aquí manejas el error si alguno de los fetches falla
           console.log('errors :>> ', error);
           that.cursEliminar.error = true;
           that.cursEliminar.errorMsg = e.response.data.message;

@@ -46,8 +46,7 @@
                 <div class="card p-2">
                   <router-link :to="{ path: '/usuari/' + curs.teacher.id }"
                     class="d-flex align-items-center text-decoration-none">
-                    <img :src="userService.getAvatarURLByAvatar(curs.teacher.avatar)" alt="foto-professor"
-                      style="width: 45px; height: 45px" class="rounded-circle">
+                    <Avatar :url="userService.getAvatarURLByAvatar(curs.teacher.avatar)" :size="'sm'" alt="foto-professor"></Avatar>
                     <div class="ms-3">
                       <p class="fw-bold mb-1">{{ curs.teacher.name }}</p>
                       <p class="text-muted mb-0">{{ curs.teacher.email }}</p>
@@ -65,8 +64,7 @@
                         <td>
                           <router-link :to="{ path: '/usuari/' + usuari.id }"
                             class="d-flex align-items-center text-decoration-none">
-                            <img :src="userService.getAvatarURLByAvatar(usuari.avatar)" alt=""
-                              style="width: 45px; height: 45px" class="rounded-circle">
+                            <Avatar :url="userService.getAvatarURLByAvatar(usuari.avatar)" :size="'sm'"></Avatar>
                             <div class="ms-3">
                               <p class="fw-bold mb-1">{{ usuari.name }}</p>
                               <p class="text-muted mb-0">{{ usuari.email }}</p>
@@ -122,6 +120,7 @@
 import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
 import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
 import Tasca from '@/components/FO/components/Tasca.vue';
+import Avatar from '@/components/common/Avatar.vue'
 
 import cursService from '@/services/Resources';
 import userService from '@/services/User';
@@ -132,7 +131,8 @@ export default {
   components: {
     HeaderFrontoffice,
     FooterFrontoffice,
-    Tasca
+    Tasca,
+    Avatar
   },
   props: {
     id: String
@@ -165,6 +165,7 @@ export default {
         that.activitats.data = r.data.sort((a, b) => moment(b.end_date).diff(moment(a.end_date))).reverse();
       })
       .catch(e => {
+        console.log('e :>> ', e);
         that.activitats.error = e
       })
   },
@@ -174,7 +175,6 @@ export default {
       this.activitats.data = this.activitats.data.reverse();
     }
   }
-
 }
 </script>
 

@@ -9,28 +9,34 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules\Password as PasswdRules;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 
 class NewPasswordController extends Controller
 {
+    //Method to update the password.
     public function updatePassword(Request $request)
 {
-        # Validation
+        // Validate data:
+        $passwordValid = PasswdRules::min(8);
+        $passwordValid->mixedCase();
+        $passwordValid->numbers();
+
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required',
+            'new_password' => ['required', $passwordValid]
         ]);
 
 
-        #Match The Old Password
+        // Match The Old Password
         if(!Hash::check($request->old_password, auth()->user()->password)){
             return response()->json("La contrasenya antiga és errònia!", 419);
         }
 
 
-        #Update the new Password
+        // Update the new Password
         User::whereId(auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
         ]);

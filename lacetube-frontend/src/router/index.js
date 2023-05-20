@@ -3,6 +3,10 @@ import { useUserStore } from '@/stores/userStore';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    // always scroll to top
+    return { top: 0 }
+  },
   routes: [
     //Rutes de FRONT OFFICE:
     {
@@ -90,10 +94,6 @@ const router = createRouter({
       path: '/gestio',
       component: () => import('../views/BO/IndexBackoffice.vue'),
       meta: { accessGestio: true }
-    },
-    {
-      path: '/tests',
-      component: () => import('../views/Test.vue')
     },
     {
       path: '/gestio/usuaris',

@@ -274,7 +274,6 @@ export default {
       this.modificar = true;
       let curs = await this.getCurs(this.id)
 
-      console.log('curs :>> ', curs);
       this.cursForm = {
         id: curs.id,
         name: curs.name,
@@ -286,8 +285,6 @@ export default {
         year: curs.year,
         thumbnailURL: curs.thumbnailURL
       }
-
-
     }
 
     if (!this.modificar) {
@@ -303,8 +300,6 @@ export default {
     //Obtenir cursos del backend:
     this.getCursos();
     this.getEstudiants();
-
-    console.log('modificar :>> ', this.modificar);
   },
 
   methods: {
@@ -317,7 +312,6 @@ export default {
 
       const formData = new FormData();
       Object.keys(this.cursForm).forEach(key => {
-        console.log('key :>> ', that.cursForm[key]);
         if (key == 'students') {
           formData.append('students', JSON.stringify(that.cursForm.students));
         } else {
@@ -331,7 +325,6 @@ export default {
 
       Resources.createCourse(formData)
         .then(r => {
-          console.log('r :>> ', r);
           that.formStatus.error = false;
         })
         .catch(e => {
@@ -353,7 +346,6 @@ export default {
 
       const formData = new FormData();
       Object.keys(this.cursForm).forEach(key => {
-        console.log('key :>> ', that.cursForm[key]);
         if (key == 'students') {
           formData.append('students', JSON.stringify(that.cursForm.students));
         } else {
@@ -367,7 +359,6 @@ export default {
 
       Resources.modifyCourse(formData, this.cursForm.id)
         .then(r => {
-          console.log('r :>> ', r);
           that.formStatus.error = false;
         })
         .catch(e => {
@@ -403,6 +394,7 @@ export default {
           that.cursos.data = cursos;
         })
         .catch(e => {
+          console.log('e :>> ', e);
           this.cursos.error = e;
         });
     },
@@ -414,6 +406,7 @@ export default {
           that.estudiants.data = r.data.data.sort((a, b) => (a.email > b.email) ? 1 : -1)
         })
         .catch(e => {
+          console.log('e :>> ', e);
           this.estudiants.error = e;
         });
     },
@@ -425,6 +418,7 @@ export default {
           that.professors.data = r.data.data.sort((a, b) => (a.email > b.email) ? 1 : -1)
         })
         .catch(e => {
+          console.log('e :>> ', e);
           this.professors.error = e;
         });
     },
@@ -437,7 +431,6 @@ export default {
   watch: {
     'cursForm.teacher_id': {
       handler(newID, oldID) {
-
         if (this.professors.data !== null && this.professors.data.length > 0) {
           this.cursForm.teacher = this.professors.data.filter(prof => prof.id == newID).shift()
         }

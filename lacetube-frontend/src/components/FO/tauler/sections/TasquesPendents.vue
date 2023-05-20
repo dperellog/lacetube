@@ -107,22 +107,16 @@ export default {
                 
                 //Si la tasca es troba dins del filtre de dies:
                 if (moment(tasca.end_date).isBetween(limitInferior, limitSuperior, null, '[]')) {
-
                     if (tasca.entregada) {
                         filtrar = false;
                     }else{
                         filtrar = true;
                     }
-                    
                 }
-
-                
 
                 if (mostrarVencudes ? tasca.entregada == false : false) {
                     filtrar = true;
                 }
-
-                
 
                 return filtrar
             });

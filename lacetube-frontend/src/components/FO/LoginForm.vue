@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Auth from '../../services/Auth';
+import Auth from '@/services/Auth';
 import { useUserStore } from '@/stores/userStore';
 
 export default {
@@ -71,9 +71,6 @@ export default {
       return this.formData.email != '' && this.formData.password != '';
     }
   },
-  beforeMount() {
-    //this.store.increment();
-  },
   methods: {
     async login() {
       //Reset defaults:
@@ -86,7 +83,6 @@ export default {
         .then(function (user) {
           //Login success:
           component.userStore.loginUser(user.data);
-
         })
         .catch(function (error) {
           //Login Failed:
@@ -96,7 +92,6 @@ export default {
         })
         .finally(() => {
           //Update UI:
-
           component.formStatus.loading = false;
         })
 

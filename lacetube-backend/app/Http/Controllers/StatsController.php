@@ -7,13 +7,12 @@ use App\Models\Comment;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\Video;
-use Illuminate\Http\Request;
 
 
 class StatsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get the backend stats.
      */
     public function stats()
     {
@@ -26,7 +25,6 @@ class StatsController extends Controller
             'students' => count(User::role('student')->get()),
             'teachers' => count(User::role('teacher')->get())
         ]
-    
         );
     }
 }

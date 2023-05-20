@@ -9,7 +9,7 @@
           <div class="text-center">
             <vue-plyr :options="playerOptions">
               <video controls crossorigin playsinline :data-poster="video.data.thumbnailURL">
-                <source :src="video.data.streamingPath" type="application/vnd.apple.mpegurl" />
+                <source :src="video.data.streamingPath" />
               </video>
             </vue-plyr>
           </div>
@@ -27,8 +27,7 @@
           <div class="card p-2 mt-3 pe-5" style="width: fit-content;">
             <router-link :to="{ path: '/usuari/' + video.data.user.id }"
               class="d-flex align-items-center text-decoration-none">
-              <img :src="userService.getAvatarURLByAvatar(video.data.user.avatar)" alt="foto-usuari"
-                style="width: 45px; height: 45px" class="rounded-circle">
+              <avatar :url="userService.getAvatarURLByAvatar(video.data.user.avatar)" :size="'sm'"></avatar>
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{ video.data.user.name }}</p>
                 <p class="text-muted mb-0">{{ video.data.user.email }}</p>
@@ -75,7 +74,7 @@
           <div v-if="recomendedVideos.length > 0">
             <router-link :to="{ path: '/video/' + video.id }" v-for="video in recomendedVideos"
               class="my-4 d-block text-decoration-none">
-              <Video :video="video"></Video>
+              <VideoComponent :video="video"></VideoComponent>
             </router-link>
           </div>
           <div v-else class="d-flex justify-content-center">
@@ -108,25 +107,26 @@
 <script>
 import HeaderFrontoffice from '@/components/FO/HeaderFrontoffice.vue';
 import FooterFrontoffice from '@/components/FO/FooterFrontoffice.vue';
-import Video from '@/components/FO/components/Video.vue';
+import { default as VideoComponent } from '@/components/FO/components/Video.vue';
 import ComentariForm from '@/components/FO/singlePages/watch/ComentariForm.vue';
 import Comentari from '@/components/FO/components/Comentari.vue';
+import Avatar from '@/components/common/Avatar.vue';
 
 import videoService from '@/services/Resources';
 import userService from '@/services/User';
 
-import VuePlyr from 'vue-plyr';
-import Hls from 'hls.js';
 import moment from 'moment';
+import vuePlyr from 'vue-plyr';
 
 export default {
   components: {
     HeaderFrontoffice,
     FooterFrontoffice,
-    VuePlyr,
-    Video,
+    VideoComponent,
     ComentariForm,
-    Comentari
+    Comentari,
+    vuePlyr,
+    Avatar
   },
   props: {
     id: String
@@ -156,11 +156,6 @@ export default {
     dataPublicacio() {
       return moment(this.video.data.publish_date, 'YYYY-MM-DD').format('LL')
     },
-    player() {
-      coment
-      console.log(this.$refs.plyr.player);
-      return this.$refs.plyr.player;
-    },
   },
   async beforeMount() {
     let videoID = this.id;
@@ -182,31 +177,15 @@ export default {
 
   },
   watch: {
-    video() {
-      if (video.data !== null) {
-        this.videoMounted()
-      }
-    },
     comentaris() {
       this.comentaris = this.comentaris.sort((a, b) => moment(b.published_at).diff(moment(a.published_at)))
     }
   },
   methods: {
-    videoMounted() {
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(this.video.data.streamingPath);
-        //hls.loadSource("http://api.lacetube.cat:8000/video/Y6nSEN5ggwWcy3vYFDvDgaLFzcvye4miBnoVU1tr/Y6nSEN5ggwWcy3vYFDvDgaLFzcvye4miBnoVU1tr_0_3000.m3u8");
-        hls.attachMedia(this.player.media);
-
-        window.hls = hls;
-      }
-    },
     getRecomended() {
       videoService.getRecomended(this.id)
         .then(r => {
           this.recomendedVideos = r.data
-          console.log('r  :>> ', r)
         })
         .catch(e => console.log('e :>> ', e.response.data))
     },
@@ -224,7 +203,6 @@ export default {
     padding: 2rem 3rem 2rem 2rem;
   }
 }
-
 
 .card.description {
   background-color: #EAEAEA;

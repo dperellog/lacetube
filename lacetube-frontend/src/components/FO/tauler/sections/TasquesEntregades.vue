@@ -107,7 +107,6 @@ export default {
                     if (moment(tasca.end_date).diff(limitSuperior) >= 0 ) {
                         filtrar = true;
                     }
-
                 }
 
                 return filtrar

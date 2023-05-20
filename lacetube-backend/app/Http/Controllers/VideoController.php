@@ -11,21 +11,24 @@ use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
-        /**
-     * Display a listing of the resource.
+    /**
+     * Get video by id
      */
     public function getVideo($id): JsonResponse
     {
         return response()->json(new UserVideosResource(Video::findOrFail($id)));
     }
 
+    /**
+     * Get video by task id
+     */
     public function getByTask($id)
     {
+        // If no task is provided, get all videos.
         if ($id == 0) {
             return response()->json(UserVideosResource::collection(Video::all()));
         }else{
@@ -35,20 +38,23 @@ class VideoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created video in storage.
      */
     public function store(StoreVideoRequest $request)
     {
+        // Data comes validated from "StoreVideoRequest" object.
 
-        //Guardar video temporalment:
+        // Store video file temporally
         $tempPath = $request->video->store('', 'tmp');
         $videoName = explode('.',$tempPath)[0];
 
-        //Processar video:
-        //ConvertVideoForDownloading::dispatch($tempPath, $videoName);
+        // Process video for streaming:
         ConvertVideoForStreaming::dispatch($tempPath, $videoName);
 
+        // Process video for downloading:
+        #ConvertVideoForDownloading::dispatch($tempPath, $videoName);
 
+        // Store video metadada to DB.
         $video = Video::create([
             'title'         => $request->title,
             'description' => $request->description,
@@ -60,54 +66,57 @@ class VideoController extends Controller
             'thumbnailPath' => $videoName.'_thumbnail.jpg'
         ]);
 
+        // Delete temporal video file.
         Storage::disk('tmp')->delete($tempPath);
         return response()->json(new UserVideosResource($video), 201);
     }
 
     /**
-     * Display the specified resource.
+     * Update the specified video in storage.
      */
-    public function stream(string $file)
-    {
-        $contents = file_get_contents(Storage::disk('streaming')->path($file));
-        $response = Response::make($contents, 200);
-        $response->header('Content-Type', 'application/vnd.apple.mpegurl');
-        return $response;
-
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-
      public function update(Request $request, string $id)
      {
+        // Get the video.
         $video=Video::findOrFail($id);
+
+        // Check if requested user is the owner.
         if (Auth::user()->id != $video->user->id){
             return response()->json('',401);
         }
+
+        // Validate data.
         $validateData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
         ]);
+
+        // Update the video metadata.
         $video->title = $request->title;
         $video->description = $request->description;
         $video->save();
         return response()->json($video, 201);
      }
+
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified video from storage.
      */
     public function destroy(string $id)
     {
+        // Get the video.
         $video=Video::findOrFail($id);
+
+        // Check if user has permissions (Is the owner, the teacher or admin).
         if (Auth::user()->id != $video->user->id && Auth::user()->id != $video->teacher->id && !User::find(Auth::user()->id)->hasRole('admin')){
+            // If has no permission, fail.
             return response()->json('',401);
         }
+
+        // Delete video and thumbnail.
         Storage::disk('download')->deleteDirectory($video->video_name);
         Storage::disk('streaming')->deleteDirectory($video->video_name);
+        Storage::disk('thumbnails')->delete('' . $video->thumbnailPath);
         $video->delete();
+
         return response()->json(null, 204);
 
     }

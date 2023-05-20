@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'name' => $name.' '.$surname,
             'avatar' => $avatarName,
             'email' => fake()->unique()->safeEmail(),
-            'password' => Hash::make('1234'),
+            'password' => Hash::make('L@cetubeUserPassword'),
             'remember_token' => Str::random(10),
         ];
     }

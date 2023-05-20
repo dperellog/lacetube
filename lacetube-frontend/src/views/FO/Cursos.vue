@@ -19,13 +19,6 @@ export default {
     HeaderFrontoffice,
     FooterFrontoffice,
     ElsMeusCursos
-  },
-  data() {
-    return {
-    }
-  },
-  methods: {
-    
   }
 }
 </script>

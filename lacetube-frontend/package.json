@@ -17,6 +17,7 @@
     "moment": "^2.29.4",
     "pinia": "^2.0.32",
     "video.js": "^8.3.0",
+    "videojs-contrib-hls": "^5.15.0",
     "vue": "^3.2.47",
     "vue-chartjs": "^5.2.0",
     "vue-moment": "^4.1.0",

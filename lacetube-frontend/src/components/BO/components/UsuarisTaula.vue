@@ -43,36 +43,42 @@
 
       <tbody>
         <tr v-for="usuari in limitarArray(usuarisFiltrats)" :key="usuari.id">
+          <!-- Check per marcar -->
           <td style="width:5%">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" :value="usuari" :id="'usuari' + usuari.id"
                 v-model="usuarisModificar">
             </div>
           </td>
+
+          <!-- Usuari -->
           <td style="width:30%">
-            <div class="d-flex align-items-center">
-              <img :src="userService.getAvatarURLByAvatar(usuari.avatar)" alt="" style="width: 45px; height: 45px"
-                class="rounded-circle">
+            <router-link :to="{ path: '/usuari/' + usuari.id }" class="d-flex align-items-center  text-decoration-none">
+              <avatar :url="userService.getAvatarURLByAvatar(usuari.avatar)" :size="'sm'"></avatar>
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{ usuari.name }}</p>
                 <p class="text-muted mb-0">{{ usuari.email }}</p>
               </div>
-            </div>
+            </router-link>
           </td>
+
+          <!-- Cursos -->
           <td style="width:15%" class="text-center">
             {{ usuari.courses.length }}
           </td>
+
+          <!-- Videos -->
           <td class="text-center" style="width:15%">
             {{ usuari.videos.length }}
           </td>
+
+          <!-- Rol -->
           <td style="width:10%" class="text-center">
             {{ usuari.roles.map(role => userService.translateRole(role)).join() }}
           </td>
+
+          <!-- Accions -->
           <td class="text-center" style="width:25%">
-            <router-link :to="{ path: '/gestio/cursos/modificar/' + usuari.id }" type="button"
-              class="btn btn-sm btn-info m-1">
-              Editar
-            </router-link>
             <button type="button" class="btn btn-sm btn-danger m-1" @click="triggerEliminarUsuari(usuari)">
               Eliminar
             </button>
@@ -187,6 +193,8 @@
 </template>
 <script>
 import userService from '@/services/User';
+import Avatar from '@/components/common/Avatar.vue';
+
 
 export default {
   props: {
@@ -197,6 +205,9 @@ export default {
     btnNovaTaula: {
       type: Boolean
     }
+  },
+  components : {
+    Avatar
   },
   emits: ["refrescarTaula"],
   setup() {
@@ -292,7 +303,6 @@ export default {
 
       userService.removeUser(usuariID)
         .then(r => {
-          console.log('r :>> ', r);
           that.usuariEliminar.error = false;
           this.usuariEliminar.valid = true;
 
@@ -334,7 +344,6 @@ export default {
       Promise.all(usuarisAEliminar)
         .then(responses => {
           // Aquí tienes todas las respuestas de los fetches
-          console.log('responses :>> ', responses);
 
           that.usuariEliminar.error = false;
           this.usuariEliminar.valid = true;
