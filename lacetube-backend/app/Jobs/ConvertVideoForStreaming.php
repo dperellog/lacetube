@@ -31,24 +31,30 @@ class ConvertVideoForStreaming implements ShouldQueue
      */
     public function handle()
     {
-        // Create video format:
-        $bitrateFormat = (new X264)->setKiloBitrate(3000);
+        // create some video formats...
+        $bitrateFormat = (new X264('aac', 'libx264'))->setKiloBitrate(2500);
+        $bitrateFormat->setAdditionalParameters(['-r', '30']);
+        $bitrateFormat->setAdditionalParameters([
+            '-preset', 'ultrafast',
+            '-movflags', '+faststart'
+        ]);
 
-        // Call the 'exportForHLS' method and specify the disk to which we want to export:
+
+        // call the method export and specify the disk to which we want to export...
         SupportFFMpeg::fromDisk('tmp')
-        ->open($this->tempPath)
-            ->exportForHLS()
+            ->open($this->tempPath)
+            ->export()
             ->toDisk('streaming')
 
-            ->addFormat($bitrateFormat)
+            ->inFormat($bitrateFormat)
 
-        // Call the 'save' method with a filename:
-            ->save('/'.$this->videoName.'/'.$this->videoName . '.m3u8');
+            // call the 'save' method with a filename...
+            ->save('/' . $this->videoName . '/' . $this->videoName . '.mp4');
 
-        // Generate a thumbnail for the video and store it to filesystem:
+        //Generar miniatura:
         SupportFFMpeg::fromDisk('tmp')
-        ->open($this->tempPath)
-        ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
-        ->save(storage_path('app/thumbnails/').$this->videoName.'_thumbnail.jpg');
+            ->open($this->tempPath)
+            ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
+            ->save(storage_path('app/thumbnails/') . $this->videoName . '_thumbnail.jpg');
     }
 }

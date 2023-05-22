@@ -29,7 +29,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::get('video/{id}', [VideoController::class, 'getVideo']);
-Route::get('streaming/{id}', [VideoController::class, 'stream']);
 Route::post('/search/json', [SearchController::class, 'search']);
 
 Route::middleware(['auth:sanctum'])->group(function () {

@@ -159,6 +159,7 @@ export default {
   },
   async beforeMount() {
     let videoID = this.id;
+    //Obtenir video del backend:
     this.video.data = await videoService.getVideo(videoID)
       .then(r => {
         return r.data;
@@ -168,8 +169,10 @@ export default {
         this.$router.push('/404')
       })
 
+    //Obtenir els recomanats del video.
     this.getRecomended()
 
+    //Carregar els comentaris del video.
     this.comentaris = this.video.data.comments;
 
     //Obtenir comentari del profe:

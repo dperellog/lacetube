@@ -46,17 +46,17 @@ return [
         'download' => [
             'driver' => 'local',
             'root' => storage_path('app/download'),
-            'url' => env('APP_URL').'/api/download',
+            'url' => env('APP_URL').'/resources/download',
         ],
         'streaming' => [
             'driver' => 'local',
             'root' => storage_path('app/streaming'),
-            'url' => env('APP_URL').'/api/streaming',
+            'url' => env('APP_URL').'/resources/streaming',
         ],
         'thumbnails' => [
             'driver' => 'local',
             'root' => storage_path('app/thumbnails'),
-            'url' => env('APP_URL').'/api/thumbnail',
+            'url' => env('APP_URL').'/resources/thumbnail',
         ],
         'defaults' => [
             'driver' => 'local',
@@ -98,10 +98,10 @@ return [
     */
 
     'links' => [
-        public_path('api/avatar') => storage_path('app/avatars'),
-        public_path('api/download') => storage_path('app/download'),
-        public_path('api/streaming') => storage_path('app/streaming'),
-        public_path('api/thumbnail') => storage_path('app/thumbnails'),
+        public_path('resources/avatar') => storage_path('app/avatars'),
+        public_path('resources/download') => storage_path('app/download'),
+        public_path('resources/streaming') => storage_path('app/streaming'),
+        public_path('resources/thumbnail') => storage_path('app/thumbnails'),
 
     ],
 

@@ -310,6 +310,7 @@ export default {
       this.formStatus.errorMsg = '';
       let that = this;
 
+      //Construir el formulari per enviar al backend:
       const formData = new FormData();
       Object.keys(this.cursForm).forEach(key => {
         if (key == 'students') {
@@ -319,10 +320,12 @@ export default {
         }
       })
 
+      //Carregar la miniatura del curs si n'hi ha:
       if (this.$refs.miniatura.files.length > 0) {
         formData.append('thumbnail', this.$refs.miniatura.files[0]);
       }
 
+      //Enviar dades al backend.
       Resources.createCourse(formData)
         .then(r => {
           that.formStatus.error = false;

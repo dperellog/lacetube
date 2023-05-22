@@ -56,14 +56,14 @@ export default {
     },
     computed: {
         antiguitat() {
-            // Obtener la fecha actual
+            // Obtener la data actual
             const present = moment();
             const dataCreacio = moment(this.comentari.published_at);
 
-            // Calcular la diferencia de tiempo entre la fecha actual y la fecha de publicación del comentario
+            // Calcular la diferencia de temps entre la data actual i la data de publicacio del comentari
             const diferenciaTemps = dataCreacio.diff(present, 'minutes');
 
-            // Formatear la diferencia de tiempo en términos amigables para el usuario
+            // Formatejar la data de forma entenedora.
             return moment.duration(diferenciaTemps, 'minutes').humanize(true);
         }
     }

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class SearchController extends Controller
 {
     /**
-     * Display a listing of the search resoults.
+     * Display a listing of the search results.
      */
     public function search(Request $request)
     {

@@ -3,14 +3,17 @@
   <div class="main-content-section container mt-4 px-4">
     <h1 class="fw-bold">Tauler:</h1>
     <hr>
+    <!-- Mostrar tasques pendents de l'usuari. -->
     <TasquesPendents></TasquesPendents>
 
+    <!-- Mostrar les tasques entregades de l'usuari. -->
     <TasquesEntregades class="my-5"></TasquesEntregades>
     
-    <!-- Capçalera i botons de filtre -->
+    <!-- Mostrar els cursos de l'usuari. -->
     <p class="h2 my-4 col-8">Els meus cursos:</p>
     <ElsMeusCursos class="mb-5"></ElsMeusCursos>
 
+    <!-- Mostrar els videos de l'usuari. -->
     <p class="h2 my-4 col-8">Els meus videos:</p>
     <ElsMeusVideos class="mb-5"></ElsMeusVideos>
 
